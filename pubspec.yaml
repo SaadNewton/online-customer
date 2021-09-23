@@ -1,0 +1,89 @@
+name: doctoworld_user
+description: A new Flutter application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+ver8sion: 1.0.6+7
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.3
+  percent_indicator:
+  flutter_rating_bar: ^4.0.0
+  flutter_phoenix: ^1.0.0
+  flutter_bloc: ^7.0.1
+  flutter_datetime_picker: ^1.5.1
+  email_validator: ^2.0.1
+  animation_wrappers: ^0.0.5
+  dio:
+  modal_progress_hud:
+  flutter_svg: ^0.22.0
+  google_fonts:
+  expansion_tile_card:
+  skeleton_loader: ^2.0.0+4
+  carousel_slider:
+  agora_rtc_engine:
+  #getx
+  get:
+  get_storage:
+
+  #location
+  geolocator:
+  location_permissions: ^4.0.0
+
+  geocoding:
+  #permission
+  permission_handler:
+
+  #firebase
+  firebase_core: ^1.6.0
+  firebase_auth: ^3.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_launcher_name:
+  name: "DoctoWorld User"
+
+flutter_icons:
+
+  image_path: "assets/ixon.png"
+  android: true
+  ios: true
+
+
+flutter:
+  uses-material-design: true
+  fonts:
+     - family: ProductSans
+       fonts:
+         - asset: fonts/ProductSans-Regular.ttf
+         - asset: fonts/ProductSans-Bold.ttf
+
+
+  assets:
+    - assets/
+    - assets/CategoryImages/
+    - assets/HomeBanner/
+    - assets/banners/
+    - assets/Categories/
+    - assets/DoctorCategory/
+    - assets/HomeBanner/
+    - assets/Icons/
+    - assets/Medicines/
+    - assets/SellerImages/
+    - assets/FooterIcons/
+    - assets/ProfilePics/
+    - assets/PaymentIcons/
+    - assets/Doctors/
+
+

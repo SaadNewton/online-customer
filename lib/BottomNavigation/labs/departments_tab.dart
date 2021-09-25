@@ -99,7 +99,7 @@ class _DepartmentsState extends State<Departments> {
                                                   ))
                                                 : Wrap(
                                                     children: List.generate(
-                                                        getAllLabDepartmentsModel
+                                                        getAllTestsByCategory
                                                             .data!.length,
                                                         (index) => Padding(
                                                               padding:
@@ -110,6 +110,7 @@ class _DepartmentsState extends State<Departments> {
                                                               child:
                                                                   GestureDetector(
                                                                 onTap: () {
+
                                                                   Get.find<LoaderController>().updateFormController(true);
                                                                   addToCartMethod(getAllTestsByCategory.data![index].id,
                                                                       getAllTestsByCategory.data![index].price);
@@ -127,7 +128,7 @@ class _DepartmentsState extends State<Departments> {
                                                                                 BorderRadius.circular(10),
                                                                             child: Image
                                                                                 .network(
-                                                                              "$imageBaseUrl${getAllLabDepartmentsModel.data![index].imagePath}",
+                                                                              "$imageBaseUrl${getAllTestsByCategory.data![index].imagePath}",
                                                                               fit: BoxFit
                                                                                   .fill,
                                                                               height:

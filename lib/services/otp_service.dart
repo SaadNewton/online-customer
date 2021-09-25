@@ -60,7 +60,7 @@ verifyOTP(BuildContext context,var otp,bool fromSignUp,postData) async {
       if(fromSignUp){
         postMethod(context, customerSignUpService, postData, true, getSignUpUserData ) ;
       }else{
-        postMethod(context, loginService, postData, true, getLoginData) ;
+        postMethod(context, loginWithPhone, postData, true, getLoginData) ;
       }
 
     } else {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio_instance;
 import 'package:dio/dio.dart';
 import 'package:doctoworld_user/services/headers.dart';
+import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/material.dart';
 
 postMethod(
@@ -19,7 +20,12 @@ postMethod(
   setAcceptHeader(dio);
   setContentHeader(dio);
   //-- if API need headers then this if works and it based on bool value come from function calling
-  if (addAuthHeader) {}
+  if (addAuthHeader && storageBox!.hasData('authToken')) {
+    setCustomHeader(dio, 'token', '${storageBox!.read('authToken')}');
+    setCustomHeader(dio, 'role', 'customer');
+
+    print('token ' + storageBox!.read('authToken'));
+  } else if (addAuthHeader && !storageBox!.hasData('authToken')) {}
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {

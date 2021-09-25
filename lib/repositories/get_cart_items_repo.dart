@@ -18,10 +18,10 @@ Get.put(CartController());
     Get.find<LoaderController>().updateCartDataController(false);
     getCartItemsModel = GetCartItemsModel.fromJson(response);
     if (getCartItemsModel.status == true) {
-      int totalPrice=0;
+      double totalPrice=0;
       getCartItemsModel.data.forEach((element) {
 
-         totalPrice+=int.tryParse(element.price)*int.tryParse(element.qty);
+         totalPrice+=double.tryParse(element.price)*int.tryParse(element.qty);
          print('price '+totalPrice.toString());
       });
 Get.find<CartController>().updateCartValue(totalPrice);

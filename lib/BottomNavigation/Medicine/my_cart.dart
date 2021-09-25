@@ -91,9 +91,11 @@ init:LoaderController(),
                                 children: [
                                   getCartItemsModel.data![index].medicine!.imagePath==null?
                                   Image.asset('assets/Medicines/11.png',
+                                    width: 100,
                                     height: 75,):Image.network(
                                     "$imageBaseUrl${getCartItemsModel.data![index].medicine!.imagePath}",
                                     height: 75,
+                                    width: 100,
                                   ),
                                   SizedBox(
                                     width: 15,
@@ -175,7 +177,7 @@ init:LoaderController(),
                                               ],
                                             ),
 
-                                            Text('Rs ${int.parse(getCartItemsModel.data![index].price!)
+                                            Text('Rs ${double.tryParse(getCartItemsModel.data![index].price!)!
                                                 * int.parse(getCartItemsModel.data![index].qty!)}'
                                                 // '${getCartItemsModel.data![index].medicine!.salePrice!}'
                                                 ,

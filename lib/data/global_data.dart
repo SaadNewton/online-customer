@@ -1,7 +1,12 @@
 // @dart=2.9
 
 import 'package:doctoworld_user/Models/all_categories_model.dart';
+import 'package:doctoworld_user/Models/change_password_model.dart';
 import 'package:doctoworld_user/Models/check_status_model.dart';
+import 'package:doctoworld_user/Models/contact_us_model.dart';
+import 'package:doctoworld_user/Models/forget_password_email_model.dart';
+import 'package:doctoworld_user/Models/forget_password_email_verify_model.dart';
+import 'package:doctoworld_user/Models/forget_password_model.dart';
 import 'package:doctoworld_user/Models/get_all_appointments_model.dart';
 import 'package:doctoworld_user/Models/get_all_doctors_model.dart';
 import 'package:doctoworld_user/Models/get_all_labs_model.dart';
@@ -75,8 +80,29 @@ GetAllOrdersModel getAllOrdersModel=GetAllOrdersModel();
 ///
 GetAllAppointmentsModel getAllAppointmentsModel=GetAllAppointmentsModel();
 
+/// change password model object
+
+ChangePasswordModel changePasswordModel =ChangePasswordModel();
+
+///  Forgot password Email
+
+ForgetPasswordEmailModel forgetPasswordEmailModel = ForgetPasswordEmailModel();
+
+/// Forgot Password verify
+
+ForgetPasswordEmailVerifyModel forgetPasswordEmailVerifyModel = ForgetPasswordEmailVerifyModel();
+
+/// forgot password
+
+ForgetPasswordModel forgetPasswordModel = ForgetPasswordModel();
+
+/// contact us
+
+ContactUsModel contactUsModel = ContactUsModel();
+
 
 CheckStatusModel checkStatusModel = CheckStatusModel();
+final TextEditingController forgetEmailController = TextEditingController();
 final TextEditingController nameController = TextEditingController();
 final TextEditingController usernameController = TextEditingController();
 final TextEditingController emailController = TextEditingController();

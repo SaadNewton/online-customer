@@ -20,17 +20,11 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
 
   GlobalKey<FormState> numberKey  = GlobalKey();
   final TextEditingController loginNumberController = TextEditingController();
-
-
   @override
   void dispose() {
     loginNumberController.dispose();
     super.dispose();
   }
-
-
-
-
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
@@ -104,7 +98,6 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
                                     Get.to(VerificationUI(
                                       number:  loginNumberController,fromSignUpForm: false,
                                       postData: {'role':'customer',
-                                        'login_type':'login_phone',
                                         'phone':loginNumberController.text
                                     },));
                                   }else{

@@ -1,16 +1,16 @@
 class GetAllDoctorsModel {
-  Data? _data;
+  DoctorData? _data;
   bool? _status;
   int? _success;
   String? _message;
 
-  Data? get data => _data;
+  DoctorData? get data => _data;
   bool? get status => _status;
   int? get success => _success;
   String? get message => _message;
 
   GetAllDoctorsModel({
-      Data? data, 
+    DoctorData? data,
       bool? status, 
       int? success, 
       String? message}){
@@ -21,7 +21,7 @@ class GetAllDoctorsModel {
 }
 
   GetAllDoctorsModel.fromJson(dynamic json) {
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    _data = json['data'] != null ? DoctorData.fromJson(json['data']) : null;
     _status = json['status'];
     _success = json['success'];
     _message = json['message'];
@@ -40,7 +40,7 @@ class GetAllDoctorsModel {
 
 }
 
-class Data {
+class DoctorData {
   int? _currentPage;
   List<DoctorDetailData>? _data;
   String? _firstPageUrl;
@@ -67,7 +67,7 @@ class Data {
   int? get to => _to;
   int? get total => _total;
 
-  Data({
+  DoctorData({
       int? currentPage, 
       List<DoctorDetailData>? data,
       String? firstPageUrl, 
@@ -94,7 +94,7 @@ class Data {
     _total = total;
 }
 
-  Data.fromJson(dynamic json) {
+  DoctorData.fromJson(dynamic json) {
     _currentPage = json['current_page'];
     if (json['data'] != null) {
       _data = [];
@@ -165,6 +165,7 @@ class DoctorDetailData {
   String? _startTime;
   String? _endTime;
   int? _serialDay;
+  List<Serial_day_app>? _serialDayApp;
   int? _maxSerial;
   int? _duration;
   List<String>? _serialOrSlot;
@@ -173,6 +174,7 @@ class DoctorDetailData {
   List<String>? _speciality;
   String? _createdAt;
   String? _updatedAt;
+  String? _imagePath;
   List<Appointments>? _appointments;
   List<Education_details>? _educationDetails;
   List<Experience_details>? _experienceDetails;
@@ -206,6 +208,7 @@ class DoctorDetailData {
   String? get startTime => _startTime;
   String? get endTime => _endTime;
   int? get serialDay => _serialDay;
+  List<Serial_day_app>? get serialDayApp => _serialDayApp;
   int? get maxSerial => _maxSerial;
   int? get duration => _duration;
   List<String>? get serialOrSlot => _serialOrSlot;
@@ -214,6 +217,7 @@ class DoctorDetailData {
   List<String>? get speciality => _speciality;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
+  String? get imagePath => _imagePath;
   List<Appointments>? get appointments => _appointments;
   List<Education_details>? get educationDetails => _educationDetails;
   List<Experience_details>? get experienceDetails => _experienceDetails;
@@ -248,7 +252,8 @@ class DoctorDetailData {
       String? startTime, 
       String? endTime, 
       int? serialDay, 
-      int? maxSerial, 
+      List<Serial_day_app>? serialDayApp,
+      int? maxSerial,
       int? duration, 
       List<String>? serialOrSlot, 
       String? about, 
@@ -256,6 +261,7 @@ class DoctorDetailData {
       List<String>? speciality, 
       String? createdAt, 
       String? updatedAt, 
+      String? imagePath, 
       List<Appointments>? appointments, 
       List<Education_details>? educationDetails, 
       List<Experience_details>? experienceDetails}){
@@ -288,6 +294,7 @@ class DoctorDetailData {
     _startTime = startTime;
     _endTime = endTime;
     _serialDay = serialDay;
+    _serialDayApp = serialDayApp;
     _maxSerial = maxSerial;
     _duration = duration;
     _serialOrSlot = serialOrSlot;
@@ -296,6 +303,7 @@ class DoctorDetailData {
     _speciality = speciality;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _imagePath = imagePath;
     _appointments = appointments;
     _educationDetails = educationDetails;
     _experienceDetails = experienceDetails;
@@ -331,6 +339,12 @@ class DoctorDetailData {
     _startTime = json['start_time'];
     _endTime = json['end_time'];
     _serialDay = json['serial_day'];
+    if (json['serial_day_app'] != null) {
+      _serialDayApp = [];
+      json['serial_day_app'].forEach((v) {
+        _serialDayApp?.add(Serial_day_app.fromJson(v));
+      });
+    }
     _maxSerial = json['max_serial'];
     _duration = json['duration'];
     _serialOrSlot = json['serial_or_slot'] != null ? json['serial_or_slot'].cast<String>() : [];
@@ -339,6 +353,7 @@ class DoctorDetailData {
     _speciality = json['speciality'] != null ? json['speciality'].cast<String>() : [];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
+    _imagePath = json['image_path'];
     if (json['appointments'] != null) {
       _appointments = [];
       json['appointments'].forEach((v) {
@@ -390,6 +405,9 @@ class DoctorDetailData {
     map['start_time'] = _startTime;
     map['end_time'] = _endTime;
     map['serial_day'] = _serialDay;
+    if (_serialDayApp != null) {
+      map['serial_day_app'] = _serialDayApp?.map((v) => v.toJson()).toList();
+    }
     map['max_serial'] = _maxSerial;
     map['duration'] = _duration;
     map['serial_or_slot'] = _serialOrSlot;
@@ -398,6 +416,7 @@ class DoctorDetailData {
     map['speciality'] = _speciality;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    map['image_path'] = _imagePath;
     if (_appointments != null) {
       map['appointments'] = _appointments?.map((v) => v.toJson()).toList();
     }
@@ -543,6 +562,7 @@ class Education_details {
 class Appointments {
   int? _id;
   int? _doctorId;
+  int? _customerId;
   dynamic? _entryDoctor;
   dynamic? _assistant;
   dynamic? _staff;
@@ -560,7 +580,7 @@ class Appointments {
   int? _try;
   int? _isComplete;
   int? _dStatus;
-  int? _dDoctor;
+  dynamic? _dDoctor;
   dynamic? _dAssistant;
   dynamic? _dStaff;
   int? _dAdmin;
@@ -569,6 +589,7 @@ class Appointments {
 
   int? get id => _id;
   int? get doctorId => _doctorId;
+  int? get customerId => _customerId;
   dynamic? get entryDoctor => _entryDoctor;
   dynamic? get assistant => _assistant;
   dynamic? get staff => _staff;
@@ -586,7 +607,7 @@ class Appointments {
 
   int? get isComplete => _isComplete;
   int? get dStatus => _dStatus;
-  int? get dDoctor => _dDoctor;
+  dynamic? get dDoctor => _dDoctor;
   dynamic? get dAssistant => _dAssistant;
   dynamic? get dStaff => _dStaff;
   int? get dAdmin => _dAdmin;
@@ -596,6 +617,7 @@ class Appointments {
   Appointments({
       int? id, 
       int? doctorId, 
+      int? customerId, 
       dynamic? entryDoctor, 
       dynamic? assistant, 
       dynamic? staff, 
@@ -613,7 +635,7 @@ class Appointments {
 
       int? isComplete, 
       int? dStatus, 
-      int? dDoctor, 
+      dynamic? dDoctor, 
       dynamic? dAssistant, 
       dynamic? dStaff, 
       int? dAdmin, 
@@ -621,6 +643,7 @@ class Appointments {
       String? updatedAt}){
     _id = id;
     _doctorId = doctorId;
+    _customerId = customerId;
     _entryDoctor = entryDoctor;
     _assistant = assistant;
     _staff = staff;
@@ -649,6 +672,7 @@ class Appointments {
   Appointments.fromJson(dynamic json) {
     _id = json['id'];
     _doctorId = json['doctor_id'];
+    _customerId = json['customer_id'];
     _entryDoctor = json['entry_doctor'];
     _assistant = json['assistant'];
     _staff = json['staff'];
@@ -678,6 +702,7 @@ class Appointments {
     var map = <String, dynamic>{};
     map['id'] = _id;
     map['doctor_id'] = _doctorId;
+    map['customer_id'] = _customerId;
     map['entry_doctor'] = _entryDoctor;
     map['assistant'] = _assistant;
     map['staff'] = _staff;
@@ -701,6 +726,70 @@ class Appointments {
     map['d_admin'] = _dAdmin;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    return map;
+  }
+
+}
+
+class Serial_day_app {
+  List<String>? _days;
+  List<String>? _slots;
+  String? _duration;
+  String? _endTime;
+  String? _startTime;
+  dynamic? _clinicName;
+  String? _scheduleType;
+  dynamic? _clinicAddress;
+
+  List<String>? get days => _days;
+  List<String>? get slots => _slots;
+  String? get duration => _duration;
+  String? get endTime => _endTime;
+  String? get startTime => _startTime;
+  dynamic? get clinicName => _clinicName;
+  String? get scheduleType => _scheduleType;
+  dynamic? get clinicAddress => _clinicAddress;
+
+  Serial_day_app({
+      List<String>? days, 
+      List<String>? slots, 
+      String? duration, 
+      String? endTime, 
+      String? startTime, 
+      dynamic? clinicName, 
+      String? scheduleType, 
+      dynamic? clinicAddress}){
+    _days = days;
+    _slots = slots;
+    _duration = duration;
+    _endTime = endTime;
+    _startTime = startTime;
+    _clinicName = clinicName;
+    _scheduleType = scheduleType;
+    _clinicAddress = clinicAddress;
+}
+
+  Serial_day_app.fromJson(dynamic json) {
+    _days = json['days'] != null ? json['days'].cast<String>() : [];
+    _slots = json['slots'] != null ? json['slots'].cast<String>() : [];
+    _duration = json['duration'];
+    _endTime = json['end_time'];
+    _startTime = json['start_time'];
+    _clinicName = json['clinic_name'];
+    _scheduleType = json['schedule_type'];
+    _clinicAddress = json['clinic_address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['days'] = _days;
+    map['slots'] = _slots;
+    map['duration'] = _duration;
+    map['end_time'] = _endTime;
+    map['start_time'] = _startTime;
+    map['clinic_name'] = _clinicName;
+    map['schedule_type'] = _scheduleType;
+    map['clinic_address'] = _clinicAddress;
     return map;
   }
 

@@ -91,3 +91,31 @@ String getAllOrdersService=baseUrl+'get-all-order';
  /// get-all-appointments
 ///
  String getAllAppointmentsService=baseUrl+'get-all-appointments';
+
+ /// change password
+
+String changePasswordService =baseUrl +'change-password';
+
+/// forgot password email
+
+String passwordEmailService =baseUrl +'forgot-password-email';
+
+/// for got password email verify
+
+String passwordEmailVerifyService = baseUrl + 'forgot-password-email-verify';
+
+/// forgot password
+
+String resetPasswordService = baseUrl + 'reset-password';
+
+/// contact us
+
+String contactUsService = baseUrl + 'contact-us';
+
+///  String order prescription
+
+String orderPrescriptionService = baseUrl + 'order-with-prescription';
+
+/// customer-login-with-phone
+///
+String loginWithPhone=baseUrl+'customer-login-with-phone';

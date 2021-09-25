@@ -18,20 +18,7 @@ getAllTestsByCategoryRepo(
       print(
           'get-all_TestsByCategory_data ------>> ${getAllTestsByCategory.data}');
     } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialogBox(
-              title: 'FAILED!',
-              titleColor: customDialogErrorColor,
-              descriptions: getAllTestsByCategory.message,
-              text: 'Ok',
-              functionCall: () {
-                Navigator.pop(context);
-              },
-              img: 'assets/dialog_error.svg',
-            );
-          });
+
     }
   } else if (!responseCheck && response == null) {
     Get.find<LoaderController>().updateInnerDataLoader(false);

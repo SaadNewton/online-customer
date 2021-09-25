@@ -3,6 +3,7 @@ import 'package:doctoworld_user/Auth/Registration/UI/registration_ui.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Pages/customer_password_email_ui.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/registration_data/registration_ui.dart';
 import 'package:doctoworld_user/repositories/login_repo.dart';
@@ -108,6 +109,26 @@ class _LoginUIState extends State<LoginUI> {
                                 color:
                                     Theme.of(context).scaffoldBackgroundColor,
                                 controller: _passController,
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            Padding(
+                              padding: const EdgeInsets.only(right:6.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    child: Text('Forgot Password',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 16,
+                                    ),
+                                    ),
+                                    onTap: (){
+                                      Get.to(PasswordEmail());
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(height: 30.0),

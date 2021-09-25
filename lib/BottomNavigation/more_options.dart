@@ -2,6 +2,9 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Auth/Login/UI/login_ui.dart';
 import 'package:doctoworld_user/Auth/phone_auth.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Pages/contact_us_ui.dart';
+import 'package:doctoworld_user/Pages/customer_change_password.dart';
+import 'package:doctoworld_user/Pages/customer_password_email_ui.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/get_user_detail_reop.dart';
@@ -10,6 +13,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+
+import 'More/Order/order_with_prescription_form.dart';
 
 class MoreOptions extends StatefulWidget {
   @override
@@ -61,15 +66,18 @@ class _MoreOptionsState extends State<MoreOptions> {
       //     () {
       //   // Navigator.pushNamed(context, PageRoutes.languagePage);
       // }),
-      MenuTile(locale.contactUs, locale.letUsHelpYou, Icons.message_sharp, () {
-        Navigator.pushNamed(context, PageRoutes.supportPage);
+      MenuTile('Contact Us', 'Contact Us For Help', Icons.message_sharp, () {
+        Get.to(ContactUs());
       }),
       MenuTile(locale.tandc, locale.companyPolicy, Icons.assignment, () {
         Navigator.pushNamed(context, PageRoutes.tncPage);
       }),
-      // MenuTile(locale.faqs, locale.quickAnswer, Icons.announcement, () {
-      //   Navigator.pushNamed(context, PageRoutes.faqPage);
-      // }),
+      MenuTile('Password Change', 'Change your password', Icons.lock, () {
+        Get.to(ChangePassword());
+      }),
+      MenuTile('Order Prescription', '', Icons.bookmark_border, () {
+        Get.to(PrescriptionOrder());
+      }),
       MenuTile('Log Out', '', Icons.logout, () {
         storageBox!.erase();
         Get.offAll(PhoneAuthUI());

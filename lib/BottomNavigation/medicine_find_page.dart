@@ -541,94 +541,95 @@ fit: BoxFit.fill),
                           );
                         }),
                   ),
-                  TitleRow(locale.offers, () {
-                    Navigator.pushNamed(context, PageRoutes.offersPage);
-                  }),
-                  Container(
-                    height: 108,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: banner.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsetsDirectional.only(end: 20),
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, PageRoutes.offersPage);
-                                },
-                                child: FadedScaleAnimation(
-                                  Image.asset(banner[index], fit: BoxFit.fill),
-                                  durationInMilliseconds: 300,
-                                )),
-                          );
-                        }),
-                  ),
-                  TitleRow(locale.sellerNearYou, null),
-                  Container(
-                    height: 156,
-                    child: GridView.builder(
-                      itemCount: stores.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 20,
-                        childAspectRatio: 0.38,
-                      ),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          quickGrid(context, stores[index]),
-                    ),
-                  ),
+                  SizedBox(height: 20,)
+                  // TitleRow(locale.offers, () {
+                  //   Navigator.pushNamed(context, PageRoutes.offersPage);
+                  // }),
+                  // Container(
+                  //   height: 108,
+                  //   child: ListView.builder(
+                  //       shrinkWrap: true,
+                  //       padding: EdgeInsets.symmetric(horizontal: 20),
+                  //       physics: BouncingScrollPhysics(),
+                  //       scrollDirection: Axis.horizontal,
+                  //       itemCount: banner.length,
+                  //       itemBuilder: (context, index) {
+                  //         return Padding(
+                  //           padding: EdgeInsetsDirectional.only(end: 20),
+                  //           child: GestureDetector(
+                  //               onTap: () {
+                  //                 Navigator.pushNamed(
+                  //                     context, PageRoutes.offersPage);
+                  //               },
+                  //               child: FadedScaleAnimation(
+                  //                 Image.asset(banner[index], fit: BoxFit.fill),
+                  //                 durationInMilliseconds: 300,
+                  //               )),
+                  //         );
+                  //       }),
+                  // ),
+                  // TitleRow(locale.sellerNearYou, null),
+                  // Container(
+                  //   height: 156,
+                  //   child: GridView.builder(
+                  //     itemCount: stores.length,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2,
+                  //       mainAxisSpacing: 20,
+                  //       childAspectRatio: 0.38,
+                  //     ),
+                  //     shrinkWrap: true,
+                  //     padding: EdgeInsets.symmetric(horizontal: 20),
+                  //     physics: BouncingScrollPhysics(),
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemBuilder: (context, index) =>
+                  //         quickGrid(context, stores[index]),
+                  //   ),
+                  // ),
                 ],
               )),
     );
   }
 
-  Widget quickGrid(BuildContext context, String image) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, PageRoutes.sellerProfile);
-      },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          FadedScaleAnimation(
-            Image(
-              image: AssetImage(image),
-              height: 54,
-            ),
-            durationInMilliseconds: 300,
-          ),
-          SizedBox(width: 13.3),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Well Life Store',
-                  style: Theme.of(context).textTheme.subtitle1),
-              SizedBox(height: 8.0),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Theme.of(context).hintColor,
-                    size: 12,
-                  ),
-                  Text(' ' + 'Willington Bridge',
-                      style: Theme.of(context).textTheme.caption!.copyWith(
-                          color: Theme.of(context).disabledColor,
-                          fontSize: 10.0)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget quickGrid(BuildContext context, String image) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       Navigator.pushNamed(context, PageRoutes.sellerProfile);
+  //     },
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         FadedScaleAnimation(
+  //           Image(
+  //             image: AssetImage(image),
+  //             height: 54,
+  //           ),
+  //           durationInMilliseconds: 300,
+  //         ),
+  //         SizedBox(width: 13.3),
+  //         Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             Text('Well Life Store',
+  //                 style: Theme.of(context).textTheme.subtitle1),
+  //             SizedBox(height: 8.0),
+  //             Row(
+  //               children: [
+  //                 Icon(
+  //                   Icons.location_on,
+  //                   color: Theme.of(context).hintColor,
+  //                   size: 12,
+  //                 ),
+  //                 Text(' ' + 'Willington Bridge',
+  //                     style: Theme.of(context).textTheme.caption!.copyWith(
+  //                         color: Theme.of(context).disabledColor,
+  //                         fontSize: 10.0)),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

@@ -3,6 +3,7 @@ import 'package:doctoworld_user/BottomNavigation/Doctors/book_appointment.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Models/get_all_doctors_model.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 class DoctorInfo extends StatefulWidget {
+  final DoctorDetailData? doctorInfo;
   final docId;
   final image;
   final name;
@@ -25,7 +27,7 @@ class DoctorInfo extends StatefulWidget {
   final startTime;
   final endTime;
   final serialDay;
-  DoctorInfo({this.docId,this.name,this.fees,this.speciality,
+  DoctorInfo({this.doctorInfo,this.docId,this.name,this.fees,this.speciality,
     this.image,this.qualification,this.startTime,this.endTime,
   this.serialDay});
   @override
@@ -35,8 +37,12 @@ class DoctorInfo extends StatefulWidget {
 class _DoctorInfoState extends State<DoctorInfo> {
  int  selectedSlot=3000;
  String? slot;
+ String? selectedHospital='';
   String? appointmentDate;
+int currentHospital=0;
+int currentDay=0;
 
+List slotDropDown = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +54,9 @@ class _DoctorInfoState extends State<DoctorInfo> {
         {'doctor_id':widget.docId,
           'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
     );
+    widget.doctorInfo!.serialDayApp!.forEach((element) {
+      slotDropDown.add(element);
+    });
     super.initState();
   }
   @override
@@ -280,6 +289,131 @@ class _DoctorInfoState extends State<DoctorInfo> {
                   SizedBox(
                     height: 10,
                   ),
+
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Slots',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(color: Theme.of(context).primaryColor,
+                            fontSize: 20),
+                      ),
+
+                      SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: Material(
+                          child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                fillColor: Colors.white,
+                                filled: true),
+                            hint: Padding(
+                              padding:
+                              const EdgeInsets.only(left: 10),
+                              child: Text(
+                                widget.doctorInfo!.serialDayApp![0].clinicName ,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            items: List.generate((
+                               widget.doctorInfo!.serialDayApp!.length),
+                                    (a) {
+                                  return DropdownMenuItem(
+                                    child: Text(widget.doctorInfo!.serialDayApp![a].clinicName),
+                                    value: widget.doctorInfo!.serialDayApp![a].clinicName,
+                                  );
+                                }),
+                            // value: selectedHospital,
+                            onChanged: (value) {
+                              setState(() {
+                                print('show '+value.toString());
+                                // currentHospital=widget.doctorInfo!.serialDayApp!.indexOf(value)
+                              });
+                              // setState(() {
+                              //
+                              //   selectedSlot=3000;
+                              //   appointmentDate=value!;
+                              //   loader.updateInnerDataLoader(true);
+                              //   getMethod(context, getAppointmentSlotsService,
+                              //       {'doctor_id':widget.docId,
+                              //         'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
+                              //   );
+                              // });
+                            },
+
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+
+
+
+
+                  ///2nsd
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Slots',
+                  //       style: Theme.of(context)
+                  //           .textTheme
+                  //           .subtitle1!
+                  //           .copyWith(color: Theme.of(context).primaryColor,
+                  //           fontSize: 20),
+                  //     ),
+                  //
+                  //     SizedBox(
+                  //       width: 160,
+                  //       height: 50,
+                  //       child: Material(
+                  //         child: DropdownButtonFormField<String>(
+                  //           decoration: InputDecoration(
+                  //               border: InputBorder.none,
+                  //               fillColor: Colors.white,
+                  //               filled: true),
+                  //           hint: Padding(
+                  //             padding:
+                  //             const EdgeInsets.only(left: 10),
+                  //             child: Text(
+                  //               DateFormat('yyyy-MM-dd').format(DateTime.now()).toString() ,
+                  //               style: TextStyle(color: Colors.black),
+                  //             ),
+                  //           ),
+                  //           items: List.generate((
+                  //               widget.doctorInfo!.serialDayApp![currentHospital].days!.length),
+                  //                   (dayIndex) {
+                  //                 return DropdownMenuItem(
+                  //                   child: Text(widget.doctorInfo!.serialDayApp![currentHospital].days![dayIndex]),
+                  //                   value: widget.doctorInfo!.serialDayApp![currentHospital].days![dayIndex],
+                  //                 );
+                  //               }),
+                  //           onChanged: (value) {
+                  //             // setState(() {
+                  //             //
+                  //             //   selectedSlot=3000;
+                  //             //   appointmentDate=value!;
+                  //             //   loader.updateInnerDataLoader(true);
+                  //             //   getMethod(context, getAppointmentSlotsService,
+                  //             //       {'doctor_id':widget.docId,
+                  //             //         'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
+                  //             //   );
+                  //             // });
+                  //           },
+                  //
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+
 /// slots
                   ///
 

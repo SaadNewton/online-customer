@@ -20,41 +20,6 @@ class RecentOrdersPage extends StatefulWidget {
 }
 
 class _RecentOrdersPageState extends State<RecentOrdersPage> {
-  final List<OrderCardModel> inProcessOrders = [
-    OrderCardModel("assets/SellerImages/1.png", 'Well Life Store 1',
-        'confirmed', '11 June, 11: 20 am', '18.00', 'PayPal', [
-      'Salosir 100mg Tablet',
-      'Salosir 100mg Tablet',
-      'Salosir 100mg Tablet'
-    ]),
-  ];
-
-  final List<OrderCardModel> pastOrders = [
-    OrderCardModel(
-        "assets/SellerImages/2.png",
-        'Well Life Store 2',
-        'delivered',
-        '11 June, 11: 20 am',
-        '18.00',
-        'COD',
-        ['Salosir 100mg Tablet']),
-    OrderCardModel(
-        "assets/SellerImages/3.png",
-        'Well Life Store 3',
-        'delivered',
-        '11 June, 11: 20 am',
-        '18.00',
-        'COD',
-        ['Salosir 100mg Tablet']),
-    OrderCardModel(
-        "assets/SellerImages/4.png",
-        'Well Life Store 4',
-        'delivered',
-        '11 June, 11: 20 am',
-        '18.00',
-        'COD',
-        ['Salosir 100mg Tablet']),
-  ];
 
   @override
   void initState() {
@@ -139,7 +104,7 @@ class OrderCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => OrderInfoPage()));
+                builder: (context) => OrderInfoPage(orderDetail: orderCard,)));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -39,12 +39,11 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
     getMethod(
         context,
         getTestCategoriesService,
-        {'lab_id': getAllLabsModel.data!.data![widget.index].id},
+        {'lab_id': getAllLabsModel.data!.data![widget.index].id} ,
         true,
         getAllDepartmentsRepo);
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context);
@@ -69,12 +68,12 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
                           getAllLabsModel.data!.data![widget.index].imagePath==null?
                           Image.asset(
                           'assets/upload prescription.png',
-                          height: 300,
+                            height: MediaQuery.of(context).size.height*0.3,
                           fit: BoxFit.fill,
                           ):Image.network(
                               '$imageBaseUrl${getAllLabsModel.data!.data![widget.index].imagePath!}',
                               fit: BoxFit.fill,
-                            height: 300,
+                            height: MediaQuery.of(context).size.height*0.3,
                             ),
                             durationInMilliseconds: 400,
                           ),

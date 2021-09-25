@@ -30,6 +30,7 @@ dependencies:
   skeleton_loader: ^2.0.0+4
   carousel_slider:
   agora_rtc_engine:
+  image_picker: ^0.8.4
   #getx
   get:
   get_storage:

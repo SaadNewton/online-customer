@@ -46,7 +46,7 @@ class _DoctorsHomeState extends State<DoctorsHome> {
     getUserDetailRepo();
 
     getMethod(context, getAllDoctorsService, null, true, getAllDoctorsRepo);
-    getMethod(context, getDoctorCategoriesService, null, true,
+    getMethod(context, getDoctorCategoriesService, {'page':1}, true,
         getAllDoctorCategoriesRepo);
     super.initState();
   }
@@ -73,38 +73,7 @@ class _DoctorsHomeState extends State<DoctorsHome> {
                     ),
                   ],
                 ),
-                actions: <Widget>[
-                  Stack(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.shopping_cart),
-                        onPressed: () {
-                          Navigator.pushNamed(context, PageRoutes.myCartPage);
-                        },
-                      ),
-                      Positioned.directional(
-                        textDirection: Directionality.of(context),
-                        top: 8,
-                        end: 12,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 5.5,
-                          child: Center(
-                              child: Text(
-                            '1',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    fontSize: 9),
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+
               ),
               body: DoctorsBody()),
     );
@@ -286,37 +255,7 @@ class _DoctorsBodyState extends State<DoctorsBody> {
               height: 5,
             ),
 
-            /// sponsor
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-            //   child: Text(
-            //     locale.sponsorAd!,
-            //     style: Theme.of(context)
-            //         .textTheme
-            //         .bodyText1!
-            //         .copyWith(color: Theme.of(context).disabledColor),
-            //   ),
-            // ),
-            // Container(
-            //   height: 110,
-            //   child: ListView.builder(
-            //       shrinkWrap: true,
-            //       physics: BouncingScrollPhysics(),
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: doctorBanners.length,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: EdgeInsets.only(left: 16),
-            //           child: FadedScaleAnimation(
-            //             Image.asset(
-            //               doctorBanners[index],
-            //               width: 250,
-            //             ),
-            //             durationInMilliseconds: 300,
-            //           ),
-            //         );
-            //       }),
-            // ),
+
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
@@ -343,7 +282,9 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                           child: GestureDetector(
                             onTap: () {
 
-                              Get.to(DoctorInfo(docId: doctorList[index].id,
+                              Get.to(DoctorInfo(
+                                doctorInfo: allDoctorsModel.data!.data![index],
+                                docId: doctorList[index].id,
                               name: doctorList[index].name,
                               fees: allDoctorsModel.data!.data![index].fees,
                               qualification: allDoctorsModel.data!.data![index].qualification,

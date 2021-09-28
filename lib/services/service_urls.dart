@@ -8,6 +8,14 @@ String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
 // String imageBaseUrl = 'http://192.168.88.77:7000/';
 String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
 
+
+///schedule
+///
+String getScheduleBySiteService = baseUrl + 'get-schedules-by-site';
+String getScheduleByClinicService = baseUrl + 'get-schedule-by-clinic';
+
+
+
 ///articles
 ///
 String allArticlesService = baseUrl + 'get-all-articles';

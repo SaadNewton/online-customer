@@ -31,6 +31,8 @@ dependencies:
   carousel_slider:
   agora_rtc_engine:
   image_picker: ^0.8.4
+  datetime_picker_formfield: ^2.0.0
+
   #getx
   get:
   get_storage:

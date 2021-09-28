@@ -16,8 +16,10 @@ import 'package:doctoworld_user/Models/get_all_tests_by_category.dart';
 import 'package:doctoworld_user/Models/get_alllab_departments_model.dart';
 import 'package:doctoworld_user/Models/get_appointment_slots_model.dart';
 import 'package:doctoworld_user/Models/get_cart_items_model.dart';
+import 'package:doctoworld_user/Models/get_clinics_model.dart';
 import 'package:doctoworld_user/Models/get_doctor_categories.dart';
 import 'package:doctoworld_user/Models/get_doctors_by_category_model.dart';
+import 'package:doctoworld_user/Models/get_online_schedule.dart';
 import 'package:doctoworld_user/Models/get_payment_method_model.dart';
 import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
 import 'package:doctoworld_user/Models/user_detail_model.dart';
@@ -50,6 +52,8 @@ GetAllLabDepartmentsModel getAllLabDepartmentsModel =
 
 
 GetAllDoctorsArticles getAllDoctorsArticles = GetAllDoctorsArticles();
+
+
 
 
 /// get all tests by category model object

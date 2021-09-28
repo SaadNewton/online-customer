@@ -4,6 +4,7 @@ import 'package:doctoworld_user/BottomNavigation/Data/data.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/medicines.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/my_cart.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/shop_by_category_page.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Order/order_with_prescription_form.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Components/title_row.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
@@ -24,6 +25,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MedicinePage extends StatelessWidget {
   @override
@@ -239,26 +241,74 @@ class _FindMedicineState extends State<FindMedicine> {
 
                   /// prescription button
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Theme.of(context).primaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 9,
-                            spreadRadius: 3
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: [
-
+                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(PrescriptionOrder());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          // color: Theme.of(context).primaryColor,
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(context).primaryColor.withOpacity(0.8),
+                              Theme.of(context).primaryColor.withOpacity(0.4),
+                            ]
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              blurRadius: 7,
+                              spreadRadius: 4
+                            )
                           ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Order Through',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 12
+                                      ),
+                                    ),
+                                    Text(
+                                      'Prescription'.toUpperCase(),
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5,right: 5),
+                                    child: Icon(
+                                      Icons.add_a_photo_rounded,
+                                      size: 40,
+                                      color: Theme.of(context).primaryColor.withOpacity(0.8)
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -425,9 +475,7 @@ fit: BoxFit.fill),
 
                   /// articles button
                   ///
-                  getAllDoctorsArticles.data == null
-                      ? SizedBox()
-                      : SingleChildScrollView(
+                  if (getAllDoctorsArticles.data == null) SizedBox() else SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Wrap(
                     children: List.generate(getAllDoctorsArticles.data.length, (index){
@@ -482,11 +530,16 @@ fit: BoxFit.fill),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  '${getAllDoctorsArticles.data[index].title}',
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.black
+                                                Expanded(
+                                                  child: Text(
+                                                    '${getAllDoctorsArticles.data[index].title}',
+                                                    maxLines: 1,
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.black
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -555,7 +608,9 @@ fit: BoxFit.fill),
 
 
                   /// categories
-                  Container(
+                  allCategoriesModel == null
+                      ?SizedBox()
+                      :Container(
                     height: 124,
                     child: ListView.builder(
                         shrinkWrap: true,

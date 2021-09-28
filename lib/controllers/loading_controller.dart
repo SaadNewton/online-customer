@@ -1,3 +1,6 @@
+import 'package:doctoworld_user/Models/get_clinic_schedule.dart';
+import 'package:doctoworld_user/Models/get_clinics_model.dart';
+import 'package:doctoworld_user/Models/get_online_schedule.dart';
 import 'package:get/get.dart';
 
 class LoaderController extends GetxController {
@@ -46,4 +49,21 @@ class LoaderController extends GetxController {
     update();
   }
 
+
+
+  GetClinicsModel getOnSiteClinicsModel = GetClinicsModel();
+  GetClinicSchedule getOnSiteClinicScheduleModel = GetClinicSchedule();
+  GetOnlineSchedule getOnlineSchedule = GetOnlineSchedule();
+
+  List<String> getClinicsList = [];
+  updateGetClinicsList(String clinic){
+    getClinicsList.add(
+      clinic
+    );
+    update();
+  }
+
+
+  DateTime? createdDate;
+  DateTime? endDate;
 }

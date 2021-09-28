@@ -6,6 +6,7 @@ import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/services/otp_service.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'Verification/UI/verification_ui.dart';
@@ -42,7 +43,7 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
         body: FadedSlideAnimation(
           SingleChildScrollView(
             child: Container(
-              height: size.height + 50,
+              height: size.height,
               child: Stack(
                 children: [
                   Container(
@@ -71,6 +72,7 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
                         children: [
                           SizedBox(height: size.height * 0.595),
                           EntryField(
+                            textInputFormatter: LengthLimitingTextInputFormatter(11),
                             hint: locale.enterMobileNumber,
                             textInputType: TextInputType.phone,
                             prefixIcon: Icons.phone_iphone,
@@ -79,7 +81,9 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
                             validator: (value){
                               if(value!.isEmpty){
                                 return 'Field Required';
-                              }else{
+                              }else if(value.length < 11){
+                                return 'Enter valid Phone Number';
+                              } else{
                                 return null;
                               }
                             },

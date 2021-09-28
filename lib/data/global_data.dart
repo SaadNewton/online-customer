@@ -8,6 +8,7 @@ import 'package:doctoworld_user/Models/forget_password_email_model.dart';
 import 'package:doctoworld_user/Models/forget_password_email_verify_model.dart';
 import 'package:doctoworld_user/Models/forget_password_model.dart';
 import 'package:doctoworld_user/Models/get_all_appointments_model.dart';
+import 'package:doctoworld_user/Models/get_all_articles_model.dart';
 import 'package:doctoworld_user/Models/get_all_doctors_model.dart';
 import 'package:doctoworld_user/Models/get_all_labs_model.dart';
 import 'package:doctoworld_user/Models/get_all_orders_model.dart';
@@ -46,6 +47,10 @@ GetAllDoctorsModel allDoctorsModel = GetAllDoctorsModel();
 ///
 GetAllLabDepartmentsModel getAllLabDepartmentsModel =
     GetAllLabDepartmentsModel();
+
+
+GetAllDoctorsArticles getAllDoctorsArticles = GetAllDoctorsArticles();
+
 
 /// get all tests by category model object
 ///

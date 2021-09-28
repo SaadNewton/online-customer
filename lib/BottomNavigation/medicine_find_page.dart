@@ -7,10 +7,12 @@ import 'package:doctoworld_user/BottomNavigation/Medicine/shop_by_category_page.
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Components/title_row.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Pages/article_detail_page.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
+import 'package:doctoworld_user/repositories/articeles_repo.dart';
 import 'package:doctoworld_user/repositories/get_all_categories_repo.dart';
 import 'package:doctoworld_user/repositories/get_cart_items_repo.dart';
 import 'package:doctoworld_user/repositories/get_products_by_category_repo.dart';
@@ -49,7 +51,12 @@ class _FindMedicineState extends State<FindMedicine> {
     getUserDetailRepo();
     getMethod(
         context, getAllCategoriesService, null, true, getAllCategoriesRepo);
-
+    getMethod(
+        context,
+        allArticlesService,
+        null,
+        false,
+        getAllDoctorsArticlesRepo);
     super.initState();
   }
 
@@ -230,6 +237,32 @@ class _FindMedicineState extends State<FindMedicine> {
                     ],
                   ),
 
+                  /// prescription button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 9,
+                            spreadRadius: 3
+                          )
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   /// Path buttons
                   ///
                   Padding(
@@ -245,57 +278,62 @@ class _FindMedicineState extends State<FindMedicine> {
                            child: Column(
                              children: [
                                Expanded(
-                                 child: Container(
-                                  width: double.infinity,
-                                   decoration: BoxDecoration(
-                                       color: customOrangeColor,
-                                     borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2),
-                                      spreadRadius: 2,
-                                      blurRadius: 5
-                                    )]
-                                   ),
+                                 child: InkWell(
+                                   onTap: (){
+                                     Get.find<LoaderController>().changeCurrentIndexCheck(1);
+                                   },
                                    child: Container(
-                                     margin: EdgeInsets.only(bottom: 10),
-                                     height: double.infinity,
-                                     width: double.infinity,
+                                    width: double.infinity,
                                      decoration: BoxDecoration(
-                                         image: DecorationImage(image: AssetImage('assets/orange.png'),
-                                             fit: BoxFit.fill),
-                                         color: Colors.white,
-                                         borderRadius: BorderRadius.circular(20),
-                                         boxShadow: [BoxShadow(
-                                             color: Colors.grey.withOpacity(0.2),
-                                             spreadRadius: 2,
-                                             blurRadius: 5
-                                         )]
+                                         color: customOrangeColor,
+                                       borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 5
+                                      )]
                                      ),
-                                     child:Padding(
-                                       padding: const EdgeInsets.all(15.0),
-                                       child: Column(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                         children: [
-                                           SvgPicture.asset('assets/doctor icon.svg',
-                                           height: 40,),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: [
-                                               Text('Doctors',
-                                                 style: TextStyle(
-                                                   color: customOrangeColor,
-                                                   fontSize: 16,
-                                                   fontWeight: FontWeight.bold
+                                     child: Container(
+                                       margin: EdgeInsets.only(bottom: 10),
+                                       height: double.infinity,
+                                       width: double.infinity,
+                                       decoration: BoxDecoration(
+                                           image: DecorationImage(image: AssetImage('assets/orange.png'),
+                                               fit: BoxFit.fill),
+                                           color: Colors.white,
+                                           borderRadius: BorderRadius.circular(20),
+                                           boxShadow: [BoxShadow(
+                                               color: Colors.grey.withOpacity(0.2),
+                                               spreadRadius: 2,
+                                               blurRadius: 5
+                                           )]
+                                       ),
+                                       child:Padding(
+                                         padding: const EdgeInsets.all(15.0),
+                                         child: Column(
+                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                           crossAxisAlignment: CrossAxisAlignment.start,
+                                           children: [
+                                             SvgPicture.asset('assets/doctor icon.svg',
+                                             height: 40,),
+                                             Row(
+                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                               children: [
+                                                 Text('Doctors',
+                                                   style: TextStyle(
+                                                     color: customOrangeColor,
+                                                     fontSize: 16,
+                                                     fontWeight: FontWeight.bold
+                                                   ),
                                                  ),
-                                               ),
-                                               SvgPicture.asset('assets/arrow-left-circle.svg',
-                                                 color: customOrangeColor,
-                                                 height: 20,
-                                               )
-                                             ],
-                                           )
-                                         ],
+                                                 SvgPicture.asset('assets/arrow-left-circle.svg',
+                                                   color: customOrangeColor,
+                                                   height: 20,
+                                                 )
+                                               ],
+                                             )
+                                           ],
+                                         ),
                                        ),
                                      ),
                                    ),
@@ -314,26 +352,14 @@ class _FindMedicineState extends State<FindMedicine> {
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                        color: customBlueColor,
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [BoxShadow(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            spreadRadius: 2,
-                                            blurRadius: 5
-                                        )]
-                                    ),
+                                  child: InkWell(
+                                    onTap: (){
+                                      Get.find<LoaderController>().changeCurrentIndexCheck(2);
+                                    },
                                     child: Container(
-                                      margin: EdgeInsets.only(bottom: 10),
-                                      height: double.infinity,
                                       width: double.infinity,
-
                                       decoration: BoxDecoration(
-image: DecorationImage(image: AssetImage('assets/blue.png'),
-fit: BoxFit.fill),
-                                          color: Colors.white,
+                                          color: customBlueColor,
                                           borderRadius: BorderRadius.circular(20),
                                           boxShadow: [BoxShadow(
                                               color: Colors.grey.withOpacity(0.2),
@@ -341,31 +367,48 @@ fit: BoxFit.fill),
                                               blurRadius: 5
                                           )]
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            SvgPicture.asset('assets/labs icon.svg',
-                                              height: 40,),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text('Labs',
-                                                  style: TextStyle(
-                                                      color: customBlueColor,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold
+                                      child: Container(
+                                        margin: EdgeInsets.only(bottom: 10),
+                                        height: double.infinity,
+                                        width: double.infinity,
+
+                                        decoration: BoxDecoration(
+image: DecorationImage(image: AssetImage('assets/blue.png'),
+fit: BoxFit.fill),
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(20),
+                                            boxShadow: [BoxShadow(
+                                                color: Colors.grey.withOpacity(0.2),
+                                                spreadRadius: 2,
+                                                blurRadius: 5
+                                            )]
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SvgPicture.asset('assets/labs icon.svg',
+                                                height: 40,),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text('Labs',
+                                                    style: TextStyle(
+                                                        color: customBlueColor,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold
+                                                    ),
                                                   ),
-                                                ),
-                                                SvgPicture.asset('assets/arrow-left-circle.svg',
-                                                  color: customBlueColor,
-                                                  height: 20,
-                                                )
-                                              ],
-                                            )
-                                          ],
+                                                  SvgPicture.asset('assets/arrow-left-circle.svg',
+                                                    color: customBlueColor,
+                                                    height: 20,
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -380,34 +423,36 @@ fit: BoxFit.fill),
                     ),
                   ),
 
-                  /// pharmacy button
+                  /// articles button
                   ///
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SizedBox(
-                      height: 140,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: customDarkBlueColor,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2),
-                                      spreadRadius: 2,
-                                      blurRadius: 5
-                                  )]
-                              ),
-                              child: Stack(
-                                children: [
-                                  Container(
+                  getAllDoctorsArticles.data == null
+                      ? SizedBox()
+                      : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Wrap(
+                    children: List.generate(getAllDoctorsArticles.data.length, (index){
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height*.38,
+                            child: Column(
+                              children: [
+                                Container(
+                                  // width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: customDarkBlueColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 5
+                                      )]
+                                  ),
+                                  child: Container(
                                     margin: EdgeInsets.only(bottom: 10),
-                                    height: double.infinity,
-                                    width: double.infinity,
+                                    height: MediaQuery.of(context).size.height*.28,
+                                    width: MediaQuery.of(context).size.width*.4,
                                     decoration: BoxDecoration(
-
                                         color: customLightBlueColor,
                                         borderRadius: BorderRadius.circular(20),
                                         boxShadow: [BoxShadow(
@@ -417,58 +462,92 @@ fit: BoxFit.fill),
                                         )]
                                     ),
                                     child:Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 40,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              color: customDarkBlueColor,
-                                              shape: BoxShape.circle
-                                            ),
-                                            child: Center(
-                                              child: SvgPicture.asset('assets/Path 228.svg',
-                                                height: 25,),
-                                            ),
-                                          ),
-                                          Row(
-
-                                            children: [
-                                              Text('Pharmacy',
-                                                style: TextStyle(
-                                                    color: customDarkBlueColor,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold
-                                                ),
-
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            getAllDoctorsArticles.data[index].image == null
+                                                ? SizedBox(
+                                              height: MediaQuery.of(context).size.height*.1,
+                                            )
+                                                : Container(
+                                              width: MediaQuery.of(context).size.width*.2,
+                                              height: MediaQuery.of(context).size.height*.1,
+                                              child: Image.network(
+                                                '$imageBaseUrl${getAllDoctorsArticles.data[index].image}',
+                                                width: MediaQuery.of(context).size.width*.2,
                                               ),
-                                              SizedBox(width: 20,),
-                                              SvgPicture.asset('assets/arrow-left-circle.svg',
-                                                color: customDarkBlueColor,
-                                                height: 20,
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                            ),
+                                            SizedBox(height: 8,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${getAllDoctorsArticles.data[index].title}',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.black
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '${getAllDoctorsArticles.data[index].description}',
+                                                    maxLines: 2,
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 8,),
+                                            Spacer(),
+                                            InkWell(
+                                              onTap: (){
+                                                Get.to(ArticleDetailScreen(
+                                                  getAllDoctorsArticlesData: getAllDoctorsArticles.data[index],));
+                                              },
+                                              child: Container(
+                                                height: 30,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                    color: customDarkBlueColor,
+                                                  borderRadius: BorderRadius.vertical(
+                                                      top: Radius.circular(5),
+                                                      bottom: Radius.circular(20)
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'View Details',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
                                     ),
                                   ),
-                                  Positioned(
-                                      bottom: 10,
-                                      right: 15,
-                                      child: SvgPicture.asset('assets/Group 10.svg'))
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-
-                        ],
-                      ),
-                    ),
+                        );
+                    }),
                   ),
+                      ),
 
                   TitleRow(locale.shopByCategory, () {
                     Get.to(ShopByCategoryPage());

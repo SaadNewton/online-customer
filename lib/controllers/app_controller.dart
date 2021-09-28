@@ -14,4 +14,7 @@ class AppController extends GetxController {
     serverErrorCheck = value;
     update();
   }
+
+
+
 }

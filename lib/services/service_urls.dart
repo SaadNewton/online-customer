@@ -1,12 +1,16 @@
 /// base url
 ///
-String baseUrl = 'http://192.168.88.77:7000/api/';
-// String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
+// String baseUrl = 'http://192.168.88.77:7000/api/';
+String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
 
 /// image base url
 ///
-String imageBaseUrl = 'http://192.168.88.77:7000/';
-// String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
+// String imageBaseUrl = 'http://192.168.88.77:7000/';
+String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
+
+///articles
+///
+String allArticlesService = baseUrl + 'get-all-articles';
 
 ///customer signUp
 ///

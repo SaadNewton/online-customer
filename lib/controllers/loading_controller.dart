@@ -39,4 +39,11 @@ class LoaderController extends GetxController {
     update();
   }
 
+
+  int currentIndex = 0;
+  changeCurrentIndexCheck(int value) {
+    currentIndex = value;
+    update();
+  }
+
 }

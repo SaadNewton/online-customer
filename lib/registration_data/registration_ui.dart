@@ -11,6 +11,7 @@ import 'package:doctoworld_user/services/service_urls.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -28,7 +29,8 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
   GlobalKey<FormState> signKey = GlobalKey();
 
   var currentPosition;
-  bool? obSecureText;
+  bool? obSecureText = true;
+  bool? confirmObSecureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
         builder: (_) => ModalProgressHUD(
           inAsyncCall: _.formLoader,
           child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Color(0xffC4EBF2),
             resizeToAvoidBottomInset: false,
             // appBar: AppBar(
             //   title: Text(locale.registerNow!),
@@ -76,6 +78,8 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
 
                             /// name
                             EntryField(
+                              textInputFormatter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                              textInputType: TextInputType.name,
                               controller: nameController,
                               prefixIcon: Icons.person,
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -115,7 +119,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Field is Required';
-                                } else if (!value.contains('@')) {
+                                } else if (GetUtils.isEmail(emailController.text)) {
                                   return 'Please Enter Valid Email';
                                 } else {
                                   return null;
@@ -126,6 +130,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
 
                             /// phone
                             EntryField(
+                              textInputFormatter: LengthLimitingTextInputFormatter(11),
                               controller: phoneController,
                               textInputType: TextInputType.phone,
                               prefixIcon: Icons.phone_iphone,
@@ -134,7 +139,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Field is Required';
-                                } else if (value.length > 11) {
+                                } else if (value.length < 11) {
                                   return 'Enter Valid Number';
                                 } else {
                                   return null;
@@ -146,7 +151,8 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                             /// password
                             EntryField(
                               controller: passController,
-                              obSecure: true,
+                              obSecure: obSecureText,
+                              textInputType: TextInputType.text,
                               prefixIcon: Icons.lock,
                               suffixIcon: Icons.remove_red_eye_outlined,
                               hint: 'Password',
@@ -154,6 +160,8 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Field is Required';
+                                } else if(value.length < 8){
+                                  return 'Password length must be greater than 8';
                                 } else {
                                   return null;
                                 }
@@ -164,8 +172,9 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                             /// confirm pass
                             EntryField(
                               controller: confirmPassController,
-                              obSecure: true,
+                              obSecure: confirmObSecureText,
                               prefixIcon: Icons.lock,
+                              textInputType: TextInputType.text,
                               suffixIcon: Icons.remove_red_eye_outlined,
                               hint: 'Confirm Password',
                               color: Theme.of(context).scaffoldBackgroundColor,

@@ -1,5 +1,7 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/lab_search_screen.dart';
 import 'package:doctoworld_user/BottomNavigation/labs/lab_info.dart';
+import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/controllers/location_controller.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LabsHome extends StatefulWidget {
   final LocationController controller = Get.put(LocationController());
@@ -43,14 +46,22 @@ class _LabsHomeState extends State<LabsHome> {
             )
           : Scaffold(
               appBar: AppBar(
-                title: Row(
+                title: _.currentCity == null
+                    ? Text(
+                  'WELCOME',
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                )
+                    : Row(
                   children: [
                     Icon(
                       Icons.location_on,
                       color: Theme.of(context).primaryColor,
                     ),
                     Text(
-                      userDetailModel.data.city ?? 'Faisalabad',
+                      _.currentCity!,
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
@@ -109,18 +120,15 @@ class _LabsBodyState extends State<LabsBody> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: TextFormField(
-              onTap: () {
-                //Navigator.pushNamed(context, PageRoutes.searchDoctors);
+            child: InkWell(
+              onTap: (){
+                Get.to(LabSearchScreen());
               },
-              decoration: InputDecoration(
-                  hintText: 'Search Lab',
-                  prefixIcon: Icon(Icons.search),
-                  filled: true,
-                  fillColor: Theme.of(context).backgroundColor,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none)),
+              child: EntryField(
+                enabled: false,
+                hint: 'Search labs',
+                prefixIcon: Icons.search,
+              ),
             ),
           ),
           // Padding(
@@ -222,7 +230,7 @@ class LabsList extends StatelessWidget {
         return InkWell(
           onTap: () {
             Get.to(LabInfo(
-              index: index,
+              labDetail: getAllLabsModel.data!.data![index],
             ));
           },
           child: Column(

@@ -2,6 +2,8 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/my_cart.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Models/get_medicine_from_search_model.dart';
+import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
 
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
@@ -17,8 +19,8 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ProductInfo extends StatefulWidget {
-  final int? index;
-  ProductInfo({this.index});
+  final ProductDetailData? medicineDetail;
+  ProductInfo({this.medicineDetail});
   @override
   _ProductInfoState createState() => _ProductInfoState();
 }
@@ -30,7 +32,7 @@ class _ProductInfoState extends State<ProductInfo> {
   void initState() {
     // TODO: implement initState
     isCartPage=false;
-    if(getProductsByCategoryModel.data!.data![widget.index!].isItemType=='1'){
+    if(widget.medicineDetail!.isItemType=='1'){
     selectedType='Strip';
     }
     getMethod(context, getCartProductsService,
@@ -96,8 +98,7 @@ class _ProductInfoState extends State<ProductInfo> {
                 Stack(
                   children: [
                     FadedScaleAnimation(
-                      getProductsByCategoryModel
-                                  .data!.data![widget.index!].imagePath ==
+                      widget.medicineDetail!.imagePath ==
                               null
                           ? Image.asset(
                               'assets/FooterIcons/ic_medicineact.png',
@@ -108,7 +109,7 @@ class _ProductInfoState extends State<ProductInfo> {
                             )
                           : Image.network(
                               '$imageBaseUrl'
-                                  '${getProductsByCategoryModel.data!.data![widget.index!].imagePath}',
+                                  '${widget.medicineDetail!.imagePath}',
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.fill,
                               height: 200,
@@ -131,7 +132,7 @@ class _ProductInfoState extends State<ProductInfo> {
                     title: Row(
                       children: [
                         Text(
-                          '${getProductsByCategoryModel.data!.data![widget.index!].name}',
+                          '${widget.medicineDetail!.name}',
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         // Spacer(),
@@ -156,13 +157,13 @@ class _ProductInfoState extends State<ProductInfo> {
                     ),
                     subtitle: Row(
                       children: [
-                        Text(
-                          '${getProductsByCategoryModel.data!.data![widget.index!].category!.name}',
-                          style:
-                              Theme.of(context).textTheme.subtitle2!.copyWith(
-                                    color: Theme.of(context).disabledColor,
-                                  ),
-                        ),
+                        // Text(
+                        //   '${widget.medicineDetail!.category!.name}',
+                        //   style:
+                        //       Theme.of(context).textTheme.subtitle2!.copyWith(
+                        //             color: Theme.of(context).disabledColor,
+                        //           ),
+                        // ),
                         // Spacer(),
                         // GestureDetector(
                         //     onTap: () {
@@ -204,7 +205,7 @@ class _ProductInfoState extends State<ProductInfo> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 4.0),
                   child: Text(
-                    '${getProductsByCategoryModel.data!.data![widget.index!].description}',
+                    '${widget.medicineDetail!.description}',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1!
@@ -217,21 +218,19 @@ class _ProductInfoState extends State<ProductInfo> {
                 ),
 
                 ///
-                getProductsByCategoryModel.data!.data![widget.index!].isItemType=='1'?
+                widget.medicineDetail!.isItemType=='1'?
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Wrap(
                     runSpacing: 10,
                     spacing: 10,
                     children: List.generate(
-                        getProductsByCategoryModel.data!.data![widget.index!].itemPrice.length,
+                        widget.medicineDetail!.itemPrice.length,
                             (i) => InkWell(
                           onTap: (){
                             setState(() {
-                              productPrice=getProductsByCategoryModel.data!
-                                  .data![widget.index!].itemPrice[i]['price'];
-                              selectedType=getProductsByCategoryModel.data!
-                                  .data![widget.index!].itemPrice[i]['type'];
+                              productPrice=widget.medicineDetail!.itemPrice[i]['price'];
+                              selectedType=widget.medicineDetail!.itemPrice[i]['type'];
                             });
                             // setState(() {
                             //   slot=getAppointmentSlotsModel.data![i].slot;
@@ -248,21 +247,18 @@ class _ProductInfoState extends State<ProductInfo> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                   color:
-                                  selectedType==getProductsByCategoryModel.data!
-                                      .data![widget.index!].itemPrice[i]['type']?Colors.green:Theme.of(context).primaryColor
+                                  selectedType==widget.medicineDetail!.itemPrice[i]['type']?Colors.green:Theme.of(context).primaryColor
                               ),
                               borderRadius: BorderRadius.all(
                                   Radius.circular(10)),
                               color:
 
-                              selectedType==getProductsByCategoryModel.data!
-                                  .data![widget.index!].itemPrice[i]['type'].
+                              selectedType==widget.medicineDetail!.itemPrice[i]['type'].
                               toString()?
                               Colors.green:Theme.of(context).primaryColor,
                             ),
                             child: Text(
-                                getProductsByCategoryModel.data!
-                                    .data![widget.index!].itemPrice[i]['type'],
+                                widget.medicineDetail!.itemPrice[i]['type'],
                                 style: TextStyle(
                                     color: Colors.white)),
                           ),
@@ -279,8 +275,8 @@ class _ProductInfoState extends State<ProductInfo> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: ListTile(
                           title: Text(
-                            getProductsByCategoryModel.data!.data![widget.index!].isItemType=='1'?
-                            productPrice:'Rs ${getProductsByCategoryModel.data!.data![widget.index!].salePrice}',
+                            widget.medicineDetail!.isItemType=='1'?
+                            productPrice:'Rs ${widget.medicineDetail!.salePrice}',
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                           // trailing: Row(
@@ -303,8 +299,8 @@ class _ProductInfoState extends State<ProductInfo> {
                         label: locale.addToCart,
                         onTap: () {
                           Get.find<LoaderController>().updateFormController(true);
-                          addToCartMethod(getProductsByCategoryModel.data!.data![widget.index!].id,
-                              getProductsByCategoryModel.data!.data![widget.index!].salePrice);
+                          addToCartMethod(widget.medicineDetail!.id,
+                              widget.medicineDetail!.salePrice);
                         },
                       ),
                     ],

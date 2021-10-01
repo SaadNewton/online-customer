@@ -1,9 +1,19 @@
+import 'dart:developer';
+
+import 'package:doctoworld_user/BottomNavigation/Doctors/doctor_info.dart';
 import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
 import 'package:doctoworld_user/BottomNavigation/doctors_page.dart';
 import 'package:doctoworld_user/BottomNavigation/labs_page.dart';
 import 'package:doctoworld_user/BottomNavigation/more_options.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/repositories/create_notify_repo.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
+import 'package:doctoworld_user/services/get_method_call.dart';
+import 'package:doctoworld_user/services/post_method_call.dart';
+import 'package:doctoworld_user/services/service_urls.dart';
+import 'package:doctoworld_user/storage/local_Storage.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,11 +35,25 @@ class _BottomNavigationState extends State<BottomNavigation> {
     AppointmentPage(),
     MoreOptions(),
   ];
+String? fcmToken;
+  updateToken() async {
+
+      await FirebaseMessaging.instance.getToken().then((value) {
+        fcmToken = value;
+        storageBox!.write('fcmToken', fcmToken);
+        log(" token >>>> $fcmToken");
+      });
+      postMethod(context, createNotifyUserService, {'role':'customer',
+        'user_id':storageBox!.read('customerId'),
+        'token':fcmToken
+      }, false, createNotifyRepo);
+    }
 
   @override
   void initState() {
+    forCustomer=true;
     // TODO: implement initState
-
+    updateToken();
     super.initState();
   }
 

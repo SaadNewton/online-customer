@@ -5,6 +5,7 @@ import 'package:doctoworld_user/BottomNavigation/Medicine/medicines.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/my_cart.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/shop_by_category_page.dart';
 import 'package:doctoworld_user/BottomNavigation/More/Order/order_with_prescription_form.dart';
+import 'package:doctoworld_user/BottomNavigation/medicine_search_screen.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Components/title_row.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
@@ -48,6 +49,7 @@ class _FindMedicineState extends State<FindMedicine> {
   void initState() {
     // TODO: implement initState
     isCartPage=false;
+    Get.find<LoaderController>().getCurrentLocation(context);
     getMethod(context, getCartProductsService,
         {'customer_id':storageBox!.read('customerId')}, true, getAllCartItemsRepo);
     getUserDetailRepo();
@@ -74,14 +76,22 @@ class _FindMedicineState extends State<FindMedicine> {
             )
           : Scaffold(
               appBar: AppBar(
-                title: Row(
+                title: _.currentCity == null
+                    ? Text(
+                  'WELCOME',
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                )
+                    : Row(
                   children: [
                     Icon(
                       Icons.location_on,
                       color: Theme.of(context).primaryColor,
                     ),
                     Text(
-                      userDetailModel.data.city ?? 'Faisalabad',
+                      _.currentCity!,
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
@@ -104,7 +114,9 @@ class _FindMedicineState extends State<FindMedicine> {
                         top: 8,
                         end: 12,
                         child: _.cartLoader?
-                        CircularProgressIndicator():getCartItemsModel.status==false?SizedBox():CircleAvatar(
+                        CircularProgressIndicator():getCartItemsModel.status==false
+                            ?SizedBox()
+                            :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 5.5,
                           child: Center(
@@ -136,30 +148,36 @@ class _FindMedicineState extends State<FindMedicine> {
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  //   child: FadedScaleAnimation(
-                  //     Text(
-                  //       locale.findYourMedicines!,
-                  //       style: Theme.of(context)
-                  //           .textTheme
-                  //           .headline5!
-                  //           .copyWith(fontWeight: FontWeight.bold),
-                  //     ),
-                  //     durationInMilliseconds: 400,
-                  //   ),
-                  // ),
-                  // FadedScaleAnimation(
-                  //   Padding(
-                  //     padding: const EdgeInsets.symmetric(
-                  //         vertical: 8.0, horizontal: 16),
-                  //     child: EntryField(
-                  //       hint: locale.searchMedicines,
-                  //       prefixIcon: Icons.search,
-                  //     ),
-                  //   ),
-                  //   durationInMilliseconds: 300,
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: FadedScaleAnimation(
+                      Text(
+                        locale.findYourMedicines!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      durationInMilliseconds: 400,
+                    ),
+                  ),
+                  FadedScaleAnimation(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16),
+                      child: InkWell(
+                        onTap: (){
+                          Get.to(MedicineSearchScreen());
+                        },
+                        child: EntryField(
+                          enabled: false,
+                          hint: locale.searchMedicines,
+                          prefixIcon: Icons.search,
+                        ),
+                      ),
+                    ),
+                    durationInMilliseconds: 300,
+                  ),
                   /// banner
                   ///
                   Column(

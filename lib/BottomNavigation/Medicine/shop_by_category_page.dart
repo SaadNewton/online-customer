@@ -167,7 +167,7 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(ProductInfo(
-                                    index: index,
+                                    medicineDetail:getProductsByCategoryModel.data!.data![index] ,
                                   ));
                                 },
                                 child: ListTile(

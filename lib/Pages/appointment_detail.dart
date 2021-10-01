@@ -15,6 +15,11 @@ class AppointmentDetail extends StatefulWidget {
 
 class _AppointmentDetailState extends State<AppointmentDetail> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
     return Scaffold(
@@ -99,7 +104,7 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.appointmentDetail!.bookingDate!,
+                            'Type',
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2!
@@ -115,7 +120,38 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                       Row(
                         children: [
                           Text(
-                            ' | ${widget.appointmentDetail!.timeSerial!}',
+                            '${widget.appointmentDetail!.bookingType!.toUpperCase()} ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .copyWith(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'At',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .copyWith(
+                                    color: Theme.of(context).disabledColor,
+                                    fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${widget.appointmentDetail!.bookingDate!} | ${widget.appointmentDetail!.timeSerial!}',
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2!
@@ -163,7 +199,12 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                 ],
               ),
             ),
-            Align(
+            widget.appointmentDetail!.isComplete != 1
+
+                ?SizedBox()
+                :widget.appointmentDetail!.bookingType == 'onsite'
+                ?SizedBox()
+                :Align(
               alignment: Alignment.bottomCenter,
               child: Row(
                 children: [

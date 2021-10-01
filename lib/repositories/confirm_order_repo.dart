@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctoworld_user/BottomNavigation/More/Order/order_info.dart';
 import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
@@ -13,6 +15,7 @@ import 'package:get/get.dart';
 confirmOrderRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {
+    log(response.toString());
     Get.find<LoaderController>().updateFormController(false);
     if(response['status']){
       showDialog(

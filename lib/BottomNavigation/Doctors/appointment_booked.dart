@@ -1,4 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:get/get.dart';
 
 class AppointmentBooked extends StatefulWidget {
   @override
@@ -62,8 +64,7 @@ class _AppointmentBookedState extends State<AppointmentBooked> {
                       alignment: Alignment.bottomCenter,
                       child: CustomButton(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, PageRoutes.appointmentPage);
+                          Get.to(AppointmentPage());
                         },
                         label: locale.myAppointments,
                         radius: 0,

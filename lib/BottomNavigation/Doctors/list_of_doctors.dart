@@ -139,15 +139,7 @@ class _DoctorsListState extends State<DoctorsList> {
                           padding: const EdgeInsets.only(top: 8, bottom: 18.0),
                           child: GestureDetector(
                             onTap: () {
-                              Get.to(DoctorInfo(docId: getDoctorsByCategoryModel.data!.data![i].id,
-                              speciality: getDoctorsByCategoryModel.data!.data![i].speciality,
-                              serialDay: getDoctorsByCategoryModel.data!.data![i].serialDay,
-                              image: getDoctorsByCategoryModel.data!.data![i].image,
-                              startTime: getDoctorsByCategoryModel.data!.data![i].startTime,
-                              endTime: getDoctorsByCategoryModel.data!.data![i].endTime,
-                              qualification: getDoctorsByCategoryModel.data!.data![i].qualification,
-                              fees: getDoctorsByCategoryModel.data!.data![i].fees,
-                              name: getDoctorsByCategoryModel.data!.data![i].name,));
+                              Get.to(DoctorInfo(docId: getDoctorsByCategoryModel.data!.data![i].id,));
                             },
                             child: Row(
                               children: [

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class EntryField extends StatefulWidget {
   final String hint;
-
+  final bool enabled;
   final IconData prefixIcon;
   final Color color;
   final TextEditingController controller;
@@ -23,6 +23,7 @@ class EntryField extends StatefulWidget {
   final bool isDense;
   EntryField({
     this.hint,
+    this.enabled,
     this.obSecure,
     this.prefixIcon,
     this.color,
@@ -75,6 +76,7 @@ class _EntryFieldState extends State<EntryField> {
                       ?LengthLimitingTextInputFormatter(300)
                       :widget.textInputFormatter
                 ],
+                enabled: widget.enabled ?? true,
                 obscureText: obSecureText,
                 validator: widget.validator,
                 controller: widget.controller,

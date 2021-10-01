@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
@@ -49,6 +51,9 @@ int currentTabIndex=0;
   locationController.text=userDetailModel.data.address;
   nameController.text=userDetailModel.data.name;
   phoneController.text=userDetailModel.data.phone;
+  log("${userDetailModel.data.lat } ${userDetailModel.data.long}");
+  longitude=double.parse(userDetailModel.data.long);
+  latitude=double.parse(userDetailModel.data.lat);
 
   tabController  = new TabController(length: 2, vsync: this);
   super.initState();

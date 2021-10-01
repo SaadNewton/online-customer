@@ -166,7 +166,7 @@ class _MedicinesState extends State<Medicines> {
                        productPrice=getProductsByCategoryModel.data!.data![index].itemPrice[0]['price'];
                      }
                       Get.to(ProductInfo(
-                        index: index,
+                        medicineDetail: getProductsByCategoryModel.data!.data![index],
                       ));
                     },
                     child: Container(
@@ -207,7 +207,7 @@ class _MedicinesState extends State<Medicines> {
                               child:
                               GestureDetector(
                                 onTap: () {
-                                Get.to(ProductInfo(index: index,));
+                                Get.to(ProductInfo(medicineDetail: getProductsByCategoryModel.data!.data![index],));
 
                                 },
                                 child: Container(

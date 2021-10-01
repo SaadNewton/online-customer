@@ -4,6 +4,7 @@ import 'package:doctoworld_user/BottomNavigation/labs/about_tab.dart';
 import 'package:doctoworld_user/BottomNavigation/labs/departments_tab.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Models/get_all_labs_model.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/get_all_lab_departments.dart';
@@ -17,8 +18,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LabInfo extends StatefulWidget {
-  final index;
-  LabInfo({this.index});
+  final SingleLabData? labDetail;
+  LabInfo({this.labDetail});
 
   @override
   _LabInfoState createState() => _LabInfoState();
@@ -39,7 +40,7 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
     getMethod(
         context,
         getTestCategoriesService,
-        {'lab_id': getAllLabsModel.data!.data![widget.index].id} ,
+        {'lab_id':widget.labDetail!.id} ,
         true,
         getAllDepartmentsRepo);
     super.initState();
@@ -65,13 +66,13 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
                         SliverList(
                             delegate: SliverChildListDelegate([
                           FadedScaleAnimation(
-                          getAllLabsModel.data!.data![widget.index].imagePath==null?
+                          widget.labDetail!.imagePath==null?
                           Image.asset(
                           'assets/upload prescription.png',
                             height: MediaQuery.of(context).size.height*0.3,
                           fit: BoxFit.fill,
                           ):Image.network(
-                              '$imageBaseUrl${getAllLabsModel.data!.data![widget.index].imagePath!}',
+                              '$imageBaseUrl${widget.labDetail!.imagePath!}',
                               fit: BoxFit.fill,
                             height: MediaQuery.of(context).size.height*0.3,
                             ),
@@ -84,14 +85,14 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  getAllLabsModel.data!.data![widget.index].name!,
+                                  widget.labDetail!.name!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
                                       .copyWith(fontSize: 24, height: 2),
                                 ),
                                 Text(
-                                  getAllLabsModel.data!.data![widget.index].city!,
+                                  widget.labDetail!.city!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1!
@@ -143,7 +144,7 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
                           if (selectedTab == 0) {
                             return FadedSlideAnimation(
                               About(
-                                index: widget.index,
+                                labDetail:widget.labDetail,
                               ),
                               beginOffset: Offset(0, 0.3),
                               endOffset: Offset(0, 0),
@@ -152,8 +153,7 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
                           } else if (selectedTab == 1) {
                             return FadedSlideAnimation(
                               Departments(
-                                  labId: getAllLabsModel
-                                      .data!.data![widget.index].id!),
+                                  labId: widget.labDetail!.id!),
                               beginOffset: Offset(0, 0.3),
                               endOffset: Offset(0, 0),
                               slideCurve: Curves.linearToEaseOut,

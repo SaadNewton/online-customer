@@ -1,11 +1,12 @@
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Models/get_all_labs_model.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatelessWidget {
-  final index;
-  About({this.index});
+  final SingleLabData? labDetail;
+  About({this.labDetail});
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
@@ -31,7 +32,7 @@ class About extends StatelessWidget {
                         .copyWith(fontSize: 18, height: 2),
                   ),
                   Text(
-                    getAllLabsModel.data!.data![index].ownerName!,
+                    labDetail!.ownerName!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
@@ -55,7 +56,7 @@ class About extends StatelessWidget {
                         .copyWith(fontSize: 18, height: 2),
                   ),
                   Text(
-                    getAllLabsModel.data!.data![index].email!,
+                    labDetail!.email!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!

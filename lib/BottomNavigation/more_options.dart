@@ -5,6 +5,7 @@ import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Pages/contact_us_ui.dart';
 import 'package:doctoworld_user/Pages/customer_change_password.dart';
 import 'package:doctoworld_user/Pages/customer_password_email_ui.dart';
+import 'package:doctoworld_user/Pages/edit_profile.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/get_user_detail_reop.dart';
@@ -121,6 +122,22 @@ class _MoreOptionsState extends State<MoreOptions> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+
+              OutlinedButton(
+                  onPressed: () {
+                    Get.to(EditProfile());
+                  },
+                  child: Text(
+                    '✎  Edit',
+                    style: TextStyle(color: Colors.black),
+                  )),
+              SizedBox(width: 12,)
+            ],
+          ),
+          SizedBox(height: 5,),
           Container(
             color: Theme.of(context).backgroundColor,
             child: GridView.builder(

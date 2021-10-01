@@ -1,10 +1,19 @@
 // @dart=2.10
 import 'dart:async';
 
+import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
+import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
+import 'package:doctoworld_user/Pages/appointment_detail.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
+import 'package:doctoworld_user/call/join_channel_video.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/controllers/screen_controller.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
+import 'package:doctoworld_user/services/get_method_call.dart';
+import 'package:doctoworld_user/services/local_notification_service.dart';
+import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,10 +26,43 @@ import 'Locale/locale.dart';
 import 'Routes/routes.dart';
 import 'Theme/style.dart';
 
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification.title.toString());
+  print(message.data['route']);
+  String route = message.data['routeApp'];
+  var model;
+  print('route check ' + route.toString());
+
+  if(message.data['has_data']=='1'){
+    // model= message.data['model'];
+    Get.to(JoinChannelVideo(channelId: '1',),
+        );
+  }
+  else{
+    Get.toNamed(route);
+  }
+
+  // print('route check ' + route.toString());
+  // if (message.data['channel'] != null) {
+  //   channelName = message.data['channel'];
+  //
+  //   // Get.toNamed(route,
+  //   //     arguments: JoinChannelVideo(
+  //   //       channelId: channelName,
+  //   //     ));
+  //
+  // } else {
+  //   Get.toNamed(route);
+  // }
+  LocalNotificationService.display(message);
+}
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LoaderController c = Get.put(LoaderController());
   await GetStorage.init();
   SystemChrome.setSystemUIOverlayStyle(
@@ -28,7 +70,88 @@ void main() async {
   runApp(Phoenix(child: Docto()));
 }
 
-class Docto extends StatelessWidget {
+class Docto extends StatefulWidget {
+  @override
+  _DoctoState createState() => _DoctoState();
+}
+String channelName;
+class _DoctoState extends State<Docto> {
+  @override
+  void initState() {
+    LocalNotificationService.initialize(context);
+    // TODO: implement initState
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      String route = message.data['route'];
+      var model;
+      print('route check ' + route.toString());
+
+      if(message.data['has_data']=='1'){
+        // model= message.data['model'];
+        Get.to(JoinChannelVideo(channelId: '1',));
+
+      }
+
+      else{
+        Get.toNamed(route);
+      }
+
+      // if (message.data['channel'] != null) {
+      //   channelName = message.data['channel'];
+      //
+      //   // Get.toNamed(route,
+      //   //     arguments: JoinChannelVideo(
+      //   //       channelId: channelName,
+      //   //     ));
+      // } else {
+      //   Get.toNamed(route);
+      // }
+    });
+
+
+    ///forground messages
+    FirebaseMessaging.onMessage.listen((message) {
+      print('foreground messages----->>');
+      print(message.notification.toString());
+      String route = message.data['routeApp'];
+      var model;
+      print('route check ' + route.toString());
+
+      if(message.data['has_data']=='1'){
+        // model= message.data['model'];
+        Get.to(JoinChannelVideo(channelId: '1',));
+      }
+      else{
+        Get.toNamed(route);
+      }
+      LocalNotificationService.display(message);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      String route = message.data['routeApp'];
+      var model;
+      print('route check ' + route.toString());
+
+if(message.data['has_data']=='1'){
+  // model= message.data['model'];
+  Get.to(JoinChannelVideo(channelId: '1',));
+
+}
+else{
+  Get.toNamed(route);
+}
+      // if (message.data['channel'] != null) {
+      //   channelName = message.data['channel'];
+      //   // Get.toNamed(route,
+      //   // );
+      // } else {
+      //   // Get.toNamed(route);
+      // }
+      LocalNotificationService.display(message);
+    });
+
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -51,7 +174,9 @@ class Docto extends StatelessWidget {
       ],
       theme: appTheme,
       home: SplashScreen(),
-      routes: PageRoutes().routes(),
+      routes: {
+        '/allAppointments':(context)=>AppointmentPage()
+      },
       debugShowCheckedModeBanner: false,
     );
   }
@@ -79,6 +204,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     delayScreen();
+
     super.initState();
   }
 

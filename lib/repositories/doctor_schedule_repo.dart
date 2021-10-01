@@ -12,8 +12,15 @@ getOnlineClinicsRepo(
   if (responseCheck) {
     Get.find<LoaderController>().updateDataController(false);
     Get.find<LoaderController>().updateFormController(false);
-    Get.find<LoaderController>().getOnlineSchedule = GetOnlineSchedule.fromJson(response);
+    Get.find<LoaderController>().getOnlineSchedule = GetClinicSchedule.fromJson(response);
     if (Get.find<LoaderController>().getOnlineSchedule.status == true) {
+      Get.find<LoaderController>().onlineScheduleDateIndex = 0;
+      Get.find<LoaderController>().getOnlineScheduleDateList = [];
+      Get.find<LoaderController>().getOnlineSchedule.data.availableSlots.forEach((element) {
+        Get.find<LoaderController>().updateOnlineScheduleDateList(
+            element.date.date.toString()
+        );
+      });
       print('getOnlineClinicsRepo ------>> ${Get.find<LoaderController>().getOnlineSchedule.data}');
     } else {}
   } else if (!responseCheck && response == null) {
@@ -53,14 +60,14 @@ getOnSiteClinicsScheduleRepo(
     Get.find<LoaderController>().updateFormController(false);
     Get.find<LoaderController>().getOnSiteClinicScheduleModel = GetClinicSchedule.fromJson(response);
     if (Get.find<LoaderController>().getOnSiteClinicScheduleModel.status == true) {
+      Get.find<LoaderController>().onSiteScheduleDateIndex = 0;
+      Get.find<LoaderController>().getOnSiteScheduleDateList = [];
+      Get.find<LoaderController>().getOnSiteClinicScheduleModel.data.availableSlots.forEach((element) {
+        Get.find<LoaderController>().updateOnSiteScheduleDateList(
+            element.date.date.toString()
+        );
+      });
 
-      Get.find<LoaderController>().createdDate =
-          DateFormat('yyyy-MM-dd')
-              .parse(Get.find<LoaderController>().getOnSiteClinicScheduleModel.data.createdAt
-              .toString().substring(0,10).toString());
-      Get.find<LoaderController>().endDate =
-          Get.find<LoaderController>().createdDate!.add(Duration(
-              days: int.parse(Get.find<LoaderController>().getOnSiteClinicScheduleModel.data.serialDay.toString())-1));
 
       print('getOnSiteClinicsScheduleRepo ------>> ${Get.find<LoaderController>().getOnSiteClinicScheduleModel.data}');
     } else {}

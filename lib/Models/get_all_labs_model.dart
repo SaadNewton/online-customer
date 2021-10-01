@@ -221,7 +221,7 @@ class SingleLabData {
   String? get updatedAt => _updatedAt;
   double? get distance => _distance;
 
-  Data(
+  SingleLabData(
       {int? id,
       String? name,
       dynamic? userName,

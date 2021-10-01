@@ -119,7 +119,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Field is Required';
-                                } else if (GetUtils.isEmail(emailController.text)) {
+                                } else if (!GetUtils.isEmail(emailController.text)) {
                                   return 'Please Enter Valid Email';
                                 } else {
                                   return null;

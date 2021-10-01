@@ -1,9 +1,13 @@
 import 'dart:ui';
+import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/book_appointment_repo.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
+import 'package:doctoworld_user/services/get_method_call.dart';
 import 'package:doctoworld_user/services/post_method_call.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +29,10 @@ class BookAppointment extends StatefulWidget {
   final qualification;
   final selectedDate;
   final selectedTime;
-  BookAppointment({this.docId,this.name,this.qualification,this.selectedDate,this.selectedTime,this.image});
+  final type;
+  final clinicId;
+  BookAppointment({this.docId,this.name,this.qualification,this.selectedDate,this.selectedTime,
+    this.image,this.type,this.clinicId});
   @override
   _BookAppointmentState createState() => _BookAppointmentState();
 }
@@ -37,6 +44,13 @@ TextEditingController _namController=TextEditingController();
   TextEditingController _emailController=TextEditingController();
   TextEditingController _detailController=TextEditingController();
   TextEditingController _ageController=TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
@@ -63,11 +77,11 @@ TextEditingController _namController=TextEditingController();
           ),
           body: FadedSlideAnimation(
             Form(
-key: confirmAppointment,
+              key: confirmAppointment,
               child: Stack(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20, right: 5),
+                    padding: EdgeInsets.only(left: 15, right: 15),
                     child: ListView(
                       physics: BouncingScrollPhysics(),
                       children: [
@@ -76,11 +90,11 @@ key: confirmAppointment,
                             Expanded(
                               child: Container(
                                 child: FadedScaleAnimation(
-                                  widget.image!=null?Image.asset(
+                                  widget.image==null
+                                      ?Image.asset(
                                     'assets/Doctors/doc1.png',
                                   ):
                                   Image.network("$imageBaseUrl"
-                                      "assets/doctor/images/profile/"
                                       "${widget.image}"),
                                   durationInMilliseconds: 400,
                                 ),
@@ -138,60 +152,65 @@ key: confirmAppointment,
                               widget.selectedDate,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2!
-                                  .copyWith(color: kMainTextColor, fontSize: 22),
+                                  .bodyText2!
+                                  .copyWith(
+                                color: kMainTextColor,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                height: 1.4,
+                              ),
                             ),
                             SizedBox(
-                              width: 20,
+                              width: 10,
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).backgroundColor,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    DateFormat('dd').format(DateTime.parse(widget.selectedDate)),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
-                                        color:
-                                        Theme.of(context).disabledColor,
-                                        fontSize: 12,
-                                        height: 2),
-                                  ),
-                                  Text(
-                                    DateFormat('MMM').format(DateTime.parse(widget.selectedDate)),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
-                                      color: kMainTextColor,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.4,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Spacer()
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                        //       decoration: BoxDecoration(
+                        //         color: Theme.of(context).backgroundColor,
+                        //         borderRadius: BorderRadius.all(
+                        //           Radius.circular(5),
+                        //         ),
+                        //       ),
+                        //       child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         mainAxisAlignment:
+                        //         MainAxisAlignment.spaceEvenly,
+                        //         children: [
+                        //           Text(
+                        //             DateFormat('dd').format(DateTime.parse(widget.selectedDate)),
+                        //             style: Theme.of(context)
+                        //                 .textTheme
+                        //                 .bodyText2!
+                        //                 .copyWith(
+                        //                 color:
+                        //                 Theme.of(context).disabledColor,
+                        //                 fontSize: 12,
+                        //                 height: 2),
+                        //           ),
+                        //           Text(
+                        //             DateFormat('MMM').format(DateTime.parse(widget.selectedDate)),
+                        //             style: Theme.of(context)
+                        //                 .textTheme
+                        //                 .bodyText2!
+                        //                 .copyWith(
+                        //               color: kMainTextColor,
+                        //               fontSize: 23,
+                        //               fontWeight: FontWeight.bold,
+                        //               height: 1.4,
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     Spacer()
+                        //   ],
+                        // ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,35 +221,25 @@ key: confirmAppointment,
                                   color: Theme.of(context).disabledColor,
                                   fontSize: 22),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Container(
-                           padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).backgroundColor,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: Text(
-                                widget.selectedTime,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(
-                                  color: kMainTextColor,
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.4,
-                                ),
+                            Spacer(flex: 1),
+                            Text(
+                              widget.selectedTime,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                color: kMainTextColor,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                height: 1.4,
                               ),
                             ),
-                            Spacer()
+                            SizedBox(
+                              width: 10,
+                            )
                           ],
                         ),
+                        // SizedBox(height: 10,),
                         SizedBox(
                           height: 40,
                         ),
@@ -252,100 +261,84 @@ key: confirmAppointment,
 
                         /// name
                         ///
-                        TextFormField(
-                          validator: (v){
-                            if(v!.isEmpty) {
-                              return 'Please enter patient name';
-                            }
-                            return null;
-
-                          },
+                        EntryField(
+                          textInputFormatter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                          textInputType: TextInputType.name,
                           controller: _namController,
-                          decoration: InputDecoration(
-                              hintText: 'Patient Name',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Theme.of(context).backgroundColor,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none)),
+                          prefixIcon: Icons.person,
+                          color: Theme.of(context).backgroundColor,
+                          hint: 'Name',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Field is Required';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15.0),
 
                         /// age
                         ///
-                        TextFormField(
-                          validator: (v){
-                            if(v!.isEmpty) {
-                              return 'Please enter age';
-                            }
-                            return null;
-
-                          },
+                        EntryField(
+                          textInputFormatter: LengthLimitingTextInputFormatter(2),
+                          textInputType: TextInputType.number,
                           controller: _ageController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              hintText: 'Patient Age',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Theme.of(context).backgroundColor,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none)),
+                          prefixIcon: Icons.person,
+                          color: Theme.of(context).backgroundColor,
+                          hint: 'Age',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Field is Required';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-
                         SizedBox(
                           height: 15,
                         ),
 
                         /// email
                         ///
-                        TextFormField(
-                          validator: (v){
-                            if(v!.isEmpty || !GetUtils.isEmail(v) ) {
-                              return 'Please enter valid email';
-                            }
-                            return null;
-
-                          },
+                        EntryField(
+                          textInputType: TextInputType.emailAddress,
                           controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Theme.of(context).backgroundColor,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none)),
+                          prefixIcon: Icons.person,
+                          color: Theme.of(context).backgroundColor,
+                          hint: 'Email',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Field is Required';
+                            } else if (!GetUtils.isEmail(_emailController.text)) {
+                              return 'Please Enter Valid Email';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-
                         SizedBox(
                           height: 15,
                         ),
 
                         /// phone
                         ///
-                        TextFormField(
-                          validator: (v){
-                            if(v!.isEmpty) {
-                              return 'Please enter phone number';
-                            }
-                            return null;
-                          },
+                        EntryField(
+                          textInputFormatter: LengthLimitingTextInputFormatter(11),
+                          textInputType: TextInputType.phone,
                           controller: _phoneController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                              hintText: 'Phone',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Theme.of(context).backgroundColor,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none)),
+                          prefixIcon: Icons.person,
+                          color: Theme.of(context).backgroundColor,
+                          hint: 'Phone',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Field is Required';
+                            } else if (value.length < 11) {
+                              return 'Enter Valid Number';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 15,
@@ -353,23 +346,19 @@ key: confirmAppointment,
 
                         /// details
                         ///
-                        TextFormField(
-                          validator: (v){
-                            if(v!.isEmpty) {
-                              return 'Please enter details';
-                            }
-                              return null;
-
-                          },
+                        EntryField(
+                          textInputType: TextInputType.text,
                           controller: _detailController,
-                          decoration: InputDecoration(
-                              hintText: 'eg. Heart pain, Body ache, etc.',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Theme.of(context).backgroundColor,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none)),
+                          prefixIcon: Icons.person,
+                          color: Theme.of(context).backgroundColor,
+                          hint: 'Detail',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Field is Required';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 100,
@@ -392,6 +381,8 @@ key: confirmAppointment,
                             'mobile':_phoneController.text,
                             'age':_ageController.text,
                             'disease':_detailController.text,
+                            'clinic_id':widget.clinicId,
+                            'type':widget.type,
                             'payment_system': 2,
                             'customer_id':storageBox!.read('customerId')
                           }, true, bookAppointmentRepo);

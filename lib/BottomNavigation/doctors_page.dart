@@ -1,6 +1,8 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/BottomNavigation/Doctors/doctor_info.dart';
 import 'package:doctoworld_user/BottomNavigation/Doctors/list_of_doctors.dart';
+import 'package:doctoworld_user/BottomNavigation/doctor_search_screen.dart';
+import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
@@ -13,6 +15,7 @@ import 'package:doctoworld_user/services/get_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
 class DoctorDetail {
@@ -61,14 +64,22 @@ class _DoctorsHomeState extends State<DoctorsHome> {
             )
           : Scaffold(
               appBar: AppBar(
-                title: Row(
+                title: _.currentCity == null
+                    ? Text(
+                  'WELCOME',
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                )
+                    : Row(
                   children: [
                     Icon(
                       Icons.location_on,
                       color: Theme.of(context).primaryColor,
                     ),
                     Text(
-                      userDetailModel.data.city ?? 'Faisalabad',
+                      _.currentCity!,
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
@@ -131,18 +142,15 @@ class _DoctorsBodyState extends State<DoctorsBody> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: TextFormField(
-                onTap: () {
-                  Navigator.pushNamed(context, PageRoutes.searchDoctors);
+              child: InkWell(
+                onTap: (){
+                  Get.to(DoctorSearchScreen());
                 },
-                decoration: InputDecoration(
-                    hintText: locale.searchDoctors,
-                    prefixIcon: Icon(Icons.search),
-                    filled: true,
-                    fillColor: Theme.of(context).backgroundColor,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none)),
+                child: EntryField(
+                  enabled: false,
+                  hint: 'Search doctors',
+                  prefixIcon: Icons.search,
+                ),
               ),
             ),
             Padding(
@@ -283,16 +291,8 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                             onTap: () {
 
                               Get.to(DoctorInfo(
-                                doctorInfo: allDoctorsModel.data!.data![index],
                                 docId: doctorList[index].id,
-                              name: doctorList[index].name,
-                              fees: allDoctorsModel.data!.data![index].fees,
-                              qualification: allDoctorsModel.data!.data![index].qualification,
-                              endTime: allDoctorsModel.data!.data![index].endTime,
-                              startTime: allDoctorsModel.data!.data![index].startTime,
-                              image: allDoctorsModel.data!.data![index].image,
-                              serialDay: allDoctorsModel.data!.data![index].serialDay,
-                              speciality: allDoctorsModel.data!.data![index].speciality,));
+                              ));
                               // Navigator.pushNamed(
                               //     context, PageRoutes.appointmentDetail);
                             },
@@ -302,12 +302,14 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                   doctorList[index].image == 'user'
                                       ? Image.asset(
                                           'assets/Doctors/doc2.png',
-                                          scale: 2.5,
+                                          // scale: 2.5,
+                                    width: 70,
                                         )
                                       : Image.network(
                                           "${imageBaseUrl}assets/doctor/images/profile/${doctorList[index].image}",
                                           // scale: 2.5,
-                                          height: 50,
+                                          // height: 50,
+                                    width: 70,
                                         ),
                                   durationInMilliseconds: 400,
                                 ),

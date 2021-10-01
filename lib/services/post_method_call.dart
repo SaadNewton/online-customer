@@ -25,7 +25,7 @@ postMethod(
     setCustomHeader(dio, 'role', 'customer');
 
     print('token ' + storageBox!.read('authToken'));
-  } else if (addAuthHeader && !storageBox!.hasData('authToken')) {}
+  }
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {

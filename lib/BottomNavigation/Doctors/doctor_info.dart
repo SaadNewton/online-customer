@@ -14,6 +14,8 @@ import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/doctor_schedule_repo.dart';
 import 'package:doctoworld_user/repositories/get_all_time_slots_repo.dart';
+import 'package:doctoworld_user/repositories/get_doctor_profile_repo.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
 import 'package:doctoworld_user/services/get_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,25 +24,29 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+bool forCustomer=true;
 class DoctorInfo extends StatefulWidget {
-  final DoctorDetailData? doctorInfo;
+  // final DoctorDetailData? doctorInfo;
   final docId;
-  final image;
-  final name;
-  final fees;
-  final speciality;
-  final qualification;
-  final startTime;
-  final endTime;
-  final serialDay;
-  DoctorInfo({this.doctorInfo,this.docId,this.name,this.fees,this.speciality,
-    this.image,this.qualification,this.startTime,this.endTime,
-  this.serialDay});
+  // final image;
+  // final name;
+  // final fees;
+  // final speciality;
+  // final qualification;
+  // final startTime;
+  // final endTime;
+  // final serialDay;
+  DoctorInfo({this.docId,
+  //   this.docId,this.name,this.fees,this.speciality,
+  //   this.image,this.qualification,this.startTime,this.endTime,
+  // this.serialDay
+  });
   @override
   _DoctorInfoState createState() => _DoctorInfoState();
 }
 
 class _DoctorInfoState extends State<DoctorInfo> {
+
  int  selectedSlot=3000;
  String? slot;
  String? selectedHospital='';
@@ -52,25 +58,29 @@ List slotDropDown = [];
   @override
   void initState() {
     // TODO: implement initState
-    appointmentDate=DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+    forCustomer=false;
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Get.find<LoaderController>().updateInnerDataLoader(true);
-
+      Get.find<LoaderController>().updateDataController(true);
+      getMethod(context, getNotifyTokenService, {'user_id':widget.docId,
+        'role':'doctor'}, false, getNotifyTokenRepo);
       Get.find<LoaderController>().getOnSiteClinicsModel = new GetClinicsModel();
-      Get.find<LoaderController>().getOnlineSchedule = new GetOnlineSchedule();
+      Get.find<LoaderController>().getOnlineSchedule = new GetClinicSchedule();
       Get.find<LoaderController>().getOnSiteClinicScheduleModel = GetClinicSchedule();
     });
-    getMethod(context, getAppointmentSlotsService,
-        {'doctor_id':widget.docId,
-          'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
-    );
-    // widget.doctorInfo!.serialDayApp!.forEach((element) {
-    //   slotDropDown.add(element);
-    // });
+    print('--------->>${widget.docId.toString()}');
+    // getMethod(context, getAppointmentSlotsService,
+    //     {'doctor_id':widget.docId,
+    //       'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
+    // );
+    getMethod(context, getDoctorProfileService, {'doctor_id': widget.docId}, true,
+        getDoctorProfileRepo);
     super.initState();
   }
 
  String? selectedClinic;
+ String? onlineSelectedDate;
+ String? onSiteSelectedDate;
  String? scheduleType;
  List<String> scheduleTypeList = [
    'Online',
@@ -106,7 +116,9 @@ List slotDropDown = [];
               )
             ],
           ),
-          body: FadedSlideAnimation(
+          body: loaderController.dataLoader
+              ?Center(child: CircularProgressIndicator())
+              :FadedSlideAnimation(
             Stack(
               children: [
                 Container(
@@ -117,77 +129,85 @@ List slotDropDown = [];
                       Container(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: FadedScaleAnimation(
-                                      widget.image!=null?Image.asset(
-                                        'assets/Doctors/doc1.png',
-                                      ):
-                                      Image.network("${imageBaseUrl}"
-                                          "assets/doctor/images/profile/"
-                                          "${widget.image}"),
-                                      durationInMilliseconds: 400,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 0.0),
+                                      child: FadedScaleAnimation(
+                                        getDoctorProfileModal.data.imagePath == null
+                                            ?Image.asset(
+                                          'assets/Doctors/doc1.png',
+                                        ):
+                                        Image.network("${imageBaseUrl}"
+                                            "${getDoctorProfileModal.data.imagePath}",
+                                        height: 200,
+                                            width: MediaQuery.of(context).size.width*.5,),
+                                        durationInMilliseconds: 400,
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 45,
-                                    ),
-                                    /// fees
-                                    RichText(
-                                      text: TextSpan(
-                                          style:
-                                              Theme.of(context).textTheme.subtitle2,
-                                          children: [
-                                            TextSpan(
-                                                text: locale.consulFees,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .copyWith(
-                                                        color: Theme.of(context)
-                                                            .disabledColor,
-                                                        fontSize: 13)),
-                                            TextSpan(
-                                                text: '\$${widget.fees}',
-                                                style: TextStyle(height: 1.4))
-                                          ]),
-                                    ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 45,
+                                      ),
+                                      /// fees
+                                      RichText(
+                                        text: TextSpan(
+                                            style:
+                                                Theme.of(context).textTheme.subtitle2,
+                                            children: [
+                                              TextSpan(
+                                                  text: locale.consulFees,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle2!
+                                                      .copyWith(
+                                                          color: Theme.of(context)
+                                                              .disabledColor,
+                                                          fontSize: 13)),
+                                              TextSpan(
+                                                  text: 'Rs. ${getDoctorProfileModal.data.fees}',
+                                                  style: TextStyle(height: 1.4))
+                                            ]),
+                                      ),
 
-                                    SizedBox(
-                                      height: 45,
-                                    ),
-                                    ///qualification
-                                    ///
-                                    RichText(
-                                      text: TextSpan(
-                                          style:
-                                          Theme.of(context).textTheme.subtitle2,
-                                          children: [
-                                            TextSpan(
-                                                text: 'Qualification',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .copyWith(
-                                                    color: Theme.of(context)
-                                                        .disabledColor,
-                                                    fontSize: 13)),
-                                            TextSpan(
-                                                text: '\n${widget.qualification}',
-                                                style: TextStyle(height: 1.4))
-                                          ]),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 45,
+                                      ),
+                                      ///qualification
+                                      ///
+                                      RichText(
+                                        text: TextSpan(
+                                            style:
+                                            Theme.of(context).textTheme.subtitle2,
+                                            children: [
+                                              TextSpan(
+                                                  text: 'Qualification',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle2!
+                                                      .copyWith(
+                                                      color: Theme.of(context)
+                                                          .disabledColor,
+                                                      fontSize: 13)),
+                                              TextSpan(
+                                                  text: '\n${getDoctorProfileModal.data.qualification}',
+                                                  style: TextStyle(height: 1.4))
+                                            ]),
+                                      ),
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -203,13 +223,13 @@ List slotDropDown = [];
                                             Theme.of(context).textTheme.subtitle2,
                                         children: [
                                           TextSpan(
-                                              text: widget.name,
+                                              text: getDoctorProfileModal.data.name,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2!
                                                   .copyWith(fontSize: 26)),
                                           TextSpan(
-                                              text: "\n${widget.qualification}",
+                                              text: "\n${getDoctorProfileModal.data.qualification}",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2!
@@ -220,49 +240,49 @@ List slotDropDown = [];
                                         ]),
                                   ),
 
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            locale.availability!,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2!
-                                                .copyWith(
-                                                    color: Theme.of(context)
-                                                        .disabledColor,
-                                                    fontSize: 15),
-                                          ),
-
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                            children: [
-                                              TextSpan(
-                                                  text: "${widget.startTime} " +
-                                                      locale.to! +
-                                                      " ${widget.endTime}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .subtitle2!
-                                                      .copyWith(fontSize: 14))
-                                            ]),
-                                      ),
-                                    ],
-                                  )
+                                  // Column(
+                                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                                  //   children: [
+                                  //
+                                  //     SizedBox(
+                                  //       height: 20,
+                                  //     ),
+                                  //     Row(
+                                  //       children: [
+                                  //         Text(
+                                  //           locale.availability!,
+                                  //           style: Theme.of(context)
+                                  //               .textTheme
+                                  //               .subtitle2!
+                                  //               .copyWith(
+                                  //                   color: Theme.of(context)
+                                  //                       .disabledColor,
+                                  //                   fontSize: 15),
+                                  //         ),
+                                  //
+                                  //       ],
+                                  //     ),
+                                  //     SizedBox(
+                                  //       height: 4,
+                                  //     ),
+                                  //     RichText(
+                                  //       text: TextSpan(
+                                  //           style: Theme.of(context)
+                                  //               .textTheme
+                                  //               .subtitle1,
+                                  //           children: [
+                                  //             TextSpan(
+                                  //                 text: "${getDoctorProfileModal.data.startTime} " +
+                                  //                     locale.to! +
+                                  //                     " ${getDoctorProfileModal.data.endTime}",
+                                  //                 style: Theme.of(context)
+                                  //                     .textTheme
+                                  //                     .subtitle2!
+                                  //                     .copyWith(fontSize: 14))
+                                  //           ]),
+                                  //     ),
+                                  //   ],
+                                  // )
                                 ],
                               ),
                             ),
@@ -291,7 +311,7 @@ List slotDropDown = [];
                             //   height: 10,
                             // ),
                             Wrap(
-                              children: List.generate(widget.speciality!.length, (indexx) {
+                              children: List.generate(getDoctorProfileModal.data.speciality!.length, (indexx) {
                                 return Padding(
                                   padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
                                   child: Container(
@@ -302,7 +322,7 @@ List slotDropDown = [];
                                     child: Padding(
                                       padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
                                       child: Text(
-                                        '${widget.speciality![indexx]}',
+                                        '${getDoctorProfileModal.data.speciality![indexx]}',
                                         style: TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
@@ -390,10 +410,11 @@ List slotDropDown = [];
                             onChanged: (String? value) {
                               print(value);
                               setState(() {
+                                selectedSlot=3000;
                                 scheduleType = value;
                                 Get.find<LoaderController>().updateFormController(true);
                                 loaderController.getOnSiteClinicsModel = new GetClinicsModel();
-                                loaderController.getOnlineSchedule = new GetOnlineSchedule();
+                                loaderController.getOnlineSchedule = new GetClinicSchedule();
                                 loaderController.getOnSiteClinicScheduleModel = GetClinicSchedule();
                               });
                               scheduleType == 'Online'
@@ -435,45 +456,134 @@ List slotDropDown = [];
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
-                            child: Text(
-                              'Slots',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1!
-                                  .copyWith(color: Theme.of(context).disabledColor),
-                            ),
+                          SizedBox(
+                            height: 10,
                           ),
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.fromLTRB(20, 0, 15, 20),
-                            child: Wrap(
-                              children: List.generate(loaderController.getOnlineSchedule.data![0].serialOrSlot.length, (index) {
-                                return Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Theme.of(context).primaryColor
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10)),
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    child: Text(
-                                        loaderController.getOnlineSchedule.data![0].serialOrSlot![index],
-                                        style: TextStyle(
-                                            color: Colors.white)),
+                          ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField<String>(
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 17.0, horizontal: 10.0),
+                                  fillColor: Colors.grey.withOpacity(0.2),
+                                  filled: true,
+                                  hintText: 'Select Date',
+                                  hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17
                                   ),
-                                );
-                              }),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(4))),
+                                ),
+                                // isExpanded: true,
+                                focusColor: Colors.white,
+                                // dropdownColor: Colors.grey.withOpacity(0.2),
+                                // iconSize: 10,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17
+                                ),
+                                iconEnabledColor: Colors.black,
+                                value: onlineSelectedDate,
+                                items: loaderController.getOnlineScheduleDateList
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style:
+                                          TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                onChanged: (String? value) {
+                                  print(value);
+                                  setState(() {
+                                    appointmentDate = value;
+                                    onlineSelectedDate = value;
+                                    loaderController.onlineScheduleDateIndex =
+                                        loaderController.getOnlineScheduleDateList.indexOf(onlineSelectedDate!);
+                                  });
+                                },
+                                validator: (String? value) {
+                                  if (value == null) {
+                                    return 'Field is Required';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
                             ),
                           ),
+                          onlineSelectedDate == null
+                              ?SizedBox()
+                              :Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
+                                child: Text(
+                                  'Slots',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1!
+                                      .copyWith(color: Theme.of(context).disabledColor),
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.fromLTRB(20, 0, 15, 20),
+                                child: Wrap(
+                                  children: List.generate(
+                                      loaderController.getOnlineSchedule.data
+                                          .availableSlots[loaderController.onlineScheduleDateIndex!
+                                      ].date.slots.length, (index) {
+                                    return InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          selectedSlot=index;
+                                          slot=loaderController.getOnlineSchedule.data
+                                              .availableSlots[loaderController.onlineScheduleDateIndex!]
+                                              .date.slots![index];
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 15,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: selectedSlot==index?Colors.green:Theme.of(context).primaryColor
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            color: selectedSlot==index?Colors.green:Theme.of(context).primaryColor,
+                                          ),
+                                          child: Text(
+                                              loaderController.getOnlineSchedule.data
+                                                  .availableSlots[loaderController.onlineScheduleDateIndex!]
+                                                  .date.slots![index],
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
 
@@ -561,108 +671,139 @@ List slotDropDown = [];
                       ),
                               loaderController.getOnSiteClinicScheduleModel.data == null
                                   ? SizedBox()
-                                  : loaderController.endDate!.isBefore(DateTime.now())
-                                  ?Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('No Slots Available',
-                              style: TextStyle(color: Colors.black,fontSize: 18),),
-                                  )
-                                  :Column(
+                                  : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                                    child: DateTimeField(
-                                      style: TextStyle(
-                                        color: Colors.black
-                                      ),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        suffixIcon: Padding(
-                                          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                                          child: SizedBox(
-                                            height: 13,
-                                            width: 13,
-                                            child: Icon(
-                                              Icons.date_range
-                                            )
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  ButtonTheme(
+                                    alignedDropdown: true,
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButtonFormField<String>(
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 17.0, horizontal: 10.0),
+                                          fillColor: Colors.grey.withOpacity(0.2),
+                                          filled: true,
+                                          hintText: 'Select Date',
+                                          hintStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17
                                           ),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4))),
+                                        ),
+                                        // isExpanded: true,
+                                        focusColor: Colors.white,
+                                        // dropdownColor: Colors.grey.withOpacity(0.2),
+                                        // iconSize: 10,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17
+                                        ),
+                                        iconEnabledColor: Colors.black,
+                                        value: onSiteSelectedDate,
+                                        items: loaderController.getOnSiteScheduleDateList
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style:
+                                                  TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 17
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                        onChanged: (String? value) {
+                                          print(value);
+                                          setState(() {
+                                            appointmentDate = value;
+                                            onSiteSelectedDate = value;
+                                            loaderController.onSiteScheduleDateIndex =
+                                                loaderController.getOnSiteScheduleDateList.indexOf(onSiteSelectedDate!);
+                                          });
+                                        },
+                                        validator: (String? value) {
+                                          if (value == null) {
+                                            return 'Field is Required';
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  onSiteSelectedDate == null
+                                      ?SizedBox()
+                                      :Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
+                                        child: Text(
+                                          'Slots',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(color: Theme.of(context).disabledColor),
                                         ),
                                       ),
-                                      initialValue: scheduleDate,
-                                      format: DateFormat.yMd(),
-                                      onShowPicker:
-                                          (context, currentValue) async {
-                                        final date = await showDatePicker(
-                                            context: context,
-                                            firstDate: DateTime.now(),
-                                            initialDate:
-                                            currentValue ?? DateTime.now(),
-                                            lastDate: loaderController.endDate!);
-                                        if (date != null) {
-                                          return date;
-                                        } else {
-                                          return currentValue;
-                                        }
-                                      },
-                                      validator: (value) {
-                                        if (scheduleDate == null) {
-                                          return 'Empty Field';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) {
-                                        setState(() {
-                                          scheduleDate = value;
-                                          print(scheduleDate.toString().substring(0,10));
-                                          DateTime tempDate = DateFormat('yyyy-MM-dd').parse('2021-09-24');
-                                          DateTime calculatedDate = tempDate.add(Duration(days: 1));
-                                          print(calculatedDate);
-                                        });
-
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
-                                    child: Text(
-                                      'Slots',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1!
-                                          .copyWith(color: Theme.of(context).disabledColor),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.fromLTRB(20, 0, 15, 20),
-                                    child: Wrap(
-                                      children: List.generate(loaderController.getOnSiteClinicScheduleModel.data.serialOrSlot.length, (index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 10,
-                                              horizontal: 15,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Theme.of(context).primaryColor
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.fromLTRB(20, 0, 15, 20),
+                                        child: Wrap(
+                                          children: List.generate(
+                                              loaderController.getOnSiteClinicScheduleModel.data
+                                                  .availableSlots[loaderController.onSiteScheduleDateIndex!].date.
+                                              slots.length, (index) {
+                                            return InkWell(
+                                              onTap: (){
+                                                setState(() {
+                                                  slot=loaderController.getOnSiteClinicScheduleModel.data
+                                                      .availableSlots[loaderController.onSiteScheduleDateIndex!]
+                                                      .date.slots![index];
+                                                  selectedSlot=index;
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 15,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: selectedSlot==index?Colors.green
+                                                            :Theme.of(context).primaryColor
+                                                    ),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                    color: selectedSlot==index?Colors.green
+                                                        :Theme.of(context).primaryColor,
+                                                  ),
+                                                  child: Text(
+                                                      loaderController.getOnSiteClinicScheduleModel.data
+                                                          .availableSlots[loaderController.onSiteScheduleDateIndex!]
+                                                          .date.slots![index],
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ),
                                               ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                              color: Theme.of(context).primaryColor,
-                                            ),
-                                            child: Text(
-                                                loaderController.getOnSiteClinicScheduleModel.data!.serialOrSlot![index],
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        );
-                                      }),
-                                    ),
-                                  ),
+                                            );
+                                          }),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ],
@@ -809,11 +950,20 @@ List slotDropDown = [];
                             if(selectedSlot!=3000){
                               Get.to(BookAppointment(
                                 docId: widget.docId,
-                                name: widget.name,
-                                qualification: widget.qualification,
-                                image: widget.image,
+                                name: getDoctorProfileModal.data.name,
+                                qualification: getDoctorProfileModal.data.qualification,
+                                image: getDoctorProfileModal.data.imagePath,
                                 selectedDate: appointmentDate,
                                 selectedTime: slot,
+                                type: scheduleType == 'Online'
+                                    ?'online'
+                                    :'onsite',
+                                clinicId: scheduleType == 'Online'
+                                    ? null
+                                    : loaderController.getOnSiteClinicsModel.data[
+                                loaderController.getOnSiteClinicsModel.data.indexWhere(
+                                        (element) => element.name == selectedClinic)
+                                ].id,
                               ));
                             }else{
                               showDialog(

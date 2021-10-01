@@ -1,12 +1,18 @@
+import 'package:flutter/rendering.dart';
+
 /// base url
 ///
-// String baseUrl = 'http://192.168.88.77:7000/api/';
-String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
+String baseUrl = 'http://192.168.88.43:8000/api/';
+// String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
+
+
 
 /// image base url
 ///
-// String imageBaseUrl = 'http://192.168.88.77:7000/';
-String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
+String imageBaseUrl = 'http://192.168.88.43:8000/';
+// String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
+
+String getDoctorProfileService = baseUrl + 'get-doctor-profile';
 
 
 ///schedule
@@ -14,6 +20,10 @@ String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
 String getScheduleBySiteService = baseUrl + 'get-schedules-by-site';
 String getScheduleByClinicService = baseUrl + 'get-schedule-by-clinic';
 
+
+///medicine search
+String medicineSearchService = baseUrl + 'medicine-filter';
+String searchService = baseUrl + 'get-filtered-data';
 
 
 ///articles
@@ -131,3 +141,23 @@ String orderPrescriptionService = baseUrl + 'order-with-prescription';
 /// customer-login-with-phone
 ///
 String loginWithPhone=baseUrl+'customer-login-with-phone';
+
+/// get-notify-token-by-user
+///
+String getNotifyTokenService=baseUrl+'get-notify-token-by-user';
+
+/// create-notify-user
+///
+String createNotifyUserService=baseUrl+'create-notify-user';
+
+/// CUSTOMER EDIT Profile
+///
+String editProfileService = baseUrl + 'update-customer-profile';
+
+/// Rating Doctor
+
+String ratingService = baseUrl + 'rate-doctor';
+
+/// fcm service
+///
+String fcmService = 'https://fcm.googleapis.com/fcm/send';

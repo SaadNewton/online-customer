@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'package:doctoworld_user/BottomNavigation/More/Wallet/add_money_model.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Wallet/get_wallet_by_user_type_model.dart';
 import 'package:doctoworld_user/Models/all_categories_model.dart';
 import 'package:doctoworld_user/Models/change_password_model.dart';
 import 'package:doctoworld_user/Models/check_status_model.dart';
@@ -124,6 +126,11 @@ EditProfileModel editProfileModel = EditProfileModel();
 /// Rating Doctor
 
 DoctorRatingModel doctorRatingModel = DoctorRatingModel();
+
+
+GetWalletByUserTypeModel getWalletByUserTypeModel =GetWalletByUserTypeModel();
+AddMoneyModel addMoneyModel = AddMoneyModel();
+
 
 CheckStatusModel checkStatusModel = CheckStatusModel();
 final TextEditingController forgetEmailController = TextEditingController();

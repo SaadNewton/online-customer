@@ -29,21 +29,17 @@ import 'Theme/style.dart';
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
   print(message.notification.title.toString());
-  print(message.data['route']);
-  String route = message.data['routeApp'];
-  var model;
-  print('route check ' + route.toString());
+  String route,channelName;
 
-  if(message.data['has_data']=='1'){
-    // model= message.data['model'];
-    Get.to(JoinChannelVideo(channelId: '1',),
-        );
+
+  if(message.data['channelApp']!=null){
+    channelName=message.data['channelApp'];
   }
-  else{
+  if(message.data['routeApp']!=null){
+    route=message.data['routeApp'];
     Get.toNamed(route);
-  }
 
-  // print('route check ' + route.toString());
+  }
   // if (message.data['channel'] != null) {
   //   channelName = message.data['channel'];
   //
@@ -57,7 +53,6 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   // }
   LocalNotificationService.display(message);
 }
-
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,25 +69,21 @@ class Docto extends StatefulWidget {
   @override
   _DoctoState createState() => _DoctoState();
 }
-String channelName;
+
 class _DoctoState extends State<Docto> {
   @override
   void initState() {
     LocalNotificationService.initialize(context);
     // TODO: implement initState
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-      String route = message.data['route'];
-      var model;
-      print('route check ' + route.toString());
-
-      if(message.data['has_data']=='1'){
-        // model= message.data['model'];
-        Get.to(JoinChannelVideo(channelId: '1',));
-
+      String route,channelName;
+      if(message.data['channelApp']!=null){
+        channelName=message.data['channelApp'];
       }
-
-      else{
+      if(message.data['routeApp']!=null){
+        route=message.data['routeApp'];
         Get.toNamed(route);
+
       }
 
       // if (message.data['channel'] != null) {
@@ -112,33 +103,38 @@ class _DoctoState extends State<Docto> {
     FirebaseMessaging.onMessage.listen((message) {
       print('foreground messages----->>');
       print(message.notification.toString());
-      String route = message.data['routeApp'];
-      var model;
-      print('route check ' + route.toString());
 
-      if(message.data['has_data']=='1'){
-        // model= message.data['model'];
-        Get.to(JoinChannelVideo(channelId: '1',));
+      if (message.notification != null) {
+        print(message.notification.body.toString());
+        print(message.notification.title);
       }
-      else{
+      String route,channelName;
+
+
+      if(message.data['channelApp']!=null){
+        channelName=message.data['channelApp'];
+      }
+      if(message.data['routeApp']!=null){
+        route=message.data['routeApp'];
         Get.toNamed(route);
+
       }
       LocalNotificationService.display(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      String route = message.data['routeApp'];
-      var model;
-      print('route check ' + route.toString());
+      String route,channelName;
 
-if(message.data['has_data']=='1'){
-  // model= message.data['model'];
-  Get.to(JoinChannelVideo(channelId: '1',));
 
-}
-else{
-  Get.toNamed(route);
-}
+      if(message.data['channelApp']!=null){
+        channelName=message.data['channelApp'];
+      }
+      if(message.data['routeApp']!=null){
+        route=message.data['routeApp'];
+        Get.toNamed(route);
+
+      }
+
       // if (message.data['channel'] != null) {
       //   channelName = message.data['channel'];
       //   // Get.toNamed(route,
@@ -148,9 +144,6 @@ else{
       // }
       LocalNotificationService.display(message);
     });
-
-
-    super.initState();
   }
   @override
   Widget build(BuildContext context) {

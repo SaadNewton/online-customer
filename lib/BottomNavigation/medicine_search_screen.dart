@@ -189,7 +189,7 @@ class _MedicineSearchScreenState extends State<MedicineSearchScreen> {
                                                 '$imageBaseUrl${loaderController.getMedicineFromSearchModel.data[index].imagePath}'
                                               )
                                                   : AssetImage(
-                                                'assets/FooterIcons/ic_medicine.png',
+                                                'assets/Medicines/11.png',
                                               ))),
                                     ),
                                     SizedBox(

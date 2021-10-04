@@ -1,4 +1,6 @@
+import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/add_to_cart_repo.dart';
@@ -110,10 +112,31 @@ class _DepartmentsState extends State<Departments> {
                                                               child:
                                                                   GestureDetector(
                                                                 onTap: () {
+                                                                 if(getCartItemsModel.data == null){
+                                                                   Get.find<LoaderController>().updateFormController(true);
+                                                                   addToCartMethod(getAllTestsByCategory.data![index].id,
+                                                                       getAllTestsByCategory.data![index].price);
+                                                                 }else if(getCartItemsModel.data![0].labId==widget.labId){
+                                                                    Get.find<LoaderController>().updateFormController(true);
+                                                                    addToCartMethod(getAllTestsByCategory.data![index].id,
+                                                                        getAllTestsByCategory.data![index].price);
+                                                                  }else{
+                                                                    showDialog(
+                                                                        context: context,
+                                                                        builder: (BuildContext context) {
+                                                                          return CustomDialogBox(
+                                                                            title: 'INFO!',
+                                                                            titleColor: customDialogInfoColor,
+                                                                            descriptions: 'You can\'t be add multi labs tests.',
+                                                                            text: 'Ok',
+                                                                            functionCall: () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            img: 'assets/dialog_Info.svg',
+                                                                          );
+                                                                        });
+                                                                  }
 
-                                                                  Get.find<LoaderController>().updateFormController(true);
-                                                                  addToCartMethod(getAllTestsByCategory.data![index].id,
-                                                                      getAllTestsByCategory.data![index].price);
                                                                   //Navigator.pushNamed(context, PageRoutes.doctorInfo);
                                                                 },
                                                                 child: Column(

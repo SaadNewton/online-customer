@@ -200,7 +200,6 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
               ),
             ),
             widget.appointmentDetail!.isComplete != 1
-
                 ?SizedBox()
                 :widget.appointmentDetail!.bookingType == 'onsite'
                 ?SizedBox()

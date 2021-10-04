@@ -1,6 +1,8 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Auth/Login/UI/login_ui.dart';
 import 'package:doctoworld_user/Auth/phone_auth.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Wallet/wallet_page.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Pages/contact_us_ui.dart';
 import 'package:doctoworld_user/Pages/customer_change_password.dart';
@@ -44,10 +46,10 @@ class _MoreOptionsState extends State<MoreOptions> {
     List<MenuTile> _menu = [
       MenuTile(locale.wallet, locale.quickPayment, Icons.account_balance_wallet,
           () {
-        Navigator.pushNamed(context, PageRoutes.walletPage);
+        Get.to(WalletPage());
       }),
       MenuTile(locale.myOrders, locale.orderStatus, Icons.motorcycle, () {
-        Navigator.pushNamed(context, PageRoutes.recentOrder);
+       Get.to(RecentOrdersPage());
       }),
 
       /// temp close
@@ -76,9 +78,7 @@ class _MoreOptionsState extends State<MoreOptions> {
       MenuTile('Password Change', 'Change your password', Icons.lock, () {
         Get.to(ChangePassword());
       }),
-      MenuTile('Order Prescription', '', Icons.bookmark_border, () {
-        Get.to(PrescriptionOrder());
-      }),
+
       MenuTile('Log Out', '', Icons.logout, () {
         storageBox!.erase();
         Get.offAll(PhoneAuthUI());
@@ -100,7 +100,11 @@ class _MoreOptionsState extends State<MoreOptions> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FadedScaleAnimation(
-                  Image.asset('assets/userprofile.png', scale: 3.5),
+                  CircleAvatar(
+                    backgroundColor: Colors.grey.withOpacity(0.5),
+                    radius: 50,
+                      child: Icon(Icons.person,size: 65,color: Colors.black,)),
+                  // Image.asset('assets/userprofile.png', scale: 3.5),
                   durationInMilliseconds: 400,
                 ),
                 SizedBox(

@@ -19,6 +19,8 @@ import 'get_cart_items_repo.dart';
 ///-------- add to cart-data-API-call
 addToCartRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
+  Get.find<LoaderController>().updateFormController(false);
+
   if (responseCheck) {
     Get.find<LoaderController>().updateFormController(false);
   if(response['status']){

@@ -161,3 +161,6 @@ String ratingService = baseUrl + 'rate-doctor';
 /// fcm service
 ///
 String fcmService = 'https://fcm.googleapis.com/fcm/send';
+
+String walletHistoryService = baseUrl + 'get-wallet-by-user-type';
+String addMoneyService = baseUrl + 'store-wallet';

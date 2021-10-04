@@ -30,7 +30,7 @@ import 'package:doctoworld_user/BottomNavigation/More/saved_addresses_page.dart'
 import 'package:doctoworld_user/BottomNavigation/More/saved_page.dart';
 import 'package:doctoworld_user/BottomNavigation/More/support_page.dart';
 import 'package:doctoworld_user/BottomNavigation/More/tnc.dart';
-import 'package:doctoworld_user/BottomNavigation/More/wallet_page.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Wallet/wallet_page.dart';
 import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
 import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/BottomNavigation/labs/hospital_map_view.dart';

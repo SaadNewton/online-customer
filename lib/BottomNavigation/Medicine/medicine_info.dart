@@ -101,8 +101,8 @@ class _ProductInfoState extends State<ProductInfo> {
                       widget.medicineDetail!.imagePath ==
                               null
                           ? Image.asset(
-                              'assets/FooterIcons/ic_medicineact.png',
-                              color: Theme.of(context).primaryColor,
+                              'assets/Medicines/11.png',
+
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.fill,
                               height: 200,

@@ -183,8 +183,8 @@ class _MedicinesState extends State<Medicines> {
                                 FadedScaleAnimation(
                                   _myItems[index].image == 'user'
                                       ? Image.asset(
-                                          'assets/FooterIcons/ic_medicineact.png',
-                                          color: Theme.of(context).primaryColor,
+                                          'assets/Medicines/11.png',
+
                                           height: 100,
                                         )
                                       : Image.network(

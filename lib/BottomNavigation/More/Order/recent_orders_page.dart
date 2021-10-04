@@ -65,6 +65,7 @@ getAllOrdersModel.status==false?Center(child: Text(getAllOrdersModel.message!),)
                        getAllOrdersModel.data!.data![index].status=='pending'?
                        OrderCard(getAllOrdersModel.data!.data![index]):SizedBox(),
                 ),
+
                 Container(
                   padding: EdgeInsets.all(16),
                   child: Text(
@@ -73,13 +74,13 @@ getAllOrdersModel.status==false?Center(child: Text(getAllOrdersModel.message!),)
                   ),
                   color: Theme.of(context).dividerColor,
                 ),
-                // ListView.builder(
-                //   physics: NeverScrollableScrollPhysics(),
-                //   itemCount: pastOrders.length,
-                //   shrinkWrap: true,
-                //   itemBuilder: (context, index) => getAllOrdersModel.data!.data![index].status=='pending'?
-                //   OrderCard(getAllOrdersModel.data!.data![index]):SizedBox(),
-                // ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: getAllOrdersModel.data!.data!.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => getAllOrdersModel.data!.data![index].status=='delivered'?
+                  OrderCard(getAllOrdersModel.data!.data![index]):SizedBox(),
+                ),
               ],
             ),
             beginOffset: Offset(0, 0.3),
@@ -142,20 +143,6 @@ class OrderCard extends StatelessWidget {
             ),
           ),
 
-          if (orderCard.status!.toLowerCase() == 'delivered')
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, PageRoutes.reviewOrderPage),
-                  child: Text(
-                    locale!.reviewNow!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(color: Theme.of(context).primaryColor),
-                  )),
-            ),
           Divider(thickness: 6, height: 0),
         ],
       ),

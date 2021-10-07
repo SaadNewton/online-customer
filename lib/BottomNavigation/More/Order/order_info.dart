@@ -1,10 +1,13 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/Components/image_viewer.dart';
 import 'package:doctoworld_user/Models/get_all_orders_model.dart';
 import 'package:doctoworld_user/Models/order_card_model.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
+import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class OrderInfoPage extends StatelessWidget {
@@ -39,16 +42,13 @@ class OrderInfoPage extends StatelessWidget {
                 children: [
 
                   Spacer(),
-                  orderDetail!.isOrderApproved == 1 ?
+
                   Text(
-                    'Approved'.toUpperCase(),
+                  orderDetail!.status!.toString().replaceAll('_', ' ').toUpperCase(),
                     style: theme.textTheme.subtitle1!.copyWith(
-                        color: 'status'.toLowerCase() == 'in transit'
-                            ? inProcessColor
-                            : 'status'.toLowerCase() == 'confirmed'
-                                ? kMainColor
-                                : kMainTextColor),
-                  ) : Text('Pending'),
+                        color:  inProcessColor
+                            ),
+                  ) ,
                 ],
               ),
               subtitle: Row(
@@ -70,7 +70,7 @@ class OrderInfoPage extends StatelessWidget {
                 Container(
                   margin: EdgeInsetsDirectional.only(end: 20),
                   decoration: orderDetail!.status == 'sample_collected'
-                      || orderDetail!.status == 'in_process'
+                      || orderDetail!.status == 'in_progress'
                       || orderDetail!.status == 'delivered'
                       ? BoxDecoration(
                     gradient: LinearGradient(
@@ -88,14 +88,14 @@ class OrderInfoPage extends StatelessWidget {
                   child: ListTile(
                     leading:
                     orderDetail!.status == 'sample_collected'
-                        || orderDetail!.status == 'in_process'
+                        || orderDetail!.status == 'in_progress'
                         || orderDetail!.status == 'delivered'
                         ? Icon(Icons.check_circle, color: theme.primaryColor)
                         :  Icon(Icons.check_circle),
                     title: Text('Sample Collected',
                         style: theme.textTheme.subtitle1!
                             .copyWith(color:  orderDetail!.status == 'sample_collected'
-                            || orderDetail!.status == 'in_process'
+                            || orderDetail!.status == 'in_progress'
                             || orderDetail!.status == 'delivered'
                             ?Colors.black:theme.disabledColor)),
                     // trailing: TextButton.icon(
@@ -111,7 +111,7 @@ class OrderInfoPage extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsetsDirectional.only(end: 20),
-                  decoration: orderDetail!.status == 'in_process'
+                  decoration: orderDetail!.status == 'in_progress'
                       || orderDetail!.status == 'delivered'
 
                       ? BoxDecoration(
@@ -128,7 +128,7 @@ class OrderInfoPage extends StatelessWidget {
                         ]),
                   ):BoxDecoration(),
                   child: ListTile(
-                    leading: orderDetail!.status == 'in_process'
+                    leading: orderDetail!.status == 'in_progress'
                         || orderDetail!.status == 'delivered'
 
                         ? Icon(Icons.check_circle,
@@ -136,7 +136,7 @@ class OrderInfoPage extends StatelessWidget {
                         : Icon(Icons.check_circle),
                     title: Text('In Process',
                         style: theme.textTheme.subtitle1!
-                            .copyWith(color: orderDetail!.status == 'in_process'
+                            .copyWith(color: orderDetail!.status == 'in_progress'
                             || orderDetail!.status == 'delivered'
 
                             ?Colors.black:theme.disabledColor)),
@@ -178,12 +178,13 @@ class OrderInfoPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ): Column(
+            ):
+            Column(
               children: [
 
                 Container(
                   margin: EdgeInsetsDirectional.only(end: 20),
-                  decoration:   orderDetail!.status == 'order_picked'
+                  decoration:   orderDetail!.status == 'picked'
       || orderDetail!.status == 'delivered' ?BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.centerLeft,
@@ -200,14 +201,14 @@ class OrderInfoPage extends StatelessWidget {
 
                   child: ListTile(
 
-                    leading: orderDetail!.status == 'order_picked'
+                    leading: orderDetail!.status == 'picked'
                         || orderDetail!.status == 'delivered' ?
                     Icon(Icons.check_circle, color: theme.primaryColor)
                     : Icon(Icons.check_circle),
 
                     title: Text(locale.orderPicked!,
                         style: theme.textTheme.subtitle1!
-                            .copyWith(color: orderDetail!.status == 'order_picked'
+                            .copyWith(color: orderDetail!.status == 'picked'
                             || orderDetail!.status == 'delivered' ?Colors.black:theme.disabledColor)),
                     // trailing: TextButton.icon(
                     //   style: TextButton.styleFrom(
@@ -280,16 +281,19 @@ class OrderInfoPage extends StatelessWidget {
                       subtitle: Text('${orderDetail!.orderProduct![index].qty} ' + locale.packs!,
                           style: theme.textTheme.caption),
                       trailing:
-                          Text('\Rs ${orderDetail!.orderProduct![index].salePrice}', style: theme.textTheme.subtitle1),
+                          Text('Rs. ${orderDetail!.orderProduct![index].salePrice}', style: theme.textTheme.subtitle1),
                     ),
                   ),
                 ],
               ),
             ),
-           orderDetail!.isPrescription == 1 ? ListTile(
+           orderDetail!.imagePath1 != null ? ListTile(
+             onTap: (){
+               Get.to(ImageViewScreen(networkImage: orderDetail!.imagePath1,));
+             },
               tileColor: theme.scaffoldBackgroundColor,
               leading: ImageIcon(
-                AssetImage('assets/ic_prescription.png'),
+                NetworkImage('$imageBaseUrl${orderDetail!.imagePath1}'),
                 size: 20,
                 color: theme.primaryColor,
               ),
@@ -297,6 +301,21 @@ class OrderInfoPage extends StatelessWidget {
               trailing: Icon(Icons.remove_red_eye, color: theme.primaryColor),
             ) :
                SizedBox(),
+          orderDetail!.isPrescription==1?  SizedBox(height: 10,):SizedBox(),
+            orderDetail!.imagePath2 != null ? ListTile(
+              onTap: (){
+                Get.to(ImageViewScreen(networkImage: orderDetail!.imagePath1,));
+              },
+              tileColor: theme.scaffoldBackgroundColor,
+              leading: ImageIcon(
+                NetworkImage('$imageBaseUrl${orderDetail!.imagePath2}'),
+                size: 20,
+                color: theme.primaryColor,
+              ),
+              title: Text(locale.presciptionUploaded!),
+              trailing: Icon(Icons.remove_red_eye, color: theme.primaryColor),
+            ) :
+            SizedBox(),
             Container(
               color: theme.scaffoldBackgroundColor,
               child: Column(
@@ -305,18 +324,12 @@ class OrderInfoPage extends StatelessWidget {
                     title: Text(locale.subbTotal!,
                         style: theme.textTheme.subtitle2),
                     trailing:
-                        Text('\Rs ${orderDetail!.subTotal}', style: theme.textTheme.bodyText2),
-                  ),
-                  ListTile(
-                    title: Text(locale.promoCodeApplied!,
-                        style: theme.textTheme.subtitle2),
-                    trailing:
-                        Text('- \Rs 2.00', style: theme.textTheme.bodyText2),
+                        Text('Rs ${orderDetail!.subTotal}', style: theme.textTheme.bodyText2),
                   ),
                   ListTile(
                     title: Text(locale.serviceCharge!,
                         style: theme.textTheme.subtitle2),
-                    trailing: Text('\Rs ${orderDetail!.shippingPrice}', style: theme.textTheme.bodyText2),
+                    trailing: Text('Rs ${orderDetail!.shippingPrice}', style: theme.textTheme.bodyText2),
                   ),
                   // ListTile(
                   //   title: Text(locale.amountVaiCOD!),

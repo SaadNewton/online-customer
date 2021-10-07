@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/Doctors/doctor_info.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:get/get.dart';
 
 class DoctorMapView extends StatefulWidget {
   @override
@@ -123,7 +125,7 @@ class _DoctorMapViewState extends State<DoctorMapView> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, PageRoutes.doctorInfo);
+                        Get.to(DoctorInfo());
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
@@ -137,8 +139,7 @@ class _DoctorMapViewState extends State<DoctorMapView> {
                                   const EdgeInsets.only(top: 8, bottom: 18.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, PageRoutes.doctorInfo);
+                                 Get.to(DoctorInfo());
                                 },
                                 child: Row(
                                   children: [

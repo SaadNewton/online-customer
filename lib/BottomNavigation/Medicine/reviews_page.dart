@@ -57,7 +57,7 @@ class _ReviewPageState extends State<ReviewPage> {
           children: [
             ListTile(
               onTap: () {
-                Navigator.pushNamed(context, PageRoutes.sellerProfile);
+                // Navigator.pushNamed(context, PageRoutes.sellerProfile);
               },
               title: Row(
                 children: [

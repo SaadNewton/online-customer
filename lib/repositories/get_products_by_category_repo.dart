@@ -12,12 +12,52 @@ import 'package:get/get.dart';
 getProductsByCategoryRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {
-    Get.find<LoaderController>().updateDataController(false);
     getProductsByCategoryModel = GetProductByCategoryModel.fromJson(response);
 
     if (getProductsByCategoryModel.status == true) {
-      print('get-Products-By-Category-data ------>> ${userDetailModel.data}');
+      Get.find<LoaderController>().medicineList = [];
+      getProductsByCategoryModel.data.data.forEach((element) {
+        Get.find<LoaderController>().medicineList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
+      print('get-Products-By-Category-data ------>> ${getProductsByCategoryModel.data}');
     } else {
+      Get.find<LoaderController>().updateDataController(false);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: 'FAILED!',
+              titleColor: customDialogErrorColor,
+              descriptions: getProductsByCategoryModel.message,
+              text: 'Ok',
+              functionCall: () {
+                Navigator.pop(context);
+              },
+              img: 'assets/dialog_error.svg',
+            );
+          });
+    }
+  } else if (!responseCheck && response == null) {
+    Get.find<LoaderController>().updateDataController(false);
+
+    print('Exception........................');
+    // Get.find<AppController>().changeServerErrorCheck(true);
+  }
+}
+getProductsByCategoryRepoMore(
+    bool responseCheck, Map<String, dynamic> response, BuildContext context) {
+  if (responseCheck) {
+    getProductsByCategoryModel = GetProductByCategoryModel.fromJson(response);
+
+    if (getProductsByCategoryModel.status == true) {
+      getProductsByCategoryModel.data.data.forEach((element) {
+        Get.find<LoaderController>().medicineList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
+      print('get-Products-By-Category-data ------>> ${getProductsByCategoryModel.data}');
+    } else {
+      Get.find<LoaderController>().updateDataController(false);
       showDialog(
           context: context,
           builder: (BuildContext context) {

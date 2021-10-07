@@ -15,11 +15,40 @@ getAllOrdersRepo(
   final LoaderController c = Get.put(LoaderController());
   print('bk is heree');
   if (responseCheck) {
-    Get.find<LoaderController>().updateDataController(false);
     getAllOrdersModel = GetAllOrdersModel.fromJson(response);
     if (getAllOrdersModel.status == true) {
+      Get.find<LoaderController>().recentOrderList = [];
+      getAllOrdersModel.data.data.forEach((element) {
+        Get.find<LoaderController>().recentOrderList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
       print('get-all_Orderss-data ------>> ${getAllOrdersModel.data}');
     } else {
+      Get.find<LoaderController>().updateDataController(false);
+
+    }
+  } else if (!responseCheck && response == null) {
+    Get.find<LoaderController>().updateDataController(false);
+
+    print('Exception........................');
+    // Get.find<AppController>().changeServerErrorCheck(true);
+  }
+}
+
+getAllOrdersRepoMore(
+    bool responseCheck, Map<String, dynamic> response, BuildContext context) {
+  final LoaderController c = Get.put(LoaderController());
+  print('bk is heree');
+  if (responseCheck) {
+    getAllOrdersModel = GetAllOrdersModel.fromJson(response);
+    if (getAllOrdersModel.status == true) {
+      getAllOrdersModel.data.data.forEach((element) {
+        Get.find<LoaderController>().recentOrderList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
+      print('get-all_Orderss-data ------>> ${getAllOrdersModel.data}');
+    } else {
+      Get.find<LoaderController>().updateDataController(false);
 
     }
   } else if (!responseCheck && response == null) {

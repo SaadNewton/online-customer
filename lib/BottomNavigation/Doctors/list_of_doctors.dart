@@ -43,30 +43,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
             title: Text(locale.cardio!),
             textTheme: Theme.of(context).textTheme,
             actions: [
-              Stack(
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.sort),
-                        color: Theme.of(context).disabledColor,
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, PageRoutes.sortFilterPage);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.map),
-                        color: Theme.of(context).disabledColor,
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, PageRoutes.doctorMapView);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              )
+
             ],
           ),
           body: _.dataLoader

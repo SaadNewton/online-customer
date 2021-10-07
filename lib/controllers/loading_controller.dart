@@ -1,12 +1,16 @@
 
 import 'dart:io';
 
+import 'package:doctoworld_user/Models/agora_model.dart';
+import 'package:doctoworld_user/Models/get_all_doctors_model.dart';
+import 'package:doctoworld_user/Models/get_all_orders_model.dart';
 import 'package:doctoworld_user/Models/get_clinic_schedule.dart';
 import 'package:doctoworld_user/Models/get_clinics_model.dart';
 import 'package:doctoworld_user/Models/get_doctor_from_search_model.dart';
 import 'package:doctoworld_user/Models/get_lab_from_search.dart';
 import 'package:doctoworld_user/Models/get_medicine_from_search_model.dart';
 import 'package:doctoworld_user/Models/get_online_schedule.dart';
+import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -144,5 +148,40 @@ class LoaderController extends GetxController {
   GetMedicineFromSearchModel getMedicineFromSearchModel = GetMedicineFromSearchModel();
   GetDoctorFromSearchModel getDoctorFromSearchModel = GetDoctorFromSearchModel();
   GetLabFromSearch getLabFromSearch = GetLabFromSearch();
+
+  AgoraModel agoraModel = AgoraModel();
+  AgoraModel agoraModelDefault = AgoraModel();
+
+  updateAgoraModel(AgoraModel newAgoraModel){
+    agoraModel = newAgoraModel;
+    update();
+  }
+  updateAgoraModelDefault(AgoraModel newAgoraModel){
+    agoraModelDefault = newAgoraModel;
+    update();
+  }
+
+  String? otherRoleToken;
+  updateOtherRoleToken(String newToken){
+    newToken = otherRoleToken!;
+    update();
+  }
+  int callerType = 2;
+  updateCallerType(int i){
+    callerType = i;
+    update();
+  }
+
+  int doctorPage = 1;
+  List<DoctorDetailData> doctorsList = [];
+
+  int medicinePage = 1;
+  List<ProductDetailData> medicineList = [];
+
+  int categoryMedicinePage = 1;
+  List<ProductDetailData> categoryMedicineList = [];
+
+  int recentOrderPage = 1;
+  List<SingleOrderDetail> recentOrderList = [];
 
 }

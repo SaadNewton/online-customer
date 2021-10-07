@@ -13,11 +13,51 @@ getAllDoctorsRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   final LoaderController c = Get.put(LoaderController());
   if (responseCheck) {
-    Get.find<LoaderController>().updateDataController(false);
     allDoctorsModel = GetAllDoctorsModel.fromJson(response);
     if (allDoctorsModel.status == true) {
+      Get.find<LoaderController>().doctorsList = [];
+      allDoctorsModel.data.data.forEach((element) {
+        Get.find<LoaderController>().doctorsList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
       print('get-all_Doctors-data ------>> ${allDoctorsModel.data}');
     } else {
+      Get.find<LoaderController>().updateDataController(false);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: 'FAILED!',
+              titleColor: customDialogErrorColor,
+              descriptions: allDoctorsModel.message,
+              text: 'Ok',
+              functionCall: () {
+                Navigator.pop(context);
+              },
+              img: 'assets/dialog_error.svg',
+            );
+          });
+    }
+  } else if (!responseCheck && response == null) {
+    Get.find<LoaderController>().updateDataController(false);
+
+    print('Exception........................');
+    // Get.find<AppController>().changeServerErrorCheck(true);
+  }
+}
+getAllDoctorsRepoMore(
+    bool responseCheck, Map<String, dynamic> response, BuildContext context) {
+  final LoaderController c = Get.put(LoaderController());
+  if (responseCheck) {
+    allDoctorsModel = GetAllDoctorsModel.fromJson(response);
+    if (allDoctorsModel.status == true) {
+      allDoctorsModel.data.data.forEach((element) {
+        Get.find<LoaderController>().doctorsList.add(element);
+      });
+      Get.find<LoaderController>().updateDataController(false);
+      print('get-all_Doctors-data ------>> ${allDoctorsModel.data}');
+    } else {
+      Get.find<LoaderController>().updateDataController(false);
       showDialog(
           context: context,
           builder: (BuildContext context) {

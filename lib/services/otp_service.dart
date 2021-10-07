@@ -55,8 +55,7 @@ verifyOTP(BuildContext context,var otp,bool fromSignUp,postData) async {
     Get.find<LoaderController>().updateFormController(false);
     if (user != null) {
       print('user added by otp');
-      Get.offAll(BottomNavigation());
-      storageBox.write('session', 'true');
+
       if(fromSignUp){
         postMethod(context, customerSignUpService, postData, true, getSignUpUserData ) ;
       }else{

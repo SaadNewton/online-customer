@@ -8,7 +8,7 @@ import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-String? otherRoleToken;
+
 getNotifyTokenRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {
@@ -16,9 +16,9 @@ getNotifyTokenRepo(
     getNotifyTokenModel = GetNotifyTokenModel.fromJson(response);
     if (getNotifyTokenModel.status == true) {
       log('getNotifyTokenModel ------>> ${getNotifyTokenModel.data!.token}');
-     if(!forCustomer){
-       otherRoleToken=getNotifyTokenModel.data!.token;
-     }
+      Get.find<LoaderController>().otherRoleToken = getNotifyTokenModel.data!.token;
+      Get.find<LoaderController>().updateOtherRoleToken(Get.find<LoaderController>().otherRoleToken!);
+
     } else {}
   } else if (!responseCheck && response == null) {
 

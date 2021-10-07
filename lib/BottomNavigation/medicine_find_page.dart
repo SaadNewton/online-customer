@@ -525,6 +525,7 @@ class _FindMedicineState extends State<FindMedicine> {
                               },
                               true,
                               getProductsByCategoryRepo);
+                          Get.find<LoaderController>().medicinePage = 1;
                           Get.to(MedicinesPage(
                               categoryId:  allCategoriesModel.data.data[index].id,
                               categoryName: allCategoriesModel

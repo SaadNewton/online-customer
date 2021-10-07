@@ -2,8 +2,12 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
+import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
+import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
+import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
@@ -355,6 +359,8 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
   getCurrentLocation(BuildContext context) {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
+      longitude=0.0;
+      latitude =0.0;
       setState(() {
         currentPosition = position;
         longitude = currentPosition.longitude;
@@ -408,8 +414,8 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       'full_name' : _nameController.text,
       'phone':    _phoneController.text,
       'address':  _addressController,
-      'lat': 0,
-      'long': 0,
+      'lat': latitude,
+      'long': longitude,
       'front_file': await dio_instance.MultipartFile.fromFile(
         file1.path,
        // filename: fileName1,
@@ -428,7 +434,22 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       response = await dio.post(orderPrescriptionService, data: formData);
       log('postStatusCode---->> ${response.statusCode}');
       log('postResponse---->> ${response.data}');
-      if (response.statusCode.toString() == '200') {
+      if (response.data['status']==true) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+
+              return CustomDialogBox(
+                title: 'Success',
+                titleColor: customDialogSuccessColor,
+                descriptions: response.data['message'].toString(),
+                text: 'Ok',
+                functionCall: () {
+                  Get.to(BottomNavigation());
+                },
+                img: 'assets/dialog_success.svg',
+              );
+            });
         Get.find<LoaderController>().updateFormController(false);
 
       }

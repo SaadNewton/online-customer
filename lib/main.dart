@@ -1,6 +1,8 @@
 // @dart=2.10
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
 import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
 import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Pages/appointment_detail.dart';
@@ -27,30 +29,23 @@ import 'Routes/routes.dart';
 import 'Theme/style.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification.title.toString());
-  String route,channelName;
-
-
-  if(message.data['channelApp']!=null){
-    channelName=message.data['channelApp'];
+  String route,channelName,channelToken;
+  if(message.data['channel']!=null){
+    Get.find<LoaderController>().updateCallerType(1);
+    channelName=message.data['channel'];
+    channelToken=message.data['channel_token'];
+    Get.find<LoaderController>().agoraModelDefault.channelName = message.data['channel'];
+    Get.find<LoaderController>().agoraModelDefault.token = message.data['channel_token'];
+    log('---------------->>${Get.find<LoaderController>().agoraModelDefault.token}');
+    log('---------------->>${Get.find<LoaderController>().agoraModelDefault.channelName}');
+    Get.find<LoaderController>().updateAgoraModelDefault(Get.find<LoaderController>().agoraModelDefault);
   }
   if(message.data['routeApp']!=null){
     route=message.data['routeApp'];
     Get.toNamed(route);
 
   }
-  // if (message.data['channel'] != null) {
-  //   channelName = message.data['channel'];
-  //
-  //   // Get.toNamed(route,
-  //   //     arguments: JoinChannelVideo(
-  //   //       channelId: channelName,
-  //   //     ));
-  //
-  // } else {
-  //   Get.toNamed(route);
-  // }
+
   LocalNotificationService.display(message);
 }
 void main() async {
@@ -76,9 +71,18 @@ class _DoctoState extends State<Docto> {
     LocalNotificationService.initialize(context);
     // TODO: implement initState
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-      String route,channelName;
-      if(message.data['channelApp']!=null){
-        channelName=message.data['channelApp'];
+
+      String route,channelName,channelToken;
+      if(message.data['channel']!=null){
+        Get.find<LoaderController>().updateCallerType(1);
+        channelName=message.data['channel'];
+        channelToken=message.data['channel_token'];
+        Get.find<LoaderController>().agoraModelDefault.channelName = message.data['channel'];
+        Get.find<LoaderController>().agoraModelDefault.token = message.data['channel_token'];
+
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.token}');
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.channelName}');
+        Get.find<LoaderController>().updateAgoraModelDefault(Get.find<LoaderController>().agoraModelDefault);
       }
       if(message.data['routeApp']!=null){
         route=message.data['routeApp'];
@@ -101,6 +105,7 @@ class _DoctoState extends State<Docto> {
 
     ///forground messages
     FirebaseMessaging.onMessage.listen((message) {
+
       print('foreground messages----->>');
       print(message.notification.toString());
 
@@ -108,11 +113,18 @@ class _DoctoState extends State<Docto> {
         print(message.notification.body.toString());
         print(message.notification.title);
       }
-      String route,channelName;
+      String route,channelName,channelToken;
+      if(message.data['channel']!=null){
+        Get.find<LoaderController>().updateCallerType(1);
+        channelName=message.data['channel'];
+        channelToken=message.data['channel_token'];
+        Get.find<LoaderController>().agoraModelDefault.channelName = message.data['channel'];
+        Get.find<LoaderController>().agoraModelDefault.token = message.data['channel_token'];
 
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.token}');
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.channelName}');
+        Get.find<LoaderController>().updateAgoraModelDefault(Get.find<LoaderController>().agoraModelDefault);
 
-      if(message.data['channelApp']!=null){
-        channelName=message.data['channelApp'];
       }
       if(message.data['routeApp']!=null){
         route=message.data['routeApp'];
@@ -123,11 +135,17 @@ class _DoctoState extends State<Docto> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      String route,channelName;
+      String route,channelName,channelToken;
+      if(message.data['channel']!=null){
+        Get.find<LoaderController>().updateCallerType(1);
+        channelName=message.data['channel'];
+        channelToken=message.data['channel_token'];
+        Get.find<LoaderController>().agoraModelDefault.channelName = message.data['channel'];
+        Get.find<LoaderController>().agoraModelDefault.token = message.data['channel_token'];
 
-
-      if(message.data['channelApp']!=null){
-        channelName=message.data['channelApp'];
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.token}');
+        log('---------------->>${Get.find<LoaderController>().agoraModelDefault.channelName}');
+        Get.find<LoaderController>().updateAgoraModelDefault(Get.find<LoaderController>().agoraModelDefault);
       }
       if(message.data['routeApp']!=null){
         route=message.data['routeApp'];
@@ -168,7 +186,9 @@ class _DoctoState extends State<Docto> {
       theme: appTheme,
       home: SplashScreen(),
       routes: {
-        '/allAppointments':(context)=>AppointmentPage()
+        '/allAppointments':(context)=>AppointmentPage(),
+        '/joinVideo':(context)=>JoinChannelVideo(),
+        '/recentOrders':(context)=>RecentOrdersPage(),
       },
       debugShowCheckedModeBanner: false,
     );

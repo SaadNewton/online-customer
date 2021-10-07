@@ -45,10 +45,11 @@ class _DoctorsHomeState extends State<DoctorsHome> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Get.find<LoaderController>().updateDataController(true);
       Get.find<LoaderController>().doctorCategoryCheck(true);
+      Get.find<LoaderController>().doctorPage = 1;
     });
     getUserDetailRepo();
 
-    getMethod(context, getAllDoctorsService, null, true, getAllDoctorsRepo);
+    getMethod(context, getAllDoctorsService, {'page':1}, true, getAllDoctorsRepo);
     getMethod(context, getDoctorCategoriesService, {'page':1}, true,
         getAllDoctorCategoriesRepo);
     super.initState();
@@ -100,14 +101,15 @@ class _DoctorsBodyState extends State<DoctorsBody> {
   bool showSlots = false;
   int? doctorId;
   List<DoctorDetail> doctorList = List.generate(
-      allDoctorsModel.data!.data!.length,
-      (index) => DoctorDetail(allDoctorsModel.data!.data![index].id!,
-          allDoctorsModel.data!.data![index].image ?? 'user',
-          allDoctorsModel.data!.data![index].name ?? 'Doctor',
-          allDoctorsModel.data!.data![index].fees ?? 0,
-          allDoctorsModel.data!.data![index].qualification ?? 'Testing',
-          allDoctorsModel.data!.data![index].startTime ?? '0.00',
-          allDoctorsModel.data!.data![index].endTime ?? '0.00',
+      Get.find<LoaderController>().doctorsList.length,
+      (index) => DoctorDetail(
+          Get.find<LoaderController>().doctorsList[index].id!,
+          Get.find<LoaderController>().doctorsList[index].image ?? 'user',
+          Get.find<LoaderController>().doctorsList[index].name ?? 'Doctor',
+          Get.find<LoaderController>().doctorsList[index].fees ?? 0,
+          Get.find<LoaderController>().doctorsList[index].qualification ?? 'Testing',
+          Get.find<LoaderController>().doctorsList[index].startTime ?? '0.00',
+          Get.find<LoaderController>().doctorsList[index].endTime ?? '0.00',
           'speciality'));
   @override
   Widget build(BuildContext context) {
@@ -289,7 +291,6 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                               bottom: 10.0, left: 10, right: 10),
                           child: GestureDetector(
                             onTap: () {
-
                               Get.to(DoctorInfo(
                                 docId: doctorList[index].id,
                               ));
@@ -496,6 +497,38 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                 );
               },
             ),
+            allDoctorsModel.status == false
+                ?SizedBox()
+                : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(child: InkWell(
+                  onTap: (){
+
+                    Get.find<LoaderController>().doctorPage = Get.find<LoaderController>().doctorPage+1;
+                    Get.find<LoaderController>().updateDataController(true);
+                    getMethod(context, getAllDoctorsService,
+                        {'page':Get.find<LoaderController>().doctorPage},
+                        true, getAllDoctorsRepoMore);
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Load more',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14
+                        ),
+                      ),
+                    ),
+                  )
+              )),
+            )
           ],
         ),
       ),

@@ -28,11 +28,13 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Get.find<LoaderController>().updateDataController(true);
+      Get.find<LoaderController>().medicinePage = 1;
     });
     getMethod(
         context,
         getProductByCategoryService,
         {'category_id': allCategoriesModel.data.data[0].id,
+          'page':1
         },
         true,
         getProductsByCategoryRepo);
@@ -62,7 +64,6 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
                   children: [
                     Expanded(
                       child: ListView.builder(
-
                           physics: BouncingScrollPhysics(),
                           itemCount: allCategoriesModel.data.data.length,
                           itemBuilder: (context, index) {
@@ -156,7 +157,7 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
-                            itemCount: getProductsByCategoryModel.data!.data!.length,
+                            itemCount: Get.find<LoaderController>().medicineList.length,
                             itemBuilder: (context, index) => Container(
                               margin:
                                   EdgeInsetsDirectional.only(start: 16, bottom: 8),
@@ -167,13 +168,12 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(ProductInfo(
-                                    medicineDetail:getProductsByCategoryModel.data!.data![index] ,
+                                    medicineDetail:Get.find<LoaderController>().medicineList[index] ,
                                   ));
                                 },
                                 child: ListTile(
                                   title: FadedScaleAnimation(
-                                    Text(getProductsByCategoryModel
-                                        .data!.data![index].name!),
+                                    Text(Get.find<LoaderController>().medicineList[index].name!),
                                     durationInMilliseconds: 400,
                                   ),
                                   trailing: Icon(Icons.arrow_forward_ios),
@@ -181,28 +181,45 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
                               ),
                             ),
                           ),
-                          Padding(
+                          getProductsByCategoryModel.status == false
+                              ? SizedBox()
+                              : Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Center(child: InkWell(
+                            child: Center(
+                                child: InkWell(
                                 onTap: (){
-                                  setState(() {
-                                    medicinePageNumber=medicinePageNumber+1;
-                                  });
+                                  Get.find<LoaderController>().medicinePage =
+                                      Get.find<LoaderController>().medicinePage + 1;
                                   Get.find<LoaderController>().updateDataController(true);
                                   getMethod(
                                       context,
                                       getProductByCategoryService,
                                       {
-                                        'category_id':
-                                        categoryId,
-                                        'page':medicinePageNumber
+                                        'category_id': categoryId,
+                                        'page':Get.find<LoaderController>().medicinePage
                                       },
                                       true,
-                                      getProductsByCategoryRepo);
+                                      getProductsByCategoryRepoMore
+                                  );
                                 },
-                                child: SvgPicture.asset('assets/refresh-button.svg',
-                                height: 40,
-                                color: Theme.of(context).primaryColor,))),
+                                child: Container(
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius: BorderRadius.circular(5)
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Load more',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            )),
                           )
                         ],
                       ),

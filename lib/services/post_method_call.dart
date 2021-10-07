@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio_instance;
-import 'package:dio/dio.dart';
 import 'package:doctoworld_user/services/headers.dart';
+import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +26,12 @@ postMethod(
 
     print('token ' + storageBox!.read('authToken'));
   }
+  if(apiUrl == fcmService){
+    setCustomHeader(dio, 'Content-Type', 'application/json');
+    setCustomHeader(dio, 'Authorization', 'key=AAAAP9EQh1k:APA91bGVtLnlorWNnVgzRIcy1SVxuhhamHL7nSTJbQ3bWZeXRWOHMCZMw4q_XLyLt82j'
+        '0WqqDU-R6jITJq9hpqIn-l3u0IseUX_NR-UYYWJ4wvgYJiWG42HGpxGOI4lpr3desi1_YnWC');
+
+  }
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -40,8 +46,8 @@ postMethod(
           print(response.data.toString());
           executionMethod(false, null, context);
         }
-      } on DioError catch (e) {
-        print('Dio Error From Post $apiUrl -->> ${e.response!.data.toString()}');
+      } on dio_instance.DioError catch (e) {
+        print('Dio Error From Post $apiUrl -->> ${e.toString()}');
         executionMethod(false, null, context);
         // messageShowService(response.data,false);
       }

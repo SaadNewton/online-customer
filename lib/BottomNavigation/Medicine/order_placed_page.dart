@@ -1,8 +1,11 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
+import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OrderPlacedPage extends StatefulWidget {
   @override
@@ -14,15 +17,6 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            locale.orderPlaced!,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
-          ),
-          automaticallyImplyLeading: false,
-        ),
         body: FadedSlideAnimation(
           Stack(
             children: [
@@ -56,7 +50,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, PageRoutes.recentOrder);
+                    Get.to(RecentOrdersPage());
                       },
                       child: Text(
                         locale.myOrders!,
@@ -76,7 +70,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
                   onTap: () {
-                    Navigator.pushNamed(context, PageRoutes.bottomNavigation);
+                  Get.to(BottomNavigation());
                   },
                   label: locale.continueShopping,
                   radius: 0,

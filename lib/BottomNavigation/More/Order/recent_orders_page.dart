@@ -20,15 +20,18 @@ class RecentOrdersPage extends StatefulWidget {
 }
 
 class _RecentOrdersPageState extends State<RecentOrdersPage> {
-
+int? orderCurrentPage;
   @override
   void initState() {
     // TODO: implement initState
+    orderCurrentPage=0;
     WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Get.find<LoaderController>().recentOrderPage = 1;
       Get.find<LoaderController>().updateDataController(true);
     });
     getMethod(context, getAllOrdersService,
-        {'customer_id':storageBox!.read('customerId')}, true, getAllOrdersRepo);
+        {'customer_id':storageBox!.read('customerId'),
+        'page':orderCurrentPage}, true, getAllOrdersRepo);
     super.initState();
   }
   
@@ -43,44 +46,87 @@ class _RecentOrdersPageState extends State<RecentOrdersPage> {
         ),
         body: GetBuilder<LoaderController>(
           init: LoaderController(),
-          builder:(_)=>_.dataLoader?Center(child: CircularProgressIndicator(),):
-getAllOrdersModel.status==false?Center(child: Text(getAllOrdersModel.message!),):
-          FadedSlideAnimation(
+          builder:(_)=>_.dataLoader
+              ? Center(child: CircularProgressIndicator(),)
+              : (getAllOrdersModel.status==false && Get.find<LoaderController>().recentOrderList.length == 0)
+              ? Center(child: Text(getAllOrdersModel.message!),)
+              : FadedSlideAnimation(
             ListView(
               physics: BouncingScrollPhysics(),
               children: [
                 Container(
                   padding: EdgeInsets.all(16),
                   child: Text(
-                    locale.inProcess!,
+                    'Pending',
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                   color: Theme.of(context).dividerColor,
                 ),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: getAllOrdersModel.data!.data!.length,
+                  itemCount: Get.find<LoaderController>().recentOrderList.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) =>
-                       getAllOrdersModel.data!.data![index].status=='pending'?
-                       OrderCard(getAllOrdersModel.data!.data![index]):SizedBox(),
+                  Get.find<LoaderController>().recentOrderList[index].status=='pending'?
+                       OrderCard(Get.find<LoaderController>().recentOrderList[index]):SizedBox(),
                 ),
 
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    locale.past!,
-                    style: Theme.of(context).textTheme.subtitle2,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      locale.inProcess!,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    color: Theme.of(context).dividerColor,
                   ),
-                  color: Theme.of(context).dividerColor,
                 ),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: getAllOrdersModel.data!.data!.length,
+                  itemCount: Get.find<LoaderController>().recentOrderList.length,
                   shrinkWrap: true,
-                  itemBuilder: (context, index) => getAllOrdersModel.data!.data![index].status=='delivered'?
-                  OrderCard(getAllOrdersModel.data!.data![index]):SizedBox(),
+                  itemBuilder: (context, index) =>
+                  Get.find<LoaderController>().recentOrderList[index].status!=null &&
+                      Get.find<LoaderController>().recentOrderList[index].status!='pending'
+                      ? OrderCard(Get.find<LoaderController>().recentOrderList[index])
+                      : SizedBox(),
                 ),
+
+                getAllOrdersModel.status == false
+                    ?SizedBox()
+                    : Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(child: InkWell(
+                      onTap: (){
+
+                        Get.find<LoaderController>().recentOrderPage =
+                            Get.find<LoaderController>().recentOrderPage+1;
+                        Get.find<LoaderController>().updateDataController(true);
+                        getMethod(context, getAllOrdersService,
+                            {'customer_id':storageBox!.read('customerId'),
+                              'page':Get.find<LoaderController>().recentOrderPage},
+                            true, getAllOrdersRepoMore);
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Load more',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14
+                            ),
+                          ),
+                        ),
+                      )
+                  )),
+                )
               ],
             ),
             beginOffset: Offset(0, 0.3),
@@ -117,26 +163,23 @@ class OrderCard extends StatelessWidget {
               children: [
                 Text('Order : ${orderCard.id}'),
                 Spacer(),
-                Text(
-                  orderCard.status!.toUpperCase(),
+                orderCard.status!=null?Text(
+                  orderCard.status!.toString().replaceAll('_', ' ').toUpperCase(),
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: orderCard.status!.toLowerCase() == 'pending'
-                          ? inProcessColor
-                          : orderCard.status!.toLowerCase() == 'delivered'
-                              ? kMainColor
-                              : kMainTextColor),
-                ),
+                      color: kMainTextColor),
+                ):SizedBox(),
               ],
             ),
             subtitle: Row(
               children: [
+                orderCard.createdAt == null ? SizedBox() :
                 Text(
                   DateFormat('dd MMM yyyy').format(DateTime.parse(orderCard.createdAt!)),
                   style: Theme.of(context).textTheme.caption,
                 ),
                 Spacer(),
-                Text(
-                  '\$' + orderCard.totalPrice! + ' | ' + orderCard.paymentMethod!,
+                orderCard.totalPrice==null || orderCard.paymentMethod==null?SizedBox(): Text(
+                  'Rs. ' + orderCard.totalPrice! + ' | ' + orderCard.paymentMethod!,
                   style: Theme.of(context).textTheme.caption,
                 ),
               ],

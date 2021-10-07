@@ -3,6 +3,7 @@ import 'package:doctoworld_user/Auth/Login/UI/login_ui.dart';
 import 'package:doctoworld_user/Auth/phone_auth.dart';
 import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
 import 'package:doctoworld_user/BottomNavigation/More/Wallet/wallet_page.dart';
+import 'package:doctoworld_user/BottomNavigation/More/tnc.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Pages/contact_us_ui.dart';
 import 'package:doctoworld_user/Pages/customer_change_password.dart';
@@ -73,7 +74,7 @@ class _MoreOptionsState extends State<MoreOptions> {
         Get.to(ContactUs());
       }),
       MenuTile(locale.tandc, locale.companyPolicy, Icons.assignment, () {
-        Navigator.pushNamed(context, PageRoutes.tncPage);
+       Get.to(TnCPage());
       }),
       MenuTile('Password Change', 'Change your password', Icons.lock, () {
         Get.to(ChangePassword());

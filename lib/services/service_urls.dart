@@ -2,14 +2,14 @@ import 'package:flutter/rendering.dart';
 
 /// base url
 ///
-String baseUrl = 'http://192.168.88.43:8000/api/';
+String baseUrl = 'http://192.168.88.44:8000/api/';
 // String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
 
 
 
 /// image base url
 ///
-String imageBaseUrl = 'http://192.168.88.43:8000/';
+String imageBaseUrl = 'http://192.168.88.44:8000/';
 // String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
 
 String getDoctorProfileService = baseUrl + 'get-doctor-profile';
@@ -164,3 +164,5 @@ String fcmService = 'https://fcm.googleapis.com/fcm/send';
 
 String walletHistoryService = baseUrl + 'get-wallet-by-user-type';
 String addMoneyService = baseUrl + 'store-wallet';
+
+String agoraService = baseUrl + 'agora-token';

@@ -26,6 +26,7 @@ class _LabsHomeState extends State<LabsHome> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Get.find<LocationController>().loadMore = false;
       Get.find<LoaderController>().updateDataController(true);
       labPage=1;
       /// get labs repo will be called in getCurrentLocation method
@@ -93,7 +94,9 @@ class _LabsBodyState extends State<LabsBody> {
     var locale = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: getAllLabsModel.status==false?Center(child: Text(getAllLabsModel.message!),):ListView(
+      body: (getAllLabsModel.status==false && Get.find<LocationController>().labsList.length == 0)
+          ?Center(child: Text(getAllLabsModel.message!),)
+          :ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           Padding(
@@ -189,19 +192,36 @@ class _LabsBodyState extends State<LabsBody> {
             ),
           ),
           LabsList(),
-          Padding(
+          getAllLabsModel.status==false
+              ?SizedBox()
+              : Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(child: InkWell(
                 onTap: (){
 
                     labPage=labPage+1;
-
+                    Get.find<LocationController>().loadMore = true;
                   Get.find<LoaderController>().updateDataController(true);
                   Get.find<LocationController>().getCurrentLocation(context);
                 },
-                child: SvgPicture.asset('assets/refresh-button.svg',
-                  height: 40,
-                  color: Theme.of(context).primaryColor,))),
+                child: Container(
+                  height: 30,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Load more',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14
+                      ),
+                    ),
+                  ),
+                )
+            )),
           )
         ],
       ),
@@ -211,13 +231,13 @@ class _LabsBodyState extends State<LabsBody> {
 
 class LabsList extends StatelessWidget {
   final List<LabDetail> _Labs = List.generate(
-      getAllLabsModel.data!.data!.length,
+      Get.find<LocationController>().labsList.length,
       (index) => LabDetail(
-          getAllLabsModel.data!.data![index].imagePath??'user',
-          getAllLabsModel.data!.data![index].name??'testing',
-          getAllLabsModel.data!.data![index].city??'testing',
-          getAllLabsModel.data!.data![index].address??'testing',
-          getAllLabsModel.data!.data![index]));
+          Get.find<LocationController>().labsList[index].imagePath??'user',
+          Get.find<LocationController>().labsList[index].name??'testing',
+          Get.find<LocationController>().labsList[index].city??'testing',
+          Get.find<LocationController>().labsList[index].address??'testing',
+          Get.find<LocationController>().labsList[index]));
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +250,7 @@ class LabsList extends StatelessWidget {
         return InkWell(
           onTap: () {
             Get.to(LabInfo(
-              labDetail: getAllLabsModel.data!.data![index],
+              labDetail: Get.find<LocationController>().labsList[index],
             ));
           },
           child: Column(

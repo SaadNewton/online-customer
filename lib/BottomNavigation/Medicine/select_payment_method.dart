@@ -72,8 +72,8 @@ class _ChoosePaymentMethodState extends State<ChoosePaymentMethod> {
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, PageRoutes.orderPlacedPage);
+                            // Navigator.pushNamed(
+                            //     context, PageRoutes.orderPlacedPage);
                           },
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 16, vertical: 7),

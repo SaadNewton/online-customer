@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/BottomNavigation/More/payment_method_screen.dart';
+import 'package:doctoworld_user/Checkout/confirm_order.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
@@ -284,8 +285,8 @@ init:LoaderController(),
                                     children: [
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, PageRoutes.offersPage);
+                                          // Navigator.pushNamed(
+                                          //     context, PageRoutes.offersPage);
                                         },
                                         child: Text(
                                           locale.viewOffers!.toUpperCase(),
@@ -458,7 +459,7 @@ init:LoaderController(),
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, PageRoutes.confirmOrderPage);
+        Get.to(ConfirmOrder());
                 },
                 child: Text(
                   locale.uploadPrescription!,

@@ -32,8 +32,13 @@ class _MedicinesPageState extends State<MedicinesPage> {
   void initState() {
     // TODO: implement initState
     isCartPage=false;
-    getMethod(context, getCartProductsService,
-        {'customer_id':storageBox!.read('customerId')}, true, getAllCartItemsRepo);
+    getMethod(
+        context,
+        getCartProductsService,
+        {'customer_id':storageBox!.read('customerId')},
+        true,
+        getAllCartItemsRepo
+    );
     super.initState();
   }
 
@@ -94,9 +99,10 @@ class _MedicinesPageState extends State<MedicinesPage> {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : getProductsByCategoryModel.status==false?Center(child: Text(
-                  getProductsByCategoryModel.message!
-              ),):FadedSlideAnimation(
+                  : getProductsByCategoryModel.status==false
+                  ?Center(child: Text(
+                  getProductsByCategoryModel.message!),)
+                  :FadedSlideAnimation(
                       Medicines(categoryId: widget.categoryId,),
                       beginOffset: Offset(0, 0.3),
                       endOffset: Offset(0, 0),
@@ -135,13 +141,14 @@ class _MedicinesState extends State<Medicines> {
   @override
   Widget build(BuildContext context) {
     List<MedicineInfo> _myItems = List.generate(
-      getProductsByCategoryModel.data!.data!.length,
+      Get.find<LoaderController>().medicineList.length,
       (index) => MedicineInfo(
-          getProductsByCategoryModel.data!.data![index].imagePath ?? 'user',
-          getProductsByCategoryModel.data!.data![index].name!,
-          getProductsByCategoryModel.data!.data![index].salePrice!,
+          Get.find<LoaderController>().medicineList[index].imagePath ?? 'user',
+          Get.find<LoaderController>().medicineList[index].name!,
+          Get.find<LoaderController>().medicineList[index].salePrice!,
           false,
-          index),
+          index
+      ),
     );
     return Scaffold(
       body: Container(
@@ -230,29 +237,47 @@ class _MedicinesState extends State<Medicines> {
                     ),
                   );
                 }),
-           Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: Center(child: InkWell(
-                 onTap: (){
-                   setState(() {
-                     medicinePageNumber=medicinePageNumber!+1;
-                   });
-                   Get.find<LoaderController>().updateDataController(true);
-                   getMethod(
-                       context,
-                       getProductByCategoryService,
-                       {
-                         'category_id':
-                         widget.categoryId,
-                         'page':medicinePageNumber
-                       },
-                       true,
-                       getProductsByCategoryRepo);
-                 },
-                 child: SvgPicture.asset('assets/refresh-button.svg',
-                   height: 40,
-                   color: Theme.of(context).primaryColor,))),
-           )
+
+            getProductsByCategoryModel.status == false
+                ?SizedBox()
+                : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(child: InkWell(
+                  onTap: (){
+                    Get.find<LoaderController>().medicinePage =
+                        Get.find<LoaderController>().medicinePage+1;
+                    Get.find<LoaderController>().updateDataController(true);
+                    getMethod(
+                        context,
+                        getProductByCategoryService,
+                        {
+                          'category_id': widget.categoryId,
+                          'page': Get.find<LoaderController>().medicinePage
+                        },
+                        true,
+                        getProductsByCategoryRepoMore
+                    );
+
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Load more',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14
+                        ),
+                      ),
+                    ),
+                  )
+              )),
+            ),
           ],
         ),
       ),

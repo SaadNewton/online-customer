@@ -7,5 +7,3 @@ String agoraToken='0065960b0461e6c4b0a842848d82653e870IACgtgiTGYodcsWAlyb3JGrDQ6
 /// Your int user ID
 const uid = 1;
 
-/// Your string user ID
-const stringUid = 'bk';

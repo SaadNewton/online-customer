@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/Medicine/order_placed_page.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
@@ -9,7 +10,9 @@ import 'package:doctoworld_user/controllers/cart_controller.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/confirm_order_repo.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
 import 'package:doctoworld_user/repositories/get_user_detail_reop.dart';
+import 'package:doctoworld_user/services/get_method_call.dart';
 import 'package:doctoworld_user/services/post_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
@@ -19,7 +22,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
+int currentTabIndex=0;
 class ConfirmOrder extends StatefulWidget {
   final paymentMethodId;
   ConfirmOrder({this.paymentMethodId});
@@ -42,12 +45,25 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
   TextEditingController locationController=TextEditingController();
   TextEditingController nameController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
-  int currentTabIndex=0;
+
 
   @override
   void initState() {
     // TODO: implement initState
     getUserDetailRepo();
+    currentTabIndex=0;
+    if(getCartItemsModel.data![0].type=='test'){
+      getMethod(
+          context,
+          getNotifyTokenService,
+          {
+            'user_id': getCartItemsModel.data![0].labId,
+            'role': 'lab_owner'
+          },
+          false,
+          getNotifyTokenRepo);
+    }
+
     locationController.text=userDetailModel.data.address;
     nameController.text=userDetailModel.data.name;
     phoneController.text=userDetailModel.data.phone;
@@ -457,9 +473,8 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
                             Expanded(
                               child: CustomButton(
                                 onTap: () {
-                                  setState(() {
-                                    currentTabIndex=2;
-                                  });
+                                  log('---------> '+getCartItemsModel.data![0].type.toString());
+                                  orderTypeMedicine=getCartItemsModel.data![0].type=='test'?false:true;
                                   Get.find<LoaderController>().updateFormController(true);
                                   postMethod(context, orderPlaceService, {'customer_id':storageBox!.read('customerId'),
                                     'full_name':nameController.text,
@@ -507,7 +522,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
         break;
       case 2 :
         {
-          return Container();
+          return OrderPlacedPage();
         }
 
     }

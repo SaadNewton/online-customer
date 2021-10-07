@@ -41,7 +41,7 @@ bookAppointmentRepo(
               'routeWeb': 'doctor/appointment',
               'routeApp':'/allAppointments',
             },
-            'to': otherRoleToken,
+            'to': Get.find<LoaderController>().otherRoleToken,
           },
           false,
           method);

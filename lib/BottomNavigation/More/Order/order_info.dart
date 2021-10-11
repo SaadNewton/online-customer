@@ -4,6 +4,9 @@ import 'package:doctoworld_user/Models/get_all_orders_model.dart';
 import 'package:doctoworld_user/Models/order_card_model.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
+import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/repositories/prescription_order_change_status_repo.dart';
+import 'package:doctoworld_user/services/post_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
@@ -336,9 +339,40 @@ class OrderInfoPage extends StatelessWidget {
                   //   trailing:
                   //       Text('\$ 26.00', style: theme.textTheme.subtitle1),
                   // ),
+                  orderDetail!.status == 'in_review' || orderDetail!.status == 'review' ? InkWell(
+
+                    onTap: (){
+                      Get.find<LoaderController>().updateDataController(true);
+                      postMethod(context,
+                          orderStatusService,
+                           {
+                             'order_id': orderDetail!.id,
+                             'status': 'accepted'
+
+                           },
+                          true,
+                          prescriptionOrderStatus
+                      );
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: Center(child: Text('Accept',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14
+                        ),
+                      )),
+                    ),
+                  ):  SizedBox(),
+                  SizedBox(height: 5.0),
                 ],
               ),
-            )
+            ),
           ],
         ),
         beginOffset: Offset(0, 0.3),

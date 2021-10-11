@@ -30,6 +30,7 @@ import 'package:doctoworld_user/Models/get_notify_token_model.dart';
 import 'package:doctoworld_user/Models/get_online_schedule.dart';
 import 'package:doctoworld_user/Models/get_payment_method_model.dart';
 import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
+import 'package:doctoworld_user/Models/prescription_order_status_model.dart';
 import 'package:doctoworld_user/Models/user_detail_model.dart';
 import 'package:flutter/material.dart';
 
@@ -126,6 +127,10 @@ EditProfileModel editProfileModel = EditProfileModel();
 /// Rating Doctor
 
 DoctorRatingModel doctorRatingModel = DoctorRatingModel();
+
+/// Prescription order status change
+
+PrescriptionOrderStatusModel prescriptionOrderStatusModel = PrescriptionOrderStatusModel();
 
 
 GetWalletByUserTypeModel getWalletByUserTypeModel =GetWalletByUserTypeModel();

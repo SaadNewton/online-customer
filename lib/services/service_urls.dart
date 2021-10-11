@@ -166,3 +166,9 @@ String walletHistoryService = baseUrl + 'get-wallet-by-user-type';
 String addMoneyService = baseUrl + 'store-wallet';
 
 String agoraService = baseUrl + 'agora-token';
+
+
+/// prescription order Status change
+
+
+String orderStatusService = baseUrl + 'order-change-status';

@@ -1,3 +1,4 @@
+
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
@@ -544,7 +545,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                                                   ),
                                                                 ),
                                                                 SizedBox(height: 10.0,),
-                                                                rateCheck ? Text('Please Rate First',
+                                                                rateCheck == true ? Text('Please Rate First',
                                                                   style: TextStyle(color: Colors.red),
                                                                 ) : SizedBox(),
                                                                 SizedBox(height: 30,),
@@ -569,12 +570,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                                                   ),
                                                                   child: Center(child: InkWell(
                                                                     onTap: (){
-                                                                      if(_ratingKey.currentState!.validate() && rate != 0.0) {
+                                                                      if(_ratingKey.currentState!.validate() && rate > 0.0) {
 
                                                                         setState(() {
                                                                           rateCheck = false;
 
                                                                         });
+
+
+
 
                                                                         Get.find<LoaderController>().updateFormController(true);
                                                                         postMethod(

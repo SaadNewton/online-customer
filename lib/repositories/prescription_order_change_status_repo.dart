@@ -1,25 +1,28 @@
 import 'dart:developer';
+import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Models/contact_us_model.dart';
+import 'package:doctoworld_user/Models/prescription_order_status_model.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-///-------- Contact us
-contactUsRepo(
+///-------- Order Status change
+prescriptionOrderStatus(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {
-    Get.find<LoaderController>().updateFormController(false);
-    contactUsModel = ContactUsModel.fromJson(response);
-    if (contactUsModel.status == true) {
+    Get.find<LoaderController>().updateDataController(false);
+    prescriptionOrderStatusModel = PrescriptionOrderStatusModel.fromJson(response);
+    if (prescriptionOrderStatusModel.status == true) {
+      Get.off(RecentOrdersPage());
       // storeDataLocally('user_detail', response);
       // storeDataLocally('session', 'active');
       // storeDataLocally('authToken', userDetailModel.data!.auth!.token);
       // Get.offAll(BottomNavigation());
       print(
-          'Contact Us Message------>> ${contactUsModel.message}');
+          'Order Status Message------>> ${prescriptionOrderStatusModel.message}');
 
     } else {
       log('data ' + response.toString());
@@ -29,7 +32,7 @@ contactUsRepo(
             return CustomDialogBox(
               title: 'FAILED!',
               titleColor: customDialogErrorColor,
-              descriptions: contactUsModel.message,
+              descriptions: prescriptionOrderStatusModel.message,
               text: 'Ok',
               functionCall: () {
                 Navigator.pop(context);
@@ -40,7 +43,7 @@ contactUsRepo(
     }
   } else if (!responseCheck && response == null) {
 
-    print('Email not sent');
+    print('Not Accepted');
     Get.find<LoaderController>().updateFormController(false);
 
     print('Exception........................ ' + response.toString());

@@ -62,10 +62,20 @@ getOnSiteClinicsScheduleRepo(
     if (Get.find<LoaderController>().getOnSiteClinicScheduleModel.status == true) {
       Get.find<LoaderController>().onSiteScheduleDateIndex = 0;
       Get.find<LoaderController>().getOnSiteScheduleDateList = [];
-      Get.find<LoaderController>().getOnSiteClinicScheduleModel.data.availableSlots.forEach((element) {
-        Get.find<LoaderController>().updateOnSiteScheduleDateList(
-            element.date.date.toString()
-        );
+      Get.find<LoaderController>().getOnSiteClinicScheduleModel.data.availableSlots
+          .forEach((element) {
+            print('---DATE--->>${element.date.date}');
+            DateTime tempDate = new DateFormat("yyyy-MM-dd").parse(element.date.date);
+
+            print('---DATE--->>${tempDate}');
+            if(tempDate.isBefore(DateTime.now()) ){
+              print('BEFORE--->>>');
+            }else{
+              Get.find<LoaderController>().updateOnSiteScheduleDateList(
+                  element.date.date.toString()
+              );
+            }
+
       });
 
 

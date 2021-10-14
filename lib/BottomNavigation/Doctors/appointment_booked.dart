@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/BottomNavigation/appointments_page.dart';
+import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -18,67 +19,68 @@ class _AppointmentBookedState extends State<AppointmentBooked> {
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
-    return Scaffold(
-      body: FadedSlideAnimation(
-        Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 40),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      locale.appointmentBooked!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 22),
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
+        body: FadedSlideAnimation(
+          Container(
+            padding: EdgeInsets.only(top: 40),
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    locale.appointmentBooked!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 22),
+                  ),
+                  Spacer(flex: 4),
+                  FadedScaleAnimation(
+                    Image.asset(
+                      'assets/Doctors/appointmentbooked.png',
                     ),
-                    Spacer(flex: 4),
-                    FadedScaleAnimation(
-                      Image.asset(
-                        'assets/Doctors/appointmentbooked.png',
-                      ),
-                      durationInMilliseconds: 400,
+                    durationInMilliseconds: 400,
+                  ),
+                  Spacer(flex: 3),
+                  Text(
+                    locale.yourAppointmentBooked!,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5!
+                        .copyWith(color: Theme.of(context).primaryColor),
+                  ),
+                  // Spacer(flex: 1),
+                  // Text(
+                  //   locale.checkMyAppointment!,
+                  //   textAlign: TextAlign.center,
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .headline5!
+                  //       .copyWith(color: kLightTextColor),
+                  // ),
+                  Spacer(flex: 4),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomButton(
+                      onTap: () {
+                        Get.offAll(BottomNavigation());
+                      },
+                      label: 'Continue',
+                      radius: 0,
                     ),
-                    Spacer(flex: 3),
-                    Text(
-                      locale.yourAppointmentBooked!,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(color: Theme.of(context).primaryColor),
-                    ),
-                    Spacer(flex: 1),
-                    Text(
-                      locale.checkMyAppointment!,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(color: kLightTextColor),
-                    ),
-                    Spacer(flex: 4),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomButton(
-                        onTap: () {
-                          Get.to(AppointmentPage());
-                        },
-                        label: locale.myAppointments,
-                        radius: 0,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
-          ],
+            ),
+          ),
+          beginOffset: Offset(0, 0.3),
+          endOffset: Offset(0, 0),
+          slideCurve: Curves.linearToEaseOut,
         ),
-        beginOffset: Offset(0, 0.3),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
       ),
     );
   }

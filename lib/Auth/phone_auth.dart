@@ -102,6 +102,7 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
                                     Get.to(VerificationUI(
                                       number:  loginNumberController,fromSignUpForm: false,
                                       postData: {'role':'customer',
+                                        'login_type':'login_phone',
                                         'phone':loginNumberController.text
                                     },));
                                   }else{
@@ -115,8 +116,10 @@ class _PhoneAuthUIState extends State<PhoneAuthUI> {
                                         loginNumberController.text,
                                         context
                                     );
-                                    Get.to(VerificationUI(number:  loginNumberController,fromSignUpForm: false,
-                                      postData: {'role':'customer',
+                                    Get.to(VerificationUI(number:  loginNumberController,
+                                      fromSignUpForm: false,
+                                      postData: {
+                                      'role':'customer',
                                         'login_type':'login_phone',
                                         'phone':loginNumberController.text
                                       },));

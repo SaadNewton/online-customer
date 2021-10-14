@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:doctoworld_user/Models/agora_model.dart';
+import 'package:doctoworld_user/Models/fetch_chat_model.dart';
 import 'package:doctoworld_user/Models/get_all_doctors_model.dart';
 import 'package:doctoworld_user/Models/get_all_orders_model.dart';
 import 'package:doctoworld_user/Models/get_clinic_schedule.dart';
@@ -28,7 +29,15 @@ class LoaderController extends GetxController {
     dataLoader = value;
     update();
   }
-
+  List<ChatData> messageList = [];
+  updateMessageList(ChatData chatData){
+    messageList.add(chatData);
+    update();
+  }
+  emptyMessageList(){
+    messageList = [];
+    update();
+  }
 /// cart Loader
   bool cartLoader = true;
   updateCartDataController(bool value) {
@@ -138,7 +147,7 @@ class LoaderController extends GetxController {
       print(place.thoroughfare.toString());
       print(place.toJson().toString());
       // FocusScope.of(context).unfocus();
-      currentCity = place.subAdministrativeArea;
+      currentCity = place.subAdministrativeArea.toString();
     } catch (e) {
       print(e);
     }

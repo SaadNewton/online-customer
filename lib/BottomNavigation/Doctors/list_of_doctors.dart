@@ -134,91 +134,94 @@ class _DoctorsListState extends State<DoctorsList> {
                                         ),
                                   durationInMilliseconds: 400,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    RichText(
-                                        text: TextSpan(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2,
-                                            children: <TextSpan>[
-                                          TextSpan(
-                                              text: searchList[i].name + '\n',
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 12,
+                                      ),
+                                      RichText(
+                                          text: TextSpan(
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1),
-                                          TextSpan(
-                                            text: searchList[i].qualification,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .caption!
-                                                .copyWith(
-                                                    color: kButtonTextColor,
-                                                    fontSize: 12),
-                                          ),
-                                        ])),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          searchList[i].startTime + ' | ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                        Text(
-                                          searchList[i].endTime,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RichText(
-                                        text: TextSpan(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                            children: <TextSpan>[
-                                          TextSpan(
-                                              text: 'Fees ',
+                                                  .subtitle2,
+                                              children: <TextSpan>[
+                                            TextSpan(
+                                                text: searchList[i].name + '\n',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
+                                            TextSpan(
+                                              text: searchList[i].qualification,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2),
-                                          TextSpan(
-                                            text: getDoctorsByCategoryModel
-                                                .data!.data![i].fees
-                                                .toString(),
+                                                  .caption!
+                                                  .copyWith(
+                                                      color: kButtonTextColor,
+                                                      fontSize: 12),
+                                            ),
+                                          ])),
+                                      SizedBox(
+                                        height: 12,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            searchList[i].startTime + ' | ',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText1!
-                                                .copyWith(
-                                                    color: Theme.of(context)
-                                                        .disabledColor,
-                                                    fontSize: 12),
+                                                .subtitle1!
+                                                .copyWith(fontSize: 13),
                                           ),
-                                          TextSpan(
-                                            text: ' Rs',
+                                          Text(
+                                            searchList[i].endTime,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .caption!
-                                                .copyWith(
-                                                    color: kButtonTextColor,
-                                                    fontSize: 10),
+                                                .subtitle1!
+                                                .copyWith(fontSize: 13),
                                           ),
-                                        ])),
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      RichText(
+                                          text: TextSpan(
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                              children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Fees ',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2),
+                                            TextSpan(
+                                              text: getDoctorsByCategoryModel
+                                                  .data!.data![i].fees
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .disabledColor,
+                                                      fontSize: 12),
+                                            ),
+                                            TextSpan(
+                                              text: ' Rs',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                      color: kButtonTextColor,
+                                                      fontSize: 10),
+                                            ),
+                                          ])),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

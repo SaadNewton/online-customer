@@ -25,7 +25,7 @@ class OrderInfoPage extends StatelessWidget {
       backgroundColor: theme.dividerColor,
       appBar: AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
-        title: Text(locale.orderNum! + ' ${orderDetail!.customerName}'),
+        title: Text(locale.orderNum! + ' ${orderDetail!.id}'),
         textTheme: theme.textTheme,
         centerTitle: true,
         actions: [
@@ -66,8 +66,10 @@ class OrderInfoPage extends StatelessWidget {
                 ],
               ),
             ),
-            orderDetail!.orderProduct![0].type == 'test' ?
-            Column(
+            orderDetail!.orderProduct!.length == 0
+                ?SizedBox()
+                :orderDetail!.orderProduct![0].type == 'test'
+                ? Column(
               children: [
 
                 Container(
@@ -181,14 +183,15 @@ class OrderInfoPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ):
-            Column(
+            )
+                : Column(
               children: [
 
                 Container(
                   margin: EdgeInsetsDirectional.only(end: 20),
                   decoration:   orderDetail!.status == 'picked'
-      || orderDetail!.status == 'delivered' ?BoxDecoration(
+                      || orderDetail!.status == 'delivered'
+                      ?BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
@@ -339,7 +342,7 @@ class OrderInfoPage extends StatelessWidget {
                   //   trailing:
                   //       Text('\$ 26.00', style: theme.textTheme.subtitle1),
                   // ),
-                  orderDetail!.status == 'in_review' || orderDetail!.status == 'review' ? InkWell(
+                   orderDetail!.status == 'pending' ? InkWell(
 
                     onTap: (){
                       Get.find<LoaderController>().updateDataController(true);

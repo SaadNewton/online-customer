@@ -1,124 +1,246 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Models/fetch_chat_model.dart';
+import 'package:doctoworld_user/Models/get_all_appointments_model.dart';
+import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/repositories/fetch_chat_Repo.dart';
+import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
+import 'package:doctoworld_user/repositories/sen_message_repo.dart';
+import 'package:doctoworld_user/services/get_method_call.dart';
+import 'package:doctoworld_user/services/post_method_call.dart';
+import 'package:doctoworld_user/services/service_urls.dart';
+import 'package:doctoworld_user/storage/local_Storage.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:animation_wrappers/animation_wrappers.dart';
+
 import 'package:flutter/material.dart';
+import 'package:pusher_client/pusher_client.dart';
+
+import '../../appointments_page.dart';
+
+TextEditingController sendMessageController = TextEditingController();
 
 class ChatScreen extends StatefulWidget {
+  final SingleAppointmentData? appointment;
+  ChatScreen({this.appointment});
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  bool showSender = false;
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      Get.find<LoaderController>().updateDataController(true);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            constraints: BoxConstraints.expand(),
-            padding: EdgeInsets.only(top: 120.0, bottom: 76),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/chatbg.png'), fit: BoxFit.cover)),
-            child: FadedScaleAnimation(
-              MessageStream(),
-              durationInMilliseconds: 400,
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              children: [
-                Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  padding: EdgeInsets.only(top: 40),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios, size: 16),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      SizedBox(
-                        width: 75,
-                      ),
-                      Text(
-                        'George Anderson',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Color(0xffECF4F7),
-                  height: 40,
-                  padding: EdgeInsets.symmetric(horizontal: 125, vertical: 12),
-                  child: Text(
-                    locale.deliveryPartner!,
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned.directional(
-              textDirection: Directionality.of(context),
-              start: 50,
-              top: 52,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          widget.appointment!.doctor!.name!,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, size: 16,color: Colors.black,),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: FadedSlideAnimation(
+        Stack(
+          children: [
+            Container(
+              constraints: BoxConstraints.expand(),
+              padding: EdgeInsets.only(top: 0.0, bottom: 61),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/chatbg.png'),
+                      fit: BoxFit.cover)),
               child: FadedScaleAnimation(
-                Image.asset(
-                  'assets/deliveryman.png',
-                  height: 60,
-                  width: 60,
-                ),
+                MessageStream(appointment: widget.appointment,),
                 durationInMilliseconds: 400,
-              )),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: TextFormField(
-              decoration: InputDecoration(
-                  fillColor: Theme.of(context).scaffoldBackgroundColor,
-                  filled: true,
-                  hintText: locale.writeYourMsg,
-                  suffixIcon: Icon(
-                    Icons.send,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  )),
+              ),
             ),
-          ),
-        ],
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: TextFormField(
+                onChanged: (value){
+                  if(value.isNotEmpty){
+                    setState(() {
+                      showSender = true;
+                    });
+                  }else{
+                    setState(() {
+                      showSender = false;
+                    });
+                  }
+                },
+                controller: sendMessageController,
+                decoration: InputDecoration(
+                    fillColor: Theme.of(context).scaffoldBackgroundColor,
+                    filled: true,
+                    hintText: locale.writeYourMsg,
+                    suffixIcon: !showSender
+                        ?SizedBox()
+                        :InkWell(
+                      onTap: (){
+                        postMethod(
+                            context,
+                            sendMessageService,
+                            {
+                              'message': sendMessageController.text,
+                              'reciever_id': widget.appointment!.doctorId,
+                              'sender_id': storageBox!.read('customerId'),
+                              'type': 'doctor'
+                            },
+                            true,
+                            sendMessageRepo
+                        );
+                        scrollController
+                            .animateTo(
+                          scrollController
+                              .position
+                              .maxScrollExtent,
+                          curve: Curves.easeOut,
+                          duration:
+                          const Duration(
+                              milliseconds:
+                              500),
+                        );
+                      },
+                      child: Icon(
+                        Icons.send,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    )),
+              ),
+            ),
+          ],
+        ),
+        beginOffset: Offset(0, 0.3),
+        endOffset: Offset(0, 0),
+        slideCurve: Curves.linearToEaseOut,
       ),
     );
   }
 }
+final scrollController = ScrollController();
 
-class MessageStream extends StatelessWidget {
+class MessageStream extends StatefulWidget {
+  final SingleAppointmentData? appointment;
+  MessageStream({this.appointment});
+  @override
+  _MessageStreamState createState() => _MessageStreamState();
+}
+
+class _MessageStreamState extends State<MessageStream> {
+  PusherClient? pusher;
+  Channel? channel;
+  String bk='ui';
+  @override
+  void initState() {
+    // TODO: implement initState
+    pusher = new PusherClient(
+      "4c5093fc019ed2f139df",
+      PusherOptions(
+        host: '',
+        cluster: 'ap2',
+        // if local on android use 10.0.2.2
+      ),
+    );
+
+
+
+    pusher!.onConnectionStateChange((state) {
+      log("previousState: ${state!.previousState}, currentState: ${state.currentState}");
+    });
+    pusher!.onConnectionError((error) {
+      log("error: ${error!.message}");
+    });
+
+    channel = pusher!.subscribe("chat");
+
+    channel!.bind(r'App\Events\MessageSent', (event) {
+      setState(() {
+        bk = event!.data.toString();
+        scrollController
+            .animateTo(
+          scrollController
+              .position
+              .maxScrollExtent,
+          curve: Curves.easeOut,
+          duration:
+          const Duration(
+              milliseconds:
+              500),
+        );
+      });
+      log( 'newww-->> ${bk}');
+      log( 'newww-1-->> ${jsonDecode(bk)}');
+      Map<String, dynamic> tempMap = jsonDecode(bk);
+      log( 'newww0-->> ${event!.data}');
+      ChatData tempChatData = ChatData.fromJson(tempMap['message']);
+      log('mewww1--->>${tempChatData.message}');
+      Get.find<LoaderController>().updateMessageList(tempChatData);
+
+    });
+    getMethod(
+        context,
+        getNotifyTokenService,
+        {
+          'user_id': widget.appointment!.doctorId,
+          'role':'doctor'
+        },
+        false,
+        getNotifyTokenRepo
+    );
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      Get.find<LoaderController>().updateDataController(true);
+    });
+    getMethod(context, fetchChatService, {'type':'customer','reciever_id':widget.appointment!.doctorId,
+      'sender_id':storageBox!.read('customerId'),}, true, fetchChatRepo);
+    super.initState();
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<MessageBubble> messageBubbles = [
-      MessageBubble(
-        sender: 'user',
-        text: AppLocalizations.of(context)!.msg1,
-        time: '11:58 am',
-        isDelivered: false,
-        isMe: true,
+
+    return GetBuilder<LoaderController>(
+      init: LoaderController(),
+      builder:(_)=>_.dataLoader
+          ?Center(child: CircularProgressIndicator(),)
+          : ListView(
+        controller: scrollController,
+
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+        children: List.generate(_.messageList.length, (index) => MessageBubble(
+          sender: _.messageList[index].senderName,
+          text: _.messageList[index].message,
+          time: DateFormat('hh:mm a').format(DateTime.parse(_.messageList[index].createdAt!)),
+          isDelivered: false,
+          isMe: storageBox!.read('customerId').toString() == _.messageList[index].senderId.toString()
+              ?true
+              :false,
+        ),),
       ),
-      MessageBubble(
-        sender: 'delivery_partner',
-        text: AppLocalizations.of(context)!.msg2,
-        time: '11:59 am',
-        isDelivered: false,
-        isMe: false,
-      ),
-    ];
-    return ListView(
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-      children: messageBubbles,
     );
   }
 }
@@ -140,7 +262,7 @@ class MessageBubble extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment:
-            isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Material(
             elevation: 4.0,
@@ -152,13 +274,13 @@ class MessageBubble extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
               child: Column(
                 crossAxisAlignment:
-                    isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     text!,
                     style: isMe!
                         ? Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: Theme.of(context).scaffoldBackgroundColor)
+                        color: Theme.of(context).scaffoldBackgroundColor)
                         : Theme.of(context).textTheme.bodyText2,
                   ),
                   SizedBox(
@@ -181,11 +303,11 @@ class MessageBubble extends StatelessWidget {
                       ),
                       isMe!
                           ? Icon(
-                              Icons.check_circle,
-                              color:
-                                  isDelivered! ? Colors.blue : Colors.grey[300],
-                              size: 12.0,
-                            )
+                        Icons.check_circle,
+                        color:
+                        isDelivered! ? Colors.blue : Colors.grey[300],
+                        size: 12.0,
+                      )
                           : SizedBox.shrink(),
                     ],
                   ),

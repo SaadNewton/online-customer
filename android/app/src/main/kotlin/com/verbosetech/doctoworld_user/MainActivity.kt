@@ -1,4 +1,4 @@
-package pk.online_doctor.customer
+package com.CreCode.OnlineDoctor
 
 import io.flutter.embedding.android.FlutterActivity
 

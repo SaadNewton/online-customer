@@ -73,9 +73,9 @@ class _MoreOptionsState extends State<MoreOptions> {
       MenuTile('Contact Us', 'Contact Us For Help', Icons.message_sharp, () {
         Get.to(ContactUs());
       }),
-      MenuTile(locale.tandc, locale.companyPolicy, Icons.assignment, () {
-       Get.to(TnCPage());
-      }),
+      // MenuTile(locale.tandc, locale.companyPolicy, Icons.assignment, () {
+      //  Get.to(TnCPage());
+      // }),
       MenuTile('Password Change', 'Change your password', Icons.lock, () {
         Get.to(ChangePassword());
       }),
@@ -111,19 +111,50 @@ class _MoreOptionsState extends State<MoreOptions> {
                 SizedBox(
                   width: 15,
                 ),
-                RichText(
-                    text: TextSpan(children: <TextSpan>[
-                  TextSpan(
-                      text: userDetailModel.data.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(fontSize: 20, height: 2)),
-                  TextSpan(
-                      text: '\n${userDetailModel.data.phone}',
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: Theme.of(context).disabledColor, height: 2)),
-                ]))
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width*.5,
+                      child: Text(
+                        userDetailModel.data.name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap:true,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(fontSize: 20, height: 2,),
+                      ),
+                    ),
+                    Text(
+                        '${userDetailModel.data.phone}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap:true,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: Theme.of(context).disabledColor, height: 2)
+                    ),
+                  ],
+                ),
+                // RichText(
+                //
+                //   overflow: TextOverflow.ellipsis,
+                //     maxLines: 1,
+                //     softWrap:true,
+                //     text: TextSpan(children: <TextSpan>[
+                //   TextSpan(
+                //       text: userDetailModel.data.name,
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .subtitle1!
+                //           .copyWith(fontSize: 20, height: 2,),),
+                //   TextSpan(
+                //       text: '\n${userDetailModel.data.phone}',
+                //       style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                //           color: Theme.of(context).disabledColor, height: 2)),
+                // ]))
               ],
             ),
           ),

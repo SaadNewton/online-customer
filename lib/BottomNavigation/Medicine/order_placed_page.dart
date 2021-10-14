@@ -47,19 +47,19 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                       style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                    Get.to(RecentOrdersPage());
-                      },
-                      child: Text(
-                        locale.myOrders!,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    // Spacer(),
+                    // GestureDetector(
+                    //   onTap: () {
+                    // Get.to(RecentOrdersPage());
+                    //   },
+                    //   child: Text(
+                    //     locale.myOrders!,
+                    //     style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    //         color: Theme.of(context).primaryColor,
+                    //         fontSize: 16),
+                    //     textAlign: TextAlign.center,
+                    //   ),
+                    // ),
                     Spacer(
                       flex: 2,
                     ),
@@ -70,7 +70,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
                   onTap: () {
-                  Get.to(BottomNavigation());
+                  Get.offAll(BottomNavigation());
                   },
                   label: locale.continueShopping,
                   radius: 0,

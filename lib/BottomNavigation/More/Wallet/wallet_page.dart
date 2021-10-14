@@ -62,7 +62,79 @@ class _WalletPageState extends State<WalletPage> {
         builder:(_)=>_.dataLoader? Center(
           child:  CircularProgressIndicator(),
         )
-            : Container( child: getWalletByUserTypeModel.status == false ? Center(child: Text('No Record Found'),)
+            : Container(
+          child: getWalletByUserTypeModel.status == false
+              ? FadedSlideAnimation(
+            Stack(
+              children: [
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 120),
+                    Container(
+                      color: Theme.of(context).backgroundColor,
+                      padding:
+                      EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+                      child: Text(locale.recent!),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 172.0),
+                  child: Center(
+                    child: Text(
+                      'No record found',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black
+                      ),
+                    ),
+                  )
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4),
+                      child: Text(
+                        locale.availableBalance!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2!
+                            .copyWith(fontSize: 14),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        'Rs 0',
+                        style: theme.textTheme.headline6!.copyWith(fontSize: 30),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned.directional(
+                  textDirection: Directionality.of(context),
+                  end: 15,
+                  top: 90,
+                  child: CustomButton(
+                    radius: 0,
+                    onTap: () {
+                      Get.to(AddMoney());
+                    },
+                    label: locale.addMoney,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            beginOffset: Offset(0, 0.3),
+            endOffset: Offset(0, 0),
+            slideCurve: Curves.linearToEaseOut,
+          )
           : FadedSlideAnimation(
             Stack(
               children: [
@@ -110,7 +182,8 @@ class _WalletPageState extends State<WalletPage> {
                           ),
                          Padding(
                            padding: const EdgeInsets.only(left: 16.0),
-                           child: Text(  '${getWalletByUserTypeModel.data![0].transactions![index].amountType}'),
+                           child: Text(  '${getWalletByUserTypeModel
+                               .data![0].transactions![index].amountType}'),
                          ),
                           Divider(
                             thickness: 6,

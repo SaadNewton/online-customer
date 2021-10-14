@@ -5,6 +5,7 @@ import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/login_repo.dart';
 import 'package:doctoworld_user/repositories/sign_up_repo.dart';
 import 'package:doctoworld_user/services/post_method_call.dart';
@@ -57,9 +58,29 @@ verifyOTP(BuildContext context,var otp,bool fromSignUp,postData) async {
       print('user added by otp');
 
       if(fromSignUp){
-        postMethod(context, customerSignUpService, postData, true, getSignUpUserData ) ;
+        print('fromSignUp--->> ${postData}');
+        // postMethod(context, customerSignUpService, postData, true, getSignUpUserData ) ;
+        postMethod(
+            context,
+            customerSignUpService,
+            {
+              'phone': phoneController.text,
+              'email': emailController.text,
+              'password': passController.text,
+              'owner_name': nameController.text,
+              'confirm_password': confirmPassController.text,
+              'lat': 0,
+              'long': 0,
+              'address': locationController.text,
+              'role': 'customer',
+            },
+            false,
+            getSignUpUserData
+        );
       }else{
-        postMethod(context, loginWithPhone, postData, true, getLoginData) ;
+        print('fromLogin');
+
+        postMethod(context, loginWithPhone, postData, false, getLoginData) ;
       }
 
     } else {

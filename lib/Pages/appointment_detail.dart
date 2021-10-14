@@ -1,4 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:doctoworld_user/BottomNavigation/More/Order/chat_screen.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
 import 'package:doctoworld_user/Models/get_all_appointments_model.dart';
@@ -259,7 +260,23 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                             false,
                             methodRepo
                         );
-                      }
+                      }else{
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomDialogBox(
+                                  title: 'FAILED!',
+                                  titleColor: customDialogErrorColor,
+                                  descriptions: 'Your appointment date is '
+                                      '${widget.appointmentDetail!.bookingDate}',
+                                  text: 'Ok',
+                                  functionCall: () {
+                                    Navigator.pop(context);
+                                  },
+                                  img: 'assets/dialog_error.svg',
+                                );
+                              });
+                        }
                         },
                       child: Container(
                         height: 60,
@@ -291,20 +308,9 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialogBox(
-                                title: 'INFO!',
-                                titleColor: customDialogInfoColor,
-                                descriptions: 'Not available yet.',
-                                text: 'Ok',
-                                functionCall: () {
-                                  Navigator.pop(context);
-                                },
-                                img: 'assets/dialog_Info.svg',
-                              );
-                            });
+                       Get.to(ChatScreen(
+                         appointment:widget.appointmentDetail ,
+                       ));
                         // Navigator.pushNamed(context, PageRoutes.doctorChat);
                       },
                       child: Container(
@@ -320,33 +326,15 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                             SizedBox(
                               width: 20,
                             ),
-                            InkWell(
-                              onTap: (){
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomDialogBox(
-                                        title: 'INFO!',
-                                        titleColor: customDialogInfoColor,
-                                        descriptions: 'Not available yet.',
-                                        text: 'Ok',
-                                        functionCall: () {
-                                          Navigator.pop(context);
-                                        },
-                                        img: 'assets/dialog_Info.svg',
-                                      );
-                                    });
-                              },
-                              child: Text(
-                                'Chat',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .copyWith(
-                                        fontSize: 20,
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor),
-                              ),
+                            Text(
+                              'Chat',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(
+                                      fontSize: 20,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor),
                             ),
                           ],
                         ),

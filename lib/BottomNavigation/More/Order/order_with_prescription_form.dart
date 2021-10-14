@@ -12,6 +12,7 @@ import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -173,15 +174,8 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                                          ?  InkWell(
                                        onTap: () {
                                          setState(() {
-
-
                                            getImage(false);
-
-
                                          });
-
-
-
                                        },
                                        child: Container(
                                          height: 100,
@@ -255,6 +249,8 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
 
                               ///...........Name....................///
                               EntryField(
+                                textInputFormatter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                textInputType: TextInputType.name,
                                 controller: _nameController,
                                 color: Colors.grey.withOpacity(0.2),
                                 hint: 'Name',
@@ -271,6 +267,8 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                               ///..........Phone................///
 
                               EntryField(
+                                textInputFormatter: LengthLimitingTextInputFormatter(11),
+                                textInputType: TextInputType.phone,
                                 controller: _phoneController,
                                 color: Colors.grey.withOpacity(0.2),
                                 hint: 'Phone',
@@ -286,6 +284,10 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
 
                               ///.........Address...............///
                               TextFormField(
+                                onTap: () {
+                                  if(currentCity == null)
+                                  getCurrentLocation(context);
+                                },
                                 controller: _addressController,
                                 decoration: InputDecoration(
                                   suffixIcon: InkWell(
@@ -318,6 +320,10 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                                 label: 'Submit',
 
                                onTap: (){
+                                 setState(() {
+                                   _imageChecker1 = false;
+                                   _imageChecker2 = false;
+                                 });
                                  if(_prescriptionKey.currentState.validate() && image1 != null && image2 != null) {
 
                                     setState(() {
@@ -328,10 +334,18 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                                        .updateFormController(true);
                                    uploadImage(image1, image2);
                                  }else{
-                                   setState(() {
-                                     _imageChecker1 = true;
-                                     _imageChecker2 = true;
-                                   });
+                                   if( image1 == null){
+                                     setState(() {
+                                       _imageChecker1 = true;
+
+                                     });
+                                   }
+                                   if( image2 == null){
+                                     setState(() {
+
+                                       _imageChecker2 = true;
+                                     });
+                                   }
                                  }
                                },
                               ),
@@ -355,6 +369,7 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
     );
   }
 
+  String currentCity;
   getCurrentLocation(BuildContext context) {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -386,10 +401,9 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       setState(() {
         currentAddress =
         '${place.name}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
-        // var signUpAddressController;
-        // if (signUpAddressController.text.isEmpty) {
-        //   signUpAddressController.text = currentAddress;
-        // }
+        setState(() {
+          currentCity = place.subAdministrativeArea.toString();
+        });
         print(currentAddress + ' yes');
         print(place.administrativeArea.toString());
         print(place.subAdministrativeArea.toString());
@@ -402,7 +416,7 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       print(e);
     }
   }
-
+bool dialogShow = false;
 
   uploadImage(File file1, file2) async {
     String fileName1 = file1.path.split('/').last;
@@ -412,9 +426,10 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       'customer_id': storageBox.read('customerId'),
       'full_name' : _nameController.text,
       'phone':    _phoneController.text,
-      'address':  _addressController,
+      'address':  _addressController.text,
       'lat': latitude,
       'long': longitude,
+      'city': currentCity,
       'front_file': await dio_instance.MultipartFile.fromFile(
         file1.path,
        // filename: fileName1,
@@ -434,17 +449,20 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
       log('postStatusCode---->> ${response.statusCode}');
       log('postResponse---->> ${response.data}');
       if (response.data['status']==true) {
+        setState(() {
+          dialogShow = true;
+        });
         showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (BuildContext context) {
-
               return CustomDialogBox(
                 title: 'Success',
                 titleColor: customDialogSuccessColor,
                 descriptions: response.data['message'].toString(),
                 text: 'Ok',
                 functionCall: () {
-                  Get.to(BottomNavigation());
+                  Get.offAll(BottomNavigation());
                 },
                 img: 'assets/dialog_success.svg',
               );

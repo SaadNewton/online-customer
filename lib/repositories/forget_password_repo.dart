@@ -8,7 +8,7 @@ import 'package:doctoworld_user/data/global_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-///-------- Approve Appointments by doctor
+///--------
 forgotPasswordRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {

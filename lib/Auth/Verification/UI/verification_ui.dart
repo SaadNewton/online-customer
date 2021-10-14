@@ -41,7 +41,9 @@ class _VerificationUIState extends State<VerificationUI> {
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _startTimer();
+    });
 
   }
 

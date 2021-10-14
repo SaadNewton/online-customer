@@ -10,6 +10,7 @@ import 'package:doctoworld_user/Models/doctor_rating_model.dart';
 import 'package:doctoworld_user/Models/doctor_rating_model.dart';
 import 'package:doctoworld_user/Models/doctor_rating_model.dart';
 import 'package:doctoworld_user/Models/edit_profile_model.dart';
+import 'package:doctoworld_user/Models/fetch_chat_model.dart';
 import 'package:doctoworld_user/Models/forget_password_email_model.dart';
 import 'package:doctoworld_user/Models/forget_password_email_verify_model.dart';
 import 'package:doctoworld_user/Models/forget_password_model.dart';
@@ -163,3 +164,5 @@ String productPrice;
 
 
 GetNotifyTokenModel getNotifyTokenModel=GetNotifyTokenModel();
+
+FetchChatModel fetchChatModel=FetchChatModel();

@@ -45,7 +45,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
   TextEditingController locationController=TextEditingController();
   TextEditingController nameController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
-
+GlobalKey<FormState> _orderSummeryKey=GlobalKey();
 
   @override
   void initState() {
@@ -64,12 +64,10 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
           getNotifyTokenRepo);
     }
 
-    locationController.text=userDetailModel.data.address;
+
     nameController.text=userDetailModel.data.name;
     phoneController.text=userDetailModel.data.phone;
-    log("${userDetailModel.data.lat } ${userDetailModel.data.long}");
-    longitude=double.parse(userDetailModel.data.long);
-    latitude=double.parse(userDetailModel.data.lat);
+
 
     tabController  = new TabController(length: 2, vsync: this);
     super.initState();
@@ -79,71 +77,76 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          locale.confirmOrder!,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 18),
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            locale.confirmOrder!,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 18),
+          ),
         ),
-      ),
-      body: GetBuilder<LoaderController>(
-        builder:(_)=> ModalProgressHUD(
-          inAsyncCall:_.formLoader ,
-          child: FadedSlideAnimation(
+        body: GetBuilder<LoaderController>(
+          builder:(_)=> ModalProgressHUD(
+            inAsyncCall:_.formLoader ,
+            child: FadedSlideAnimation(
 
-            Column(
-              children: [
+              Column(
+                children: [
 
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child:   Row(children: [
-                    Expanded(child: Divider(color: Theme.of(context).primaryColor,
-                      thickness: 3,)),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: currentTabIndex!=0?Colors.white:Theme.of(context).primaryColor),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child:   Row(children: [
+                      Expanded(child: Divider(color: Theme.of(context).primaryColor,
+                        thickness: 3,)),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: currentTabIndex!=0?Colors.white:Theme.of(context).primaryColor),
+                            shape: BoxShape.circle,
+                            color: currentTabIndex!=0?Theme.of(context).primaryColor:Colors.white
+                        ),
+                        child: Center(child:Text('1',
+                          style: TextStyle(
+                            color: currentTabIndex!=0?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
+                            fontSize: 18,
+
+                          ),)),),
+                      Expanded(child: Divider(color:
+                      currentTabIndex!=0?Theme.of(context).primaryColor:Theme.of(context).primaryColorLight,
+                        thickness: currentTabIndex!=0?3:2,)),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: currentTabIndex==2?Colors.white:Theme.of(context).primaryColor),
                           shape: BoxShape.circle,
-                          color: currentTabIndex!=0?Theme.of(context).primaryColor:Colors.white
-                      ),
-                      child: Center(child:Text('1',
-                        style: TextStyle(
-                          color: currentTabIndex!=0?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
-                          fontSize: 18,
+                          color: currentTabIndex==2?Theme.of(context).primaryColor:Colors.white,
 
-                        ),)),),
-                    Expanded(child: Divider(color:
-                    currentTabIndex!=0?Theme.of(context).primaryColor:Theme.of(context).primaryColorLight,
-                      thickness: currentTabIndex!=0?3:2,)),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: currentTabIndex==2?Colors.white:Theme.of(context).primaryColor),
-                        shape: BoxShape.circle,
-                        color: currentTabIndex==2?Theme.of(context).primaryColor:Colors.white,
+                        ),
+                        child: Center(child:Text('2',
+                          style: TextStyle(
+                            color: currentTabIndex==2?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
+                            fontSize: 18,
 
-                      ),
-                      child: Center(child:Text('2',
-                        style: TextStyle(
-                          color: currentTabIndex==2?Theme.of(context).primaryColorLight:Theme.of(context).primaryColor,
-                          fontSize: 18,
+                          ),)),),
+                      Expanded(child: Divider(color:
+                      currentTabIndex==2?Theme.of(context).primaryColor:Theme.of(context).primaryColorLight,
+                        thickness: currentTabIndex==1?3:2,)),
+                    ],),
+                  ),
 
-                        ),)),),
-                    Expanded(child: Divider(color:
-                    currentTabIndex==2?Theme.of(context).primaryColor:Theme.of(context).primaryColorLight,
-                      thickness: currentTabIndex==1?3:2,)),
-                  ],),
-                ),
-
-                Expanded(child: viewSelectorMethod(currentTabIndex,locale))
-              ],
+                  Expanded(child: viewSelectorMethod(currentTabIndex,locale))
+                ],
+              ),
+              beginOffset: Offset(0, 0.3),
+              endOffset: Offset(0, 0),
+              slideCurve: Curves.linearToEaseOut,
             ),
-            beginOffset: Offset(0, 0.3),
-            endOffset: Offset(0, 0),
-            slideCurve: Curves.linearToEaseOut,
           ),
         ),
       ),
@@ -156,103 +159,116 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
           /// customer details
           return  Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListView(
+            child: Form(
+              key:_orderSummeryKey,
+              child: ListView(
+                children: [
+                  Center(
+                    child: Text('Customer Details',
+                      style:TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w600
+                      ) ,),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
 
-              children: [
-                Center(
-                  child: Text('Customer Details',
-                    style:TextStyle(
-                        fontSize: 20,
+
+                  /// full name
+                  ///
+                  Text('Full Name',
+                    style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w600
-                    ) ,),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+                    ),),
 
+                  SizedBox(height: 5,),
 
-                /// full name
-                ///
-                Text('Full Name',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w600
-                  ),),
-
-                SizedBox(height: 5,),
-
-                EntryField(
-                  prefixIcon: Icons.person,
-                  controller: nameController,
-                ),
-
-                SizedBox(height: 20,),
-
-
-
-                /// phone
-                ///
-                Text('Phone',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w600
-                  ),),
-
-                SizedBox(height: 5,),
-
-                EntryField(
-                  prefixIcon: Icons.phone,
-                  controller: phoneController,
-                ),
-
-                SizedBox(height: 20,),
-
-                /// address
-                ///
-                Text('Address',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w600
-                  ),),
-
-                SizedBox(height: 5,),
-
-
-                EntryField(
-                  onTap:  (){
-                    if(!locationGet)
-                      Get.find<LoaderController>().updateFormController(true);
-                    getCurrentLocation(context);
-                  },
-                  prefixIcon: Icons.home,
-                  controller: locationController,
-                  suffixIcon:  Icons.location_on_outlined,
-                ),
-
-
-                SizedBox(height: 30,),
-                CustomButton(
-                  onTap: () {
-                    setState(() {
-                      currentTabIndex=1;
-                    });
-                    // Get.to(PaymentMethodScreen());
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (BuildContext context) =>
-                    //       _prescriptionRequired(context),
-                    // );
-                  },
-                  radius: 0,
-                  label: 'Next',
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    size: 14,
+                  EntryField(
+                    prefixIcon: Icons.person,
+                    controller: nameController,
                   ),
-                ),
-              ],
+
+                  SizedBox(height: 20,),
+
+
+
+                  /// phone
+                  ///
+                  Text('Phone',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600
+                    ),),
+
+                  SizedBox(height: 5,),
+
+                  EntryField(
+                    prefixIcon: Icons.phone,
+                    controller: phoneController,
+                  ),
+
+                  SizedBox(height: 20,),
+
+                  /// address
+                  ///
+                  Text('Address',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600
+                    ),),
+
+                  SizedBox(height: 5,),
+
+
+                  InkWell(
+                    onTap:  (){
+                      if(!locationGet)
+                        Get.find<LoaderController>().updateFormController(true);
+                      getCurrentLocation(context);
+                    },
+                    child: EntryField(
+                     validator: (value){
+                       if(value.isEmpty){
+                         return 'Provide shipping address';
+                       }
+                       return null;
+                     },
+                      onTap:  (){
+                        if(!locationGet)
+                          Get.find<LoaderController>().updateFormController(true);
+                        getCurrentLocation(context);
+                      },
+                      obSecure: false,
+                      prefixIcon: Icons.home,
+                      controller: locationController,
+                      suffixIcon:  Icons.location_on_outlined,
+                    ),
+                  ),
+
+
+                  SizedBox(height: 30,),
+                  CustomButton(
+                    onTap: () {
+                      if(_orderSummeryKey.currentState!.validate()){
+                        setState(() {
+                          currentTabIndex=1;
+                        });
+                      }
+
+                    },
+                    radius: 0,
+                    label: 'Next',
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      size: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -474,7 +490,9 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
                               child: CustomButton(
                                 onTap: () {
                                   log('---------> '+getCartItemsModel.data![0].type.toString());
-                                  orderTypeMedicine=getCartItemsModel.data![0].type=='test'?false:true;
+                                  orderTypeMedicine=getCartItemsModel.data![0].type=='test'
+                                      ?false
+                                      :true;
                                   Get.find<LoaderController>().updateFormController(true);
                                   postMethod(context, orderPlaceService, {'customer_id':storageBox!.read('customerId'),
                                     'full_name':nameController.text,
@@ -491,7 +509,8 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
                                     'total_price':cartController.cartTotalPrice.toInt()+
                                         (cartController.cartTotalPrice.toInt()<500?50:0),
                                     'lat':latitude,
-                                    'long':longitude
+                                    'long':longitude,
+                                    'city': currentCity
                                   }, true, confirmOrderRepo);
                                   // Get.to(PaymentMethodScreen());
                                   // showDialog(
@@ -576,6 +595,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
       ),
     );
   }
+  String? currentCity;
   var currentPosition;
   var longitude=0.0;
   var latitude=0.0;
@@ -615,6 +635,9 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
         // if (signUpAddressController.text.isEmpty) {
         //   signUpAddressController.text = currentAddress;
         // }
+        setState(() {
+          currentCity = place.subAdministrativeArea.toString();
+        });
         print(currentAddress + ' yes');
         print(place.administrativeArea.toString());
         print(place.subAdministrativeArea.toString());

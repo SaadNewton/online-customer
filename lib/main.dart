@@ -8,7 +8,11 @@ import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Pages/appointment_detail.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/call/join_channel_video.dart';
+import 'package:doctoworld_user/controllers/app_controller.dart';
+import 'package:doctoworld_user/controllers/auth_controller.dart';
+import 'package:doctoworld_user/controllers/cart_controller.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/controllers/location_controller.dart';
 import 'package:doctoworld_user/controllers/screen_controller.dart';
 import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
 import 'package:doctoworld_user/services/get_method_call.dart';
@@ -54,6 +58,10 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LoaderController c = Get.put(LoaderController());
+  AuthController a = Get.put(AuthController());
+  LocationController l = Get.put(LocationController());
+  CartController cart = Get.put(CartController());
+  AppController app = Get.put(AppController());
   await GetStorage.init();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
@@ -189,6 +197,7 @@ class _DoctoState extends State<Docto> {
         '/allAppointments':(context)=>AppointmentPage(),
         '/joinVideo':(context)=>JoinChannelVideo(),
         '/recentOrders':(context)=>RecentOrdersPage(),
+
       },
       debugShowCheckedModeBanner: false,
     );

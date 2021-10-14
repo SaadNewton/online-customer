@@ -154,6 +154,7 @@ List slotDropDown = [];
                                     ),
                                   ),
                                 ),
+                                SizedBox(width: 10,),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,49 +241,6 @@ List slotDropDown = [];
                                         ]),
                                   ),
 
-                                  // Column(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   children: [
-                                  //
-                                  //     SizedBox(
-                                  //       height: 20,
-                                  //     ),
-                                  //     Row(
-                                  //       children: [
-                                  //         Text(
-                                  //           locale.availability!,
-                                  //           style: Theme.of(context)
-                                  //               .textTheme
-                                  //               .subtitle2!
-                                  //               .copyWith(
-                                  //                   color: Theme.of(context)
-                                  //                       .disabledColor,
-                                  //                   fontSize: 15),
-                                  //         ),
-                                  //
-                                  //       ],
-                                  //     ),
-                                  //     SizedBox(
-                                  //       height: 4,
-                                  //     ),
-                                  //     RichText(
-                                  //       text: TextSpan(
-                                  //           style: Theme.of(context)
-                                  //               .textTheme
-                                  //               .subtitle1,
-                                  //           children: [
-                                  //             TextSpan(
-                                  //                 text: "${getDoctorProfileModal.data.startTime} " +
-                                  //                     locale.to! +
-                                  //                     " ${getDoctorProfileModal.data.endTime}",
-                                  //                 style: Theme.of(context)
-                                  //                     .textTheme
-                                  //                     .subtitle2!
-                                  //                     .copyWith(fontSize: 14))
-                                  //           ]),
-                                  //     ),
-                                  //   ],
-                                  // )
                                 ],
                               ),
                             ),
@@ -307,12 +265,12 @@ List slotDropDown = [];
                                   .subtitle1!
                                   .copyWith(color: Theme.of(context).disabledColor),
                             ),
-                            // SizedBox(
-                            //   height: 10,
-                            // ),
                             Wrap(
                               children: List.generate(getDoctorProfileModal.data.speciality!.length, (indexx) {
-                                return Padding(
+                                return getDoctorProfileModal.data.speciality![indexx].toString()
+                                    == 'null'
+                                    ?SizedBox()
+                                    :Padding(
                                   padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -334,24 +292,6 @@ List slotDropDown = [];
                                 );
                               }),
                             ),
-                            // ...List.generate(widget.speciality!.length,
-                            //       (i) => Column(
-                            //         crossAxisAlignment: CrossAxisAlignment.start,
-                            //         children: [
-                            //           Text(
-                            //             widget.speciality![i],
-                            //   style: Theme.of(context)
-                            //           .textTheme
-                            //           .bodyText2!
-                            //           .copyWith(fontSize: 18, height: 2),
-                            // ),
-                            //           Divider(
-                            //             height: 5,
-                            //             thickness: 5,
-                            //             color: Theme.of(context).backgroundColor,
-                            //           ),
-                            //         ],
-                            //       ),)
                           ],
                         ),
                       ),
@@ -451,7 +391,21 @@ List slotDropDown = [];
                       ),
 
                       loaderController.getOnlineSchedule.data == null
-                          ? SizedBox()
+                          ? loaderController.getOnlineSchedule.status.toString() != 'false'
+                          ?SizedBox()
+                          :Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                        'No slot available',
+                        style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                        ),
+                      ),
+                            ),
+                          )
                           : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -509,7 +463,8 @@ List slotDropDown = [];
                                     appointmentDate = value;
                                     onlineSelectedDate = value;
                                     loaderController.onlineScheduleDateIndex =
-                                        loaderController.getOnlineScheduleDateList.indexOf(onlineSelectedDate!);
+                                        loaderController.getOnlineScheduleDateList
+                                            .indexOf(onlineSelectedDate!);
                                   });
                                 },
                                 validator: (String? value) {
@@ -588,7 +543,21 @@ List slotDropDown = [];
                       ),
 
                       loaderController.getOnSiteClinicsModel.data == null
-                          ? SizedBox()
+                          ? loaderController.getOnSiteClinicsModel.status.toString() != 'false'
+                          ?SizedBox()
+                          :Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            'No slot available',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      )
                           : Column(
                             children: [
                               SizedBox(
@@ -670,6 +639,7 @@ List slotDropDown = [];
                         ),
                       ),
                               loaderController.getOnSiteClinicScheduleModel.data == null
+                              && loaderController.getOnSiteScheduleDateList.length == 0
                                   ? SizedBox()
                                   : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -811,135 +781,6 @@ List slotDropDown = [];
 
 
 
-                      // GetBuilder<LoaderController>(
-                      //   init:LoaderController() ,
-                      //   builder:(loader)=> Container(
-                      //     color: Theme.of(context).scaffoldBackgroundColor,
-                      //     padding: EdgeInsets.only(top: 10, left: 20, bottom: 20),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //           children: [
-                      //             Text(
-                      //               'Slots',
-                      //               style: Theme.of(context)
-                      //                   .textTheme
-                      //                   .subtitle1!
-                      //                   .copyWith(color: Theme.of(context).primaryColor,
-                      //                   fontSize: 20),
-                      //             ),
-                      //
-                      //             SizedBox(
-                      //               width: 160,
-                      //               height: 50,
-                      //               child: Material(
-                      //                 child: DropdownButtonFormField<String>(
-                      //                   decoration: InputDecoration(
-                      //                     border: InputBorder.none,
-                      //                       fillColor: Colors.white,
-                      //                       filled: true),
-                      //                   hint: Padding(
-                      //                     padding:
-                      //                     const EdgeInsets.only(left: 10),
-                      //                     child: Text(
-                      //                       DateFormat('yyyy-MM-dd').format(DateTime.now()).toString() ,
-                      //                       style: TextStyle(color: Colors.black),
-                      //                     ),
-                      //                   ),
-                      //                   items: List.generate((
-                      //                       widget.serialDay!+1),
-                      //                           (a) {
-                      //                         return DropdownMenuItem(
-                      //                           child: Text(DateFormat('yyyy-MM-dd').format(DateTime.now()
-                      //                               .add(Duration(days: a))).toString()),
-                      //                           value: DateFormat('yyyy-MM-dd').format(DateTime.now()
-                      //                               .subtract(Duration(days: a))).toString(),
-                      //                         );
-                      //                       }),
-                      //                   onChanged: (value) {
-                      //                     setState(() {
-                      //
-                      //                       selectedSlot=3000;
-                      //                       appointmentDate=value!;
-                      //                       loader.updateInnerDataLoader(true);
-                      //                       getMethod(context, getAppointmentSlotsService,
-                      //                           {'doctor_id':widget.docId,
-                      //                             'booking_date':appointmentDate}, true, getAllTimeSlotsRepo
-                      //                       );
-                      //                     });
-                      //                   },
-                      //
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //         SizedBox(
-                      //           height: 20,
-                      //         ),
-                      //
-                      //       loader.innerLoader?Padding(
-                      //         padding: const EdgeInsets.all(10.0),
-                      //         child: Center(child: CircularProgressIndicator(),),
-                      //       ): !getAppointmentSlotsModel.status!
-                      //
-                      //             ? Center(
-                      //           child: Padding(
-                      //             padding: EdgeInsets.all(10),
-                      //             child: Text('No Slot Available'),
-                      //           ),
-                      //         )
-                      //             : Padding(
-                      //           padding: const EdgeInsets.symmetric(vertical: 10),
-                      //           child: Wrap(
-                      //             runSpacing: 10,
-                      //             spacing: 10,
-                      //             children: List.generate(
-                      //                 getAppointmentSlotsModel.data!.length,
-                      //                     (i) => InkWell(
-                      //                       onTap: (){
-                      //                         setState(() {
-                      //                           slot=getAppointmentSlotsModel.data![i].slot;
-                      //                           selectedSlot=getAppointmentSlotsModel.data!.indexOf(
-                      //                               getAppointmentSlotsModel.data![i]);
-                      //                           print('slot '+selectedSlot.toString()+i.toString());
-                      //                         });
-                      //
-                      //                       },
-                      //                       child: Container(
-                      //                   padding: EdgeInsets.symmetric(
-                      //                       vertical: 10,
-                      //                       horizontal: 15,
-                      //                   ),
-                      //                   decoration: BoxDecoration(
-                      //                       border: Border.all(
-                      //                         color: getAppointmentSlotsModel.data![i].status!?
-                      //
-                      //                        Colors.grey:
-                      //                         selectedSlot==i?Colors.green:Theme.of(context).primaryColor
-                      //                       ),
-                      //                       borderRadius: BorderRadius.all(
-                      //                           Radius.circular(10)),
-                      //                       color:
-                      //                       getAppointmentSlotsModel.data![i].status!?
-                      //
-                      //                       Colors.grey:
-                      //                       selectedSlot==i?Colors.green:Theme.of(context).primaryColor,
-                      //                   ),
-                      //                   child: Text(
-                      //                         getAppointmentSlotsModel.data![i].slot!,
-                      //                         style: TextStyle(
-                      //                             color: Colors.white)),
-                      //                 ),
-                      //                     )),
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 10,
                       ),
@@ -959,7 +800,7 @@ List slotDropDown = [];
                                     ?'online'
                                     :'onsite',
                                 clinicId: scheduleType == 'Online'
-                                    ? null
+                                    ? 1
                                     : loaderController.getOnSiteClinicsModel.data[
                                 loaderController.getOnSiteClinicsModel.data.indexWhere(
                                         (element) => element.name == selectedClinic)

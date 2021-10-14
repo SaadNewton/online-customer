@@ -165,50 +165,7 @@ TextEditingController _namController=TextEditingController();
                             )
                           ],
                         ),
-                        // Row(
-                        //   children: [
-                        //     Container(
-                        //       padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-                        //       decoration: BoxDecoration(
-                        //         color: Theme.of(context).backgroundColor,
-                        //         borderRadius: BorderRadius.all(
-                        //           Radius.circular(5),
-                        //         ),
-                        //       ),
-                        //       child: Column(
-                        //         crossAxisAlignment: CrossAxisAlignment.center,
-                        //         mainAxisAlignment:
-                        //         MainAxisAlignment.spaceEvenly,
-                        //         children: [
-                        //           Text(
-                        //             DateFormat('dd').format(DateTime.parse(widget.selectedDate)),
-                        //             style: Theme.of(context)
-                        //                 .textTheme
-                        //                 .bodyText2!
-                        //                 .copyWith(
-                        //                 color:
-                        //                 Theme.of(context).disabledColor,
-                        //                 fontSize: 12,
-                        //                 height: 2),
-                        //           ),
-                        //           Text(
-                        //             DateFormat('MMM').format(DateTime.parse(widget.selectedDate)),
-                        //             style: Theme.of(context)
-                        //                 .textTheme
-                        //                 .bodyText2!
-                        //                 .copyWith(
-                        //               color: kMainTextColor,
-                        //               fontSize: 23,
-                        //               fontWeight: FontWeight.bold,
-                        //               height: 1.4,
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     Spacer()
-                        //   ],
-                        // ),
+
                         SizedBox(
                           height: 20,
                         ),

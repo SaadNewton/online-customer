@@ -1,26 +1,19 @@
 {
   "project_info": {
     "project_number": "274090461017",
+    "firebase_url": "https://online-doctor-18a73-default-rtdb.firebaseio.com",
     "project_id": "online-doctor-18a73",
     "storage_bucket": "online-doctor-18a73.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:274090461017:android:c25b21cbdb755222a8ae48",
+        "mobilesdk_app_id": "1:274090461017:android:2ac1c6014a0c6ebda8ae48",
         "android_client_info": {
           "package_name": "com.CreCode.OnlineDoctor"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "274090461017-0mo94tt76aneltpdpg5nne4vtlj0gppu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.CreCode.OnlineDoctor",
-            "certificate_hash": "65cf71ad90870318fe53986e29f9f9314ce17446"
-          }
-        },
         {
           "client_id": "274090461017-4b12230nt9f8r191pnr2gachcjknbf2r.apps.googleusercontent.com",
           "client_type": 3
@@ -37,6 +30,13 @@
             {
               "client_id": "274090461017-4b12230nt9f8r191pnr2gachcjknbf2r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "274090461017-chib2crsto9cia0jdn8pfgca0s6a7f7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pk.onlineDoctor.doctor"
+              }
             }
           ]
         }
@@ -74,6 +74,13 @@
             {
               "client_id": "274090461017-4b12230nt9f8r191pnr2gachcjknbf2r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "274090461017-chib2crsto9cia0jdn8pfgca0s6a7f7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pk.onlineDoctor.doctor"
+              }
             }
           ]
         }
@@ -111,6 +118,13 @@
             {
               "client_id": "274090461017-4b12230nt9f8r191pnr2gachcjknbf2r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "274090461017-chib2crsto9cia0jdn8pfgca0s6a7f7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pk.onlineDoctor.doctor"
+              }
             }
           ]
         }

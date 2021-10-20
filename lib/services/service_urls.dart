@@ -3,14 +3,14 @@ import 'package:flutter/rendering.dart';
 /// base url
 ///
 // String baseUrl = 'http://192.168.88.44:8000/api/';
-String baseUrl = 'https://onlinedoctor.softwaresbranding.com/api/';
+String baseUrl = 'https://onlinedoctor.pk/api/';
 
 
 
 /// image base url
 ///
 // String imageBaseUrl = 'http://192.168.88.44:8000/';
-String imageBaseUrl = 'https://onlinedoctor.softwaresbranding.com/';
+String imageBaseUrl = 'https://onlinedoctor.pk/';
 
 String getDoctorProfileService = baseUrl + 'get-doctor-profile';
 

@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "274090461017-i1rnni5gv4l6e1i23r9o386u9rogvsof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CreCode.OnlineDoctor",
+            "certificate_hash": "28519740b197e7bc9294f7f40f49971547ffc22f"
+          }
+        },
+        {
+          "client_id": "274090461017-ol30ipt83sls01dmql97ur2d1su2gss3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CreCode.OnlineDoctor",
+            "certificate_hash": "ff9cb467e70c4596c643a5e692784b789aba9f51"
+          }
+        },
+        {
+          "client_id": "274090461017-tt3eog4fot3iatpjfv1gvno49b2t17as.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CreCode.OnlineDoctor",
+            "certificate_hash": "65cf71ad90870318fe53986e29f9f9314ce17446"
+          }
+        },
+        {
           "client_id": "274090461017-4b12230nt9f8r191pnr2gachcjknbf2r.apps.googleusercontent.com",
           "client_type": 3
         }

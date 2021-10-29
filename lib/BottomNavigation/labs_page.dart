@@ -15,6 +15,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'labs/labs_tests_search_screen.dart';
+
 class LabsHome extends StatefulWidget {
   final LocationController controller = Get.put(LocationController());
   @override
@@ -112,7 +114,7 @@ class _LabsBodyState extends State<LabsBody> {
                 const EdgeInsets.only(top: 10, bottom: 25, left: 20, right: 20),
             child: FadedScaleAnimation(
               Text(
-                'Find Lab',
+                'Find Test',
                 style: Theme.of(context)
                     .textTheme
                     .headline4!
@@ -125,11 +127,11 @@ class _LabsBodyState extends State<LabsBody> {
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
             child: InkWell(
               onTap: (){
-                Get.to(LabSearchScreen());
+                Get.to(LabsTestsSearchScreen());
               },
               child: EntryField(
                 enabled: false,
-                hint: 'Search labs',
+                hint: 'Search Tests',
                 prefixIcon: Icons.search,
               ),
             ),

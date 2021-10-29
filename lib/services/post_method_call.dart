@@ -47,7 +47,7 @@ postMethod(
           executionMethod(false, null, context);
         }
       } on dio_instance.DioError catch (e) {
-        print('Dio Error From Post $apiUrl -->> ${e.toString()}');
+        print('Dio Error From Post $apiUrl -->> ${e.response.toString()}');
         executionMethod(false, null, context);
         // messageShowService(response.data,false);
       }

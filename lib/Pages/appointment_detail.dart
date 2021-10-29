@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/BottomNavigation/More/Order/chat_screen.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
@@ -7,11 +9,15 @@ import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/call/join_channel_video.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/get_agora_repo.dart';
 import 'package:doctoworld_user/repositories/get_notify_token_repo.dart';
+import 'package:doctoworld_user/repositories/prescription-url-Repo.dart';
 import 'package:doctoworld_user/services/get_method_call.dart';
 import 'package:doctoworld_user/services/post_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
+import 'package:doctoworld_user/storage/local_Storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,8 +31,20 @@ class AppointmentDetail extends StatefulWidget {
 
 class _AppointmentDetailState extends State<AppointmentDetail> {
   @override
+  prescriptionUrlCheck(){
+
+      getMethod(
+          context,
+          prescriptionUrlService,
+          {'appointment_id':widget.appointmentDetail!.id},
+          true,
+          prescriptionUrlRepo);
+
+
+  }
   void initState() {
     // TODO: implement initState
+    storageBox!.write('prescription','0');
     getMethod(
         context,
         getNotifyTokenService,
@@ -44,7 +62,18 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
         false,
         getAgoraRepo
     );
+    
+
     super.initState();
+
+    if ( storageBox!.read('prescription')=='0') {
+      Timer.periodic(Duration(seconds: 2), (Timer t) {
+        if ( Get.find<LoaderController>().prescriptionChecker==false){
+          prescriptionUrlCheck();
+        }
+
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -226,7 +255,7 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                 ],
               ),
             ),
-            widget.appointmentDetail!.isComplete != 1
+            widget.appointmentDetail!.isComplete != 1 &&  widget.appointmentDetail!.isComplete != 2
                 ?SizedBox()
                 :widget.appointmentDetail!.bookingType == 'onsite'
                 ?SizedBox()
@@ -235,7 +264,52 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
               child: Row(
                 children: [
                   Expanded(
-                    child: InkWell(
+                    child: widget.appointmentDetail!.isComplete == 2
+                ? InkWell(
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialogBox(
+                                title: 'FAILED!',
+                                titleColor: customDialogErrorColor,
+                                descriptions: 'Your appointment has Completed At '
+                                    '${widget.appointmentDetail!.bookingDate}',
+                                text: 'Ok',
+                                functionCall: () {
+                                  Navigator.pop(context);
+                                },
+                                img: 'assets/dialog_error.svg',
+                              );
+                            });
+                      },
+                  child: Container(
+                  height: 60,
+                  color: Theme.of(context).backgroundColor,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.call,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        locale.call!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2!
+                            .copyWith(
+                            fontSize: 20,
+                            color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+              ),
+                )
+                        : InkWell(
                       onTap: (){
                         if(widget.appointmentDetail!.bookingDate
                         ==DateFormat('yyyy-MM-dd').format(DateTime.now()).toString()
@@ -340,7 +414,45 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                         ),
                       ),
                     ),
+                  ),
+                  Get.find<LoaderController>().prescriptionChecker==true ?
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async{
+                        if(Get.find<LoaderController>().prescriptionChecker==true){
+                           await launch("$imageBaseUrl${prescriptionUrlModel.data![0].prescriptionUrl}") ;
+                        }
+                        // Navigator.pushNamed(context, PageRoutes.doctorChat);
+                      },
+                      child: Container(
+                        height: 60,
+                        color: Colors.green,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Icon(
+                            //   Icons.assignment,
+                            //   color: Theme.of(context).scaffoldBackgroundColor,
+                            // ),
+                            // SizedBox(
+                            //   width: 20,
+                            // ),
+                            Text(
+                              'Prescription',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(
+                                  fontSize: 20,
+                                  color: Theme.of(context)
+                                      .scaffoldBackgroundColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   )
+                      : SizedBox(),
                 ],
               ),
             ),

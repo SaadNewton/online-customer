@@ -206,6 +206,8 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                           (index) => InkWell(
                                 onTap: () {
                                   Get.to(DoctorsPage(
+                                    categoryName:getDoctorCategories
+                                        .data!.data![index].name ,
                                     id: getDoctorCategories
                                         .data!.data![index].id,
                                   ));

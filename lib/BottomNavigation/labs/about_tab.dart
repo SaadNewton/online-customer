@@ -64,39 +64,34 @@ class About extends StatelessWidget {
                   ),
                 ],
               ),
+
+              /// sample fee
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // direction: Axis.horizontal,
+
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Sample Fee :',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 18, height: 2),
+                  ),
+                  Text(
+                    labDetail!.homeSamplingFees.toString()
+                        ??'0.00',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 15, height: 2, color: Colors.grey),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
-        // Divider(thickness: 8),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Padding(
-        //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        //       child: Text(
-        //         locale.address!,
-        //         style: Theme.of(context)
-        //             .textTheme
-        //             .subtitle1!
-        //             .copyWith(color: Theme.of(context).disabledColor),
-        //       ),
-        //     ),
-        //     Padding(
-        //       padding: EdgeInsets.symmetric(horizontal: 20),
-        //       child: Row(
-        //         children: [
-        //           Icon(
-        //             Icons.location_pin,
-        //             color: Theme.of(context).disabledColor,
-        //             size: 20,
-        //           ),
-        //           SizedBox(width: 8),
-        //         ],
-        //       ),
-        //     ),
-        //     SizedBox(height: 16),
-        //   ],
-        // ),
       ],
     );
   }

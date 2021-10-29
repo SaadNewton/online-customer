@@ -132,9 +132,7 @@ class DoctorData {
     map['total'] = _total;
     return map;
   }
-
 }
-
 class DoctorDetailData {
   int? _id;
   String? _name;

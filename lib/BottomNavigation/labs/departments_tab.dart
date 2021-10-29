@@ -187,19 +187,19 @@ class _DepartmentsState extends State<Departments> {
                                                                               ])),
 
                                                                               /// by home sample
-                                                                              Row(
+                                                                              getAllTestsByCategory.data![index].isAvailableForHome == 1
+                                                                                  ?Row(
                                                                                 mainAxisAlignment:
                                                                                     MainAxisAlignment.spaceBetween,
                                                                                 children: [
                                                                                   Text('By Home'),
-                                                                                  getAllTestsByCategory.data![index].isAvailableForHome == 1
-                                                                                      ? Icon(
+                                                                                  Icon(
                                                                                           Icons.check_circle_outline_outlined,
                                                                                           color: Theme.of(context).primaryColor,
                                                                                         )
-                                                                                      : Container()
+
                                                                                 ],
-                                                                              ),
+                                                                              ): SizedBox(),
                                                                             ],
                                                                           ),
                                                                         ),

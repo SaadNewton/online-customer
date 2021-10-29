@@ -1,7 +1,9 @@
 import 'package:doctoworld_user/Models/get_doctor_from_search_model.dart';
 import 'package:doctoworld_user/Models/get_lab_from_search.dart';
 import 'package:doctoworld_user/Models/get_medicine_from_search_model.dart';
+import 'package:doctoworld_user/Models/labs_tests_search_model.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
+import 'package:doctoworld_user/data/global_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,6 +38,25 @@ doctorSearchRepo(
     // Get.find<AppController>().changeServerErrorCheck(true);
   }
 }
+
+getAllLabTestsSearchRepo(
+    bool responseCheck, Map<String, dynamic> response, BuildContext context) {
+  if (responseCheck) {
+    Get.find<LoaderController>().updateDataController(false);
+    Get.find<LoaderController>().labsTestsSearchModel = LabsTestsSearchModel.fromJson(response);
+    if (Get.find<LoaderController>().labsTestsSearchModel.status == true) {
+      print('getMedicineFromSearchRepo ------>> ${Get.find<LoaderController>().labsTestsSearchModel.message}');
+    } else {}
+  } else if (!responseCheck && response == null) {
+    Get.find<LoaderController>().updateDataController(false);
+
+    print('Exception........................');
+    // Get.find<AppController>().changeServerErrorCheck(true);
+  }
+}
+
+
+
 labSearchRepo(
     bool responseCheck, Map<String, dynamic> response, BuildContext context) {
   if (responseCheck) {

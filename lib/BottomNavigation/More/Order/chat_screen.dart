@@ -74,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
             Align(
               alignment: Alignment.bottomCenter,
-              child: TextFormField(
+              child: widget.appointment!.isComplete == 2 ? SizedBox() : TextFormField(
                 onChanged: (value){
                   if(value.isNotEmpty){
                     setState(() {

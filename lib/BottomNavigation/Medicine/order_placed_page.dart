@@ -32,12 +32,17 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                       durationInMilliseconds: 400,
                     ),
                     Spacer(),
-                    Text(
-                      locale.yourOrderPlaced!,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                      textAlign: TextAlign.center,
+                    InkWell(
+                      child: Text(
+                        locale.yourOrderPlaced!,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                      onTap: (){
+                        Get.to(RecentOrdersPage());
+                      },
                     ),
                     SizedBox(
                       height: 20,

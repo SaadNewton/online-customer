@@ -16,7 +16,8 @@ import 'package:get/get.dart';
 
 class DoctorsPage extends StatefulWidget {
   final id;
-  DoctorsPage({this.id});
+  final categoryName;
+  DoctorsPage({this.id,this.categoryName});
   @override
   _DoctorsPageState createState() => _DoctorsPageState();
 }
@@ -40,7 +41,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
       init: LoaderController(),
       builder: (_) => Scaffold(
           appBar: AppBar(
-            title: Text(locale.cardio!),
+            title: Text( widget.categoryName),
             textTheme: Theme.of(context).textTheme,
             actions: [
 

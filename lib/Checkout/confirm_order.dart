@@ -44,8 +44,15 @@ class _ConfirmOrderState extends State<ConfirmOrder> with SingleTickerProviderSt
   TabController? tabController;
   TextEditingController locationController=TextEditingController();
   TextEditingController nameController=TextEditingController();
+  TextEditingController ageController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
 GlobalKey<FormState> _orderSummeryKey=GlobalKey();
+  List<String> items = ['Male', 'Female', 'Other'] ;
+  bool male = true;
+  bool female = false;
+  bool other = false;
+
+  String dropdownValue = 'Male';
 
   @override
   void initState() {
@@ -164,7 +171,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
               child: ListView(
                 children: [
                   Center(
-                    child: Text('Customer Details',
+                    child: Text('Patient Details',
                       style:TextStyle(
                           fontSize: 20,
                           color: Theme.of(context).primaryColor,
@@ -193,6 +200,127 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
 
                   SizedBox(height: 20,),
 
+                  getCartItemsModel.data![0].type=='test' ?
+                 Column(
+                   children: [
+                     /// Age
+                     ///
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       children: [
+                         Text('Age',
+                           style: TextStyle(
+                               color: Theme.of(context).primaryColor,
+                               fontWeight: FontWeight.w600
+                           ),),
+                       ],
+                     ),
+
+                     SizedBox(height: 5,),
+
+                     EntryField(
+                    textInputType: TextInputType.number,
+                       prefixIcon: Icons.person,
+                       controller: ageController,
+                       validator: (value) {
+                         if (value.isEmpty) {
+                           return 'Field is Required';
+                         } else {
+                           return null;
+                         }
+                       },
+                     ),
+
+                     SizedBox(height: 20,),
+
+
+                     /// Gender
+                     ///
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       children: [
+                         Text('Gender',
+                           style: TextStyle(
+                               color: Theme.of(context).primaryColor,
+                               fontWeight: FontWeight.w600
+                           ),),
+                       ],
+                     ),
+
+                     SizedBox(height: 5,),
+
+                     // EntryField(
+                     //   prefixIcon: Icons.person,
+                     //   controller: genderController,
+                     // ),
+
+
+                     DropdownButtonFormField<String>(
+                       decoration: InputDecoration(
+                         contentPadding: EdgeInsets.symmetric(
+                             vertical: 17.0, horizontal: 10.0),
+                         fillColor: Colors.grey.withOpacity(0.1),
+                         filled: true,
+                         hintStyle: TextStyle(
+                             color: Colors.black, fontSize: 17),
+                         border: OutlineInputBorder(
+                             borderSide: BorderSide.none,
+                             borderRadius: BorderRadius.all(
+                                 Radius.circular(4))),
+                       ),
+                       value: dropdownValue,
+                       icon: const Icon(Icons.arrow_drop_down),
+                       onChanged: (String? newValue) {
+                         setState(() {
+
+                           dropdownValue = newValue!;
+
+                           if(dropdownValue == 'Male'){
+                             setState(() {
+                               male = true;
+                               female = false;
+                               other = false;
+                             });
+
+                           }else if(dropdownValue == 'Female'){
+                             setState(() {
+                               male = false;
+                               female = true;
+                               other = false;
+                             });
+
+                           }else if(dropdownValue == 'Other'){
+                             setState(() {
+                               male = false;
+                               female = false;
+                               other = true;
+                             });
+                           }else{}
+                         });
+                       },
+                       items: items
+                           .map<DropdownMenuItem<String>>((String value) {
+                         return DropdownMenuItem<String>(
+                           value: value,
+                           child: Text(value),
+                         );
+                       }).toList(),
+
+                       validator: (String? value) {
+                         if (value == null) {
+                           return 'Field is Required';
+                         } else {
+                           return null;
+                         }
+                       },
+                     ),
+
+                     SizedBox(height: 20,),
+                   ],
+                 )
+                      : SizedBox(),
+
+
 
 
                   /// phone
@@ -206,6 +334,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
                   SizedBox(height: 5,),
 
                   EntryField(
+                    textInputType: TextInputType.number,
                     prefixIcon: Icons.phone,
                     controller: phoneController,
                   ),
@@ -496,6 +625,10 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
                                   Get.find<LoaderController>().updateFormController(true);
                                   postMethod(context, orderPlaceService, {'customer_id':storageBox!.read('customerId'),
                                     'full_name':nameController.text,
+                                    'age': getCartItemsModel.data![0].type =='medicine'
+                                  ? null : ageController.text,
+                                    'sex': getCartItemsModel.data![0].type =='medicine'
+                                        ? null : dropdownValue,
                                     'lab_id':getCartItemsModel.data![0].type=='medicine'
                                         ?null
                                         :getCartItemsModel.data![0].labId,

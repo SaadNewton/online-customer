@@ -12,6 +12,7 @@ import 'package:doctoworld_user/Models/get_lab_from_search.dart';
 import 'package:doctoworld_user/Models/get_medicine_from_search_model.dart';
 import 'package:doctoworld_user/Models/get_online_schedule.dart';
 import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
+import 'package:doctoworld_user/Models/labs_tests_search_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,6 +28,14 @@ class LoaderController extends GetxController {
   bool dataLoader = true;
   updateDataController(bool value) {
     dataLoader = value;
+    update();
+  }
+
+  /// prescription checker
+  ///
+  bool prescriptionChecker = false;
+  updatePrescriptionChecker(bool value) {
+    prescriptionChecker = value;
     update();
   }
   List<ChatData> messageList = [];
@@ -157,6 +166,7 @@ class LoaderController extends GetxController {
   GetMedicineFromSearchModel getMedicineFromSearchModel = GetMedicineFromSearchModel();
   GetDoctorFromSearchModel getDoctorFromSearchModel = GetDoctorFromSearchModel();
   GetLabFromSearch getLabFromSearch = GetLabFromSearch();
+  LabsTestsSearchModel labsTestsSearchModel = LabsTestsSearchModel();
 
   AgoraModel agoraModel = AgoraModel();
   AgoraModel agoraModelDefault = AgoraModel();

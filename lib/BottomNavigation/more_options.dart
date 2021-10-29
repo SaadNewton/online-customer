@@ -5,6 +5,7 @@ import 'package:doctoworld_user/BottomNavigation/More/Order/recent_orders_page.d
 import 'package:doctoworld_user/BottomNavigation/More/Wallet/wallet_page.dart';
 import 'package:doctoworld_user/BottomNavigation/More/tnc.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
+import 'package:doctoworld_user/Pages/calendar.dart';
 import 'package:doctoworld_user/Pages/contact_us_ui.dart';
 import 'package:doctoworld_user/Pages/customer_change_password.dart';
 import 'package:doctoworld_user/Pages/customer_password_email_ui.dart';
@@ -54,9 +55,9 @@ class _MoreOptionsState extends State<MoreOptions> {
       }),
 
       /// temp close
-      // MenuTile(locale.pillReminder, locale.takePillOnTime,
+      // MenuTile('Calendar', 'Prescription',
       //     Icons.access_alarms_outlined, () {
-      //   Navigator.pushNamed(context, PageRoutes.pillReminder);
+      //   Get.to(Calendar());
       // }),
       // MenuTile(locale.myAddress, locale.saveAddress, Icons.location_pin, () {
       //   Navigator.pushNamed(context, PageRoutes.addressesPage);

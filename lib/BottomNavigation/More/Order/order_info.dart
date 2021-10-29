@@ -1,8 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Components/image_viewer.dart';
 import 'package:doctoworld_user/Models/get_all_orders_model.dart';
-import 'package:doctoworld_user/Models/order_card_model.dart';
-import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
 import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/repositories/prescription_order_change_status_repo.dart';
@@ -103,15 +101,6 @@ class OrderInfoPage extends StatelessWidget {
                             || orderDetail!.status == 'in_progress'
                             || orderDetail!.status == 'delivered'
                             ?Colors.black:theme.disabledColor)),
-                    // trailing: TextButton.icon(
-                    //   style: TextButton.styleFrom(
-                    //     padding: EdgeInsets.zero,
-                    //   ),
-                    //   icon: Icon(Icons.navigation),
-                    //   label: Text(locale.track!),
-                    //   onPressed: () => Navigator.pushNamed(
-                    //       context, PageRoutes.orderTracking),
-                    // ),
                   ),
                 ),
                 Container(
@@ -171,15 +160,6 @@ class OrderInfoPage extends StatelessWidget {
                     title: Text('Delivered',
                         style: theme.textTheme.subtitle1!
                             .copyWith(color: orderDetail!.status == 'delivered' ?Colors.black:theme.disabledColor)),
-                    // trailing: TextButton.icon(
-                    //   style: TextButton.styleFrom(
-                    //     padding: EdgeInsets.zero,
-                    //   ),
-                    //   icon: Icon(Icons.navigation),
-                    //   label: Text(locale.track!),
-                    //   onPressed: () => Navigator.pushNamed(
-                    //       context, PageRoutes.orderTracking),
-                    // ),
                   ),
                 ),
               ],
@@ -216,15 +196,7 @@ class OrderInfoPage extends StatelessWidget {
                         style: theme.textTheme.subtitle1!
                             .copyWith(color: orderDetail!.status == 'picked'
                             || orderDetail!.status == 'delivered' ?Colors.black:theme.disabledColor)),
-                    // trailing: TextButton.icon(
-                    //   style: TextButton.styleFrom(
-                    //     padding: EdgeInsets.zero,
-                    //   ),
-                    //   icon: Icon(Icons.navigation),
-                    //   label: Text(locale.track!),
-                    //   onPressed: () => Navigator.pushNamed(
-                    //       context, PageRoutes.orderTracking),
-                    // ),
+
                   ),
                 ),
                 Container(
@@ -258,17 +230,6 @@ class OrderInfoPage extends StatelessWidget {
             ),
              ///.....................///
 
-            // PositionedDirectional(
-            //   top: 48,
-            //   start: 16,
-            //   child: Column(
-            //     children: [
-            //       Icon(Icons.more_vert_sharp, color: theme.primaryColor),
-            //       SizedBox(height: 30),
-            //       Icon(Icons.more_vert_sharp, color: theme.primaryColor),
-            //     ],
-            //   ),
-            // ),
             Container(
               color: theme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16),
@@ -342,7 +303,7 @@ class OrderInfoPage extends StatelessWidget {
                   //   trailing:
                   //       Text('\$ 26.00', style: theme.textTheme.subtitle1),
                   // ),
-                   orderDetail!.status == 'pending' ? InkWell(
+                   orderDetail!.status == 'review' || orderDetail!.status == 'in_review' ? InkWell(
 
                     onTap: (){
                       Get.find<LoaderController>().updateDataController(true);

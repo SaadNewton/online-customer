@@ -269,13 +269,16 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                         SizedBox(
                                           height: 20,
                                         ),
-                                        Text(
-                                          getAllAppointmentsModel.data!.data![index].doctor!.name!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(height: 1.5, fontSize: 16),
-                                        ),
+
+                                            Text(
+                                              getAllAppointmentsModel.data!.data![index].doctor!.name!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(height: 1.5, fontSize: 16),
+                                            ),
+
+
                                         RichText(
                                             text: TextSpan(
                                                 style: Theme.of(context)
@@ -320,6 +323,26 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                           ],
                                         ),
                                       ],
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          getAllAppointmentsModel.data!.data![index].bookingType!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(height: 1.5, fontSize: 16, color: Colors.white),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

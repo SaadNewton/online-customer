@@ -35,6 +35,8 @@ dependencies:
   flutter_local_notifications:
   flutter_rating_stars: ^1.0.3+4
   photo_view:
+  syncfusion_flutter_datepicker: ^19.3.47
+  url_launcher:
   #getx
   get:
   get_storage:

@@ -284,7 +284,12 @@ class _DoctorsBodyState extends State<DoctorsBody> {
               shrinkWrap: true,
               itemCount: doctorList.length,
               itemBuilder: (context, index) {
-                return Column(
+                return Get.find<LoaderController>().doctorsList[index].status==1?Column
+
+
+
+
+                  (
                   children: [
                     Stack(
                       children: [
@@ -496,7 +501,7 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                       color: Theme.of(context).backgroundColor,
                     ),
                   ],
-                );
+                ):SizedBox();
               },
             ),
             allDoctorsModel.status == false

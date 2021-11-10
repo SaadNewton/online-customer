@@ -75,11 +75,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "274090461017-7lmd0vfu4u753q366m39pfumr3ljdi5h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.online_doctor.doctor",
+            "certificate_hash": "bcf80754dfc8d8cfb887a600eeac04f61c7837ba"
+          }
+        },
+        {
+          "client_id": "274090461017-ottja3frcn2rd7dpjla9ep6llup48orb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.online_doctor.doctor",
+            "certificate_hash": "09067d73de22668a6d4b8e0e14fe7c3771d9d1b1"
+          }
+        },
+        {
           "client_id": "274090461017-qg4feqiu496mkjses709hepb8m2ul7b1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "pk.online_doctor.doctor",
             "certificate_hash": "50e62b18997d8cd98380830d5d8571c5fe4c6433"
+          }
+        },
+        {
+          "client_id": "274090461017-t74sghhfo61qe2cd058jdtcrqhb7q5hl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.online_doctor.doctor",
+            "certificate_hash": "9f9f736e8c88996840da4881b7bdc2e4e03000a2"
           }
         },
         {
@@ -119,11 +143,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "274090461017-d9j0ij4e8jfdf9d91klpndvogt9j0bfv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.online_doctor.pharmacy",
+            "certificate_hash": "e02a4807e99a540d8bf55d989e811d8ff1b7e7b0"
+          }
+        },
+        {
           "client_id": "274090461017-rdr40nks6sggoklmu8muobpv4l82g5rq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "pk.online_doctor.pharmacy",
             "certificate_hash": "559cff3be6c4e3db9572adcb66332a9ac7e4d296"
+          }
+        },
+        {
+          "client_id": "274090461017-tmqma90pm4shsl8fn5eojfcrp9r8d5m9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.online_doctor.pharmacy",
+            "certificate_hash": "8a33bd68fc67a99c3d69c05dc8ab1559eeac8f1f"
           }
         },
         {

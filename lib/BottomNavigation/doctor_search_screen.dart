@@ -147,7 +147,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                       : Expanded(
                     child: ListView(
                       children: List.generate(loaderController.getDoctorFromSearchModel.data.length, (index) {
-                        return Padding(
+                        return loaderController.getDoctorFromSearchModel.data[index].status==1?Padding(
                           padding:
                           const EdgeInsets.fromLTRB(15, 15, 15, 0),
                           child: InkWell(
@@ -232,7 +232,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                               ),
                             ),
                           ),
-                        );
+                        ):SizedBox();
                       }),
                     ),
                   )

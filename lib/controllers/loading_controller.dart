@@ -12,6 +12,7 @@ import 'package:doctoworld_user/Models/get_lab_from_search.dart';
 import 'package:doctoworld_user/Models/get_medicine_from_search_model.dart';
 import 'package:doctoworld_user/Models/get_online_schedule.dart';
 import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
+import 'package:doctoworld_user/Models/get_schedule_model.dart';
 import 'package:doctoworld_user/Models/labs_tests_search_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -86,6 +87,12 @@ class LoaderController extends GetxController {
   GetClinicSchedule getOnSiteClinicScheduleModel = GetClinicSchedule();
   GetClinicSchedule getOnlineSchedule = GetClinicSchedule();
 
+  GetScheduleModel getScheduleModel = GetScheduleModel();
+  int? selectedDay=10000;
+  updateSelectDay(int value){
+    selectedDay=value;
+    update();
+  }
   List<String> getClinicsList = [];
   updateGetClinicsList(String clinic){
     getClinicsList.add(

@@ -74,6 +74,7 @@ class DoctorListTile {
       this.fee, this.startTime, this.endTime);
 }
 
+
 class _DoctorsListState extends State<DoctorsList> {
   bool showSlots = false;
   int? doctorId;
@@ -111,7 +112,7 @@ class _DoctorsListState extends State<DoctorsList> {
                   shrinkWrap: true,
                   itemCount: searchList.length,
                   itemBuilder: (context, i) {
-                    return Column(
+                    return getDoctorsByCategoryModel.data!.data![i].status==1?Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 8, bottom: 18.0),
@@ -235,7 +236,7 @@ class _DoctorsListState extends State<DoctorsList> {
                           color: Theme.of(context).backgroundColor,
                         ),
                       ],
-                    );
+                    ):SizedBox();
 
                     /*ListTile(
                     contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),

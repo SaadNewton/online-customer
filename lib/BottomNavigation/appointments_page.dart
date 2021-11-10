@@ -62,16 +62,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       Appointments('assets/Doctors/doc2.png', 'Dr. Anglina Taylor',
           'Cardiac Surgeon', 'Operum Clinics', '14 June 2020', '2:30 pm'),
     ];
-    List<Appointments> pastAppointments = [
-      Appointments('assets/Doctors/doc3.png', 'Dr. Anthony Peterson',
-          'Cardiac Surgeon', 'Opus Hospital', '28 May 2020', '3:00 pm'),
-      Appointments('assets/Doctors/doc4.png', 'Dr. Elina George',
-          'Cardiac Surgeon', 'Lismuth Hospital', '11 May 2020', '2:30 pm'),
-      Appointments('assets/Doctors/doc1.png', 'Dr. Joseph Williamson',
-          'Cardiac Surgeon', 'Apple Hospital', '26 April 2020', '10:00 am'),
-      Appointments('assets/Doctors/doc2.png', 'Dr. Anglina Taylor',
-          'Cardiac Surgeon', 'Operum Clinics', '22 April 2020', '11:00 am'),
-    ];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

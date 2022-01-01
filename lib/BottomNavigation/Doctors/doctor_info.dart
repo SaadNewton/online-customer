@@ -35,7 +35,7 @@ List<DateTime>? dateList = <DateTime>[];
 
 getDayList() {
   dateList=[];
-  List.generate(100, (index) {
+  List.generate(3000, (index) {
     DateTime bk = DateTime.now();
 
     log(Get.find<LoaderController>().getScheduleModel.data!.length.toString());
@@ -75,7 +75,7 @@ class DoctorInfo extends StatefulWidget {
 }
 
 class _DoctorInfoState extends State<DoctorInfo> {
-  int selectedSlot = 3000;
+  int selectedSlot = 10000;
   String? slot;
   String? selectedHospital = '';
   String? appointmentDate;
@@ -140,6 +140,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
         inAsyncCall: loaderController.formLoader,
         child: Scaffold(
           appBar: AppBar(
+            title: Text("Doctor Detail",style: TextStyle(color: Colors.black),),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () {
@@ -179,27 +180,30 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                       Expanded(
                                         child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 0.0),
-                                            child: FadedScaleAnimation(
-                                              getDoctorProfileModal
-                                                          .data.imagePath ==
-                                                      null
-                                                  ? Image.asset(
-                                                      'assets/Doctors/doc1.png',
-                                                    )
-                                                  : Image.network(
-                                                      "${imageBaseUrl}"
-                                                      "${getDoctorProfileModal.data.imagePath}",
-                                                      height: 200,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              .5,
-                                                    ),
-                                              durationInMilliseconds: 400,
+                                          child: Container(
+                                            height:150,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
+                                              child: FadedScaleAnimation(
+                                                getDoctorProfileModal
+                                                            .data.imagePath ==
+                                                        null
+                                                    ? Image.asset(
+                                                        'assets/Doctors/doc1.png',
+                                                      )
+                                                    : Image.network(
+                                                        "${imageBaseUrl}"
+                                                        "${getDoctorProfileModal.data.imagePath}",
+                                                        height: 200,
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .width *
+                                                                .5,
+                                                      ),
+                                                durationInMilliseconds: 400,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -211,9 +215,41 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
+                                            Wrap(
+                                              children: [
+                                                RichText(
+                                                  text: TextSpan(
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle2,
+                                                      children: [
+                                                        TextSpan(
+                                                            text: getDoctorProfileModal
+                                                                .data.name,
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .subtitle2!
+                                                                .copyWith(
+                                                                fontSize: 26)),
+                                                        TextSpan(
+                                                            text:
+                                                            "\n${getDoctorProfileModal.data.qualification}",
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .subtitle2!
+                                                                .copyWith(
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .disabledColor,
+                                                                fontSize: 13))
+                                                      ]),
+                                                ),
+                                              ],
+                                            ),
                                             SizedBox(
-                                              height: 45,
+                                              height: 20,
                                             ),
 
                                             /// fees
@@ -232,7 +268,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                                                 color: Theme.of(
                                                                         context)
                                                                     .disabledColor,
-                                                                fontSize: 13)),
+                                                                fontSize: 18)),
                                                     TextSpan(
                                                         text:
                                                             'Rs. ${getDoctorProfileModal.data.fees}',
@@ -242,7 +278,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                             ),
 
                                             SizedBox(
-                                              height: 45,
+                                              height: 20,
                                             ),
 
                                             ///qualification
@@ -262,7 +298,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                                                 color: Theme.of(
                                                                         context)
                                                                     .disabledColor,
-                                                                fontSize: 13)),
+                                                                fontSize: 18)),
                                                     TextSpan(
                                                         text:
                                                             '\n${getDoctorProfileModal.data.qualification}',
@@ -275,44 +311,44 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                       )
                                     ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20,
-                                        top: 10,
-                                        bottom: 20,
-                                        right: 20),
-                                    child: Wrap(
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2,
-                                              children: [
-                                                TextSpan(
-                                                    text: getDoctorProfileModal
-                                                        .data.name,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle2!
-                                                        .copyWith(
-                                                            fontSize: 26)),
-                                                TextSpan(
-                                                    text:
-                                                        "\n${getDoctorProfileModal.data.qualification}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle2!
-                                                        .copyWith(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .disabledColor,
-                                                            fontSize: 13))
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       left: 20,
+                                  //       top: 10,
+                                  //       bottom: 20,
+                                  //       right: 20),
+                                  //   child: Wrap(
+                                  //     children: [
+                                  //       RichText(
+                                  //         text: TextSpan(
+                                  //             style: Theme.of(context)
+                                  //                 .textTheme
+                                  //                 .subtitle2,
+                                  //             children: [
+                                  //               TextSpan(
+                                  //                   text: getDoctorProfileModal
+                                  //                       .data.name,
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .subtitle2!
+                                  //                       .copyWith(
+                                  //                           fontSize: 26)),
+                                  //               TextSpan(
+                                  //                   text:
+                                  //                       "\n${getDoctorProfileModal.data.qualification}",
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .subtitle2!
+                                  //                       .copyWith(
+                                  //                           color: Theme.of(
+                                  //                                   context)
+                                  //                               .disabledColor,
+                                  //                           fontSize: 13))
+                                  //             ]),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -583,15 +619,15 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                   child: Wrap(
                                     children: List.generate(
                                         loaderController
-                                            .getScheduleModel.data![loaderController.selectedDay!].slots!
-                                            .length, (index) {
+                                            .getScheduleModel.data![loaderController.selectedDay!].slots!.length, (index) {
                                       return InkWell(
                                         onTap: () {
                                           setState(() {
-                                            selectedSlot =
-                                                index;
+                                            //slot on tap
+                                            selectedSlot = index;
                                             slot = loaderController
                                                 .getScheduleModel.data![loaderController.selectedDay!].slots![index].slot;
+                                            print("slot $slot");
                                           });
                                         },
                                         child: Padding(

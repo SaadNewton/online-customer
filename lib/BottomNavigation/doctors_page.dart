@@ -216,6 +216,8 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                   padding: EdgeInsets.only(
                                       left: 10, top: 10, bottom: 10),
                                   child: Container(
+                                    width: 110,
+                                    height: 170,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(10),
@@ -228,20 +230,23 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                         ]),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         FadedScaleAnimation(
                                           ClipRRect(
                                             borderRadius: BorderRadius.vertical(
                                                 top: Radius.circular(10)),
-                                            child: Image.network(
-                                              "${imageBaseUrl}assets/sector/${getDoctorCategories.data!.data![index].image}",
-                                              // height: 100,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.32,
-                                              fit: BoxFit.fill,
+                                            child: Container(
+                                              color: Colors.black,
+                                              child: Image.network(
+                                                "${imageBaseUrl}assets/sector/${getDoctorCategories.data!.data![index].image}",
+                                                // height: 100,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.32,
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
                                           ),
                                           durationInMilliseconds: 300,
@@ -251,8 +256,10 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                           child: Text(
                                             getDoctorCategories
                                                 .data!.data![index].name!,
-                                            maxLines: 2,
+                                            maxLines: 3,
                                             softWrap: true,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12),
                                           ),
                                         )
                                       ],
@@ -284,12 +291,8 @@ class _DoctorsBodyState extends State<DoctorsBody> {
               shrinkWrap: true,
               itemCount: doctorList.length,
               itemBuilder: (context, index) {
-                return Get.find<LoaderController>().doctorsList[index].status==1?Column
-
-
-
-
-                  (
+                return Get.find<LoaderController>().doctorsList[index].status==1?
+                Column(
                   children: [
                     Stack(
                       children: [
@@ -306,20 +309,24 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                             },
                             child: Row(
                               children: [
-                                FadedScaleAnimation(
-                                  doctorList[index].image == 'user'
-                                      ? Image.asset(
-                                          'assets/Doctors/doc2.png',
-                                          // scale: 2.5,
-                                    width: 70,
-                                        )
-                                      : Image.network(
-                                          "${imageBaseUrl}assets/doctor/images/profile/${doctorList[index].image}",
-                                          // scale: 2.5,
-                                          // height: 50,
-                                    width: 70,
-                                        ),
-                                  durationInMilliseconds: 400,
+                                Container(
+                                  height: 100,
+                                  width: 70,
+                                  child: FadedScaleAnimation(
+                                    doctorList[index].image == 'user'
+                                        ? Image.asset(
+                                            'assets/Doctors/doc2.png',
+                                            // scale: 2.5,
+                                      width: 70,
+                                          )
+                                        : Image.network(
+                                            "${imageBaseUrl}assets/doctor/images/profile/${doctorList[index].image}",
+                                            // scale: 2.5,
+                                            // height: 50,
+                                      // width: 100,
+                                          ),
+                                    durationInMilliseconds: 400,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 8,
@@ -351,27 +358,28 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                                     fontSize: 12),
                                               ),
                                             ])),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                doctorList[index].date+ ' | ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                        Text(
-                doctorList[index].time,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                      ],
-                                    ),
+                // Text(doctorList[index].speciality,style: TextStyle(color: Colors.black),),
+                //                     SizedBox(
+                //                       height: 12,
+                //                     ),
+                //                     Row(
+                //                       children: [
+                //                         Text(
+                // doctorList[index].date.toString()+ ' | ',
+                //                           style: Theme.of(context)
+                //                               .textTheme
+                //                               .subtitle1!
+                //                               .copyWith(fontSize: 13),
+                //                         ),
+                //                         Text(
+                // doctorList[index].time.toString(),
+                //                           style: Theme.of(context)
+                //                               .textTheme
+                //                               .subtitle1!
+                //                               .copyWith(fontSize: 13),
+                //                         ),
+                //                       ],
+                //                     ),
                                     SizedBox(
                                       height: 5,
                                     ),

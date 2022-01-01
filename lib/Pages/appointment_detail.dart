@@ -418,17 +418,23 @@ class _AppointmentDetailState extends State<AppointmentDetail> {
                       ),
                     ),
 
+    // imageBaseUrl${prescriptionUrlModel.data![0].prescriptionUrl!.isEmpty}?
+
                     Expanded(
                       child: GestureDetector(
                         onTap: () async{
+
                           if(Get.find<LoaderController>().prescriptionChecker==true){
+                            prescriptionUrlModel.data![0].prescriptionUrl == null ? ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                                content: new Text("Description is not allocated")
+                            )):
                              await launch("$imageBaseUrl${prescriptionUrlModel.data![0].prescriptionUrl}") ;
                           }
                           // Navigator.pushNamed(context, PageRoutes.doctorChat);
                         },
                         child: Container(
                           height: 60,
-                          color: Colors.green,
+                          color:prescriptionUrlModel.data![0].prescriptionUrl == null ? Colors.grey.shade400 : Colors.green,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

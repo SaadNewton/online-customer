@@ -47,7 +47,7 @@ class _ShopByCategoryPageState extends State<ShopByCategoryPage> {
     var locale = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(locale.shopByCategory!),
+        title: Text(locale.shopByCategory!,style: TextStyle(color: Colors.black)),
         textTheme: Theme.of(context).textTheme,
         centerTitle: true,
       ),

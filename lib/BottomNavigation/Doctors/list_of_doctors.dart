@@ -41,7 +41,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
       init: LoaderController(),
       builder: (_) => Scaffold(
           appBar: AppBar(
-            title: Text( widget.categoryName),
+            title: Text( widget.categoryName,style: TextStyle(color: Colors.black)),
             textTheme: Theme.of(context).textTheme,
             actions: [
 
@@ -88,7 +88,7 @@ class _DoctorsListState extends State<DoctorsList> {
         getDoctorsByCategoryModel.data!.data![index].name ?? 'user',
         getDoctorsByCategoryModel.data!.data![index].speciality,
         getDoctorsByCategoryModel.data!.data![index].qualification ?? 'Testing',
-        getDoctorsByCategoryModel.data!.data![index].fees.toString() ?? '0',
+        getDoctorsByCategoryModel.data!.data![index].fees.toString(),
         getDoctorsByCategoryModel.data!.data![index].startTime ?? '0.00',
         getDoctorsByCategoryModel.data!.data![index].endTime ?? '0.00',
       ),

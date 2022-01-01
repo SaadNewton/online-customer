@@ -80,8 +80,7 @@ class About extends StatelessWidget {
                         .copyWith(fontSize: 18, height: 2),
                   ),
                   Text(
-                    labDetail!.homeSamplingFees.toString()
-                        ??'0.00',
+                    labDetail!.homeSamplingFees.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!

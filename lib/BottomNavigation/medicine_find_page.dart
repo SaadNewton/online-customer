@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:doctoworld_user/BottomNavigation/Doctors/doctor_info.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/medicines.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/my_cart.dart';
 import 'package:doctoworld_user/BottomNavigation/Medicine/shop_by_category_page.dart';
@@ -14,6 +15,7 @@ import 'package:doctoworld_user/controllers/loading_controller.dart';
 import 'package:doctoworld_user/data/global_data.dart';
 import 'package:doctoworld_user/repositories/articeles_repo.dart';
 import 'package:doctoworld_user/repositories/get_all_categories_repo.dart';
+import 'package:doctoworld_user/repositories/get_all_doctor_repo.dart';
 import 'package:doctoworld_user/repositories/get_cart_items_repo.dart';
 import 'package:doctoworld_user/repositories/get_products_by_category_repo.dart';
 import 'package:doctoworld_user/repositories/get_user_detail_reop.dart';
@@ -22,15 +24,37 @@ import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:new_version/new_version.dart';
+import 'package:upgrader/upgrader.dart';
 
-class MedicinePage extends StatelessWidget {
+class MedicinePage extends StatefulWidget {
+  @override
+  State<MedicinePage> createState() => _MedicinePageState();
+}
+
+class _MedicinePageState extends State<MedicinePage> {
   @override
   Widget build(BuildContext context) {
     return FindMedicine();
   }
+}
+
+class DoctorDetail {
+  int id;
+  String image;
+  String name;
+  int fees;
+  String hospital;
+  String date;
+  String time;
+  String? reviews;
+  String speciality;
+  DoctorDetail(this.id,this.image, this.name, this.fees, this.hospital, this.date,
+      this.time, this.speciality);
 }
 
 class FindMedicine extends StatefulWidget {
@@ -46,10 +70,42 @@ class _FindMedicineState extends State<FindMedicine> {
     'assets/banners/Doctor Online App Banner 2.jpg',
     'assets/banners/Doctor Online App Banner 3.jpg'];
   int _currentSliderIndexForImageSlider=0;
+  var status;
+  checkVersion() async {
+    final newVersion = NewVersion(
+      androidId: 'com.CreCode.OnlineDoctor',
+    );
+    status = await newVersion.getVersionStatus();
+    print("status update $status");
+      newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          dialogTitle: 'Update Available',
+          dismissButtonText: 'Later',
+          dialogText: 'Please Update your app',
+          dismissAction: () {
+            Navigator.pop(context);
+          },
+          updateButtonText: 'Update Now'
+      );
+  }
+
+  checkUpdate(){
+    return UpgradeAlert(
+      debugLogging: true,
+      child: Center(child: Text('Checking...')),
+    );
+  }
+
+
+
   @override
   void initState() {
     // TODO: implement initState
+    //   checkVersion();
+    checkUpdate();
     isCartPage=false;
+    getMethod(context, getAllDoctorsService, {'page':0}, true, getAllDoctorsRepo);
     Get.find<LoaderController>().getCurrentLocation(context);
     getMethod(context, getCartProductsService,
         {'customer_id':storageBox!.read('customerId')}, true, getAllCartItemsRepo);
@@ -60,13 +116,41 @@ class _FindMedicineState extends State<FindMedicine> {
         context,
         allArticlesService,
         null,
-        false,
+        true,
         getAllDoctorsArticlesRepo);
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {
+    //   Get.find<LoaderController>().updateDataController(true);
+    //   Get.find<LoaderController>().doctorCategoryCheck(true);
+    //   Get.find<LoaderController>().doctorPage = 1;
+    // });
+    // getUserDetailRepo();
+    //
+    // getMethod(context, getAllDoctorsService, {'page':1}, true, getAllDoctorsRepo);
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {
+    //   Get.find<LoaderController>().updateDataController(true);
+    //   Get.find<LoaderController>().doctorCategoryCheck(true);
+    //   Get.find<LoaderController>().doctorPage = 1;
+    // });
+
+
     super.initState();
   }
 
+  List<DoctorDetail> doctorList = List.generate(
+      Get.find<LoaderController>().doctorsList.reversed.length,
+          (index) => DoctorDetail(
+          Get.find<LoaderController>().doctorsList[index].id!,
+          Get.find<LoaderController>().doctorsList[index].image ?? 'user',
+          Get.find<LoaderController>().doctorsList[index].name ?? 'Doctor',
+          Get.find<LoaderController>().doctorsList[index].fees ?? 0,
+          Get.find<LoaderController>().doctorsList[index].qualification ?? 'Testing',
+          Get.find<LoaderController>().doctorsList[index].startTime ?? '0.00',
+          Get.find<LoaderController>().doctorsList[index].endTime ?? '0.00',
+          'speciality'));
+
   @override
   Widget build(BuildContext context) {
+    Upgrader().clearSavedSettings();
     var locale = AppLocalizations.of(context)!;
 
     return GetBuilder<LoaderController>(
@@ -162,6 +246,8 @@ class _FindMedicineState extends State<FindMedicine> {
                   durationInMilliseconds: 400,
                 ),
               ),
+
+              //medicine feild
               FadedScaleAnimation(
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -334,10 +420,28 @@ class _FindMedicineState extends State<FindMedicine> {
               ),
               /// Path buttons
               ///
+              ///
+
+              // Container(
+              //   height: 170,
+              //   child: ListView(
+              //     padding: const EdgeInsets.all(8),
+              //     semanticChildCount: 3,
+              //     // scrollDirection: Axis.horizontal,
+              //
+              //     children: [
+              //
+              //     ],
+              //   ),
+              // ),
+
+
+
+
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SizedBox(
-                  height: 170,
+                  height: 150,
                   child: Row(
                     children: [
 
@@ -388,16 +492,16 @@ class _FindMedicineState extends State<FindMedicine> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text('Doctors',
+                                              Text('Online \nDoctors',
                                                 style: TextStyle(
                                                     color: customOrangeColor,
-                                                    fontSize: 16,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               SvgPicture.asset('assets/arrow-left-circle.svg',
                                                 color: customOrangeColor,
-                                                height: 20,
+                                                height: 18,
                                               )
                                             ],
                                           )
@@ -413,7 +517,7 @@ class _FindMedicineState extends State<FindMedicine> {
                         ),
                       ),
 
-                      SizedBox(width: 15,),
+                      SizedBox(width: 8,),
 
                       /// labs button
                       ///
@@ -426,6 +530,7 @@ class _FindMedicineState extends State<FindMedicine> {
                                   Get.find<LoaderController>().changeCurrentIndexCheck(2);
                                 },
                                 child: Container(
+                                  height:100,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                       color: customBlueColor,
@@ -438,7 +543,7 @@ class _FindMedicineState extends State<FindMedicine> {
                                   ),
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 10),
-                                    height: double.infinity,
+                                    height: 50,
                                     width: double.infinity,
 
                                     decoration: BoxDecoration(
@@ -463,16 +568,103 @@ class _FindMedicineState extends State<FindMedicine> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text('Labs',
+                                              Text('Labs \nInhouse\nTest',
                                                 style: TextStyle(
                                                     color: customBlueColor,
-                                                    fontSize: 16,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               SvgPicture.asset('assets/arrow-left-circle.svg',
                                                 color: customBlueColor,
-                                                height: 20,
+                                                height: 18,
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(width: 8,),
+
+                      /// labs button
+                      ///
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: (){
+                                  Get.to(MedicineSearchScreen());
+                                },
+                                child: Container(
+                                  height:100,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: starColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 5
+                                      )]
+                                  ),
+                                  child: Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    height: 50,
+                                    width: double.infinity,
+
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage('assets/blue.png'),
+                                            fit: BoxFit.fill,
+                                        ),
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [BoxShadow(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            spreadRadius: 2,
+                                            blurRadius: 5
+                                        )]
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            padding: EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              color: starColor,
+                                              borderRadius: BorderRadius.circular(100)
+                                            ),
+                                            child: Icon(Icons.search,color: Colors.white,),
+                                          ),
+                                          // SvgPicture.asset('assets/labs icon.svg',
+                                          //   height: 40,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('Get\nMedicine',
+                                                style: TextStyle(
+                                                    color: starColor,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              SvgPicture.asset('assets/arrow-left-circle.svg',
+                                                color: starColor,
+                                                height: 18,
                                               )
                                             ],
                                           )
@@ -491,6 +683,113 @@ class _FindMedicineState extends State<FindMedicine> {
                   ),
                 ),
               ),
+///doctors list
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+                child: Text(
+                  'List of doctors',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: Theme.of(context).disabledColor),
+                ),
+              ),
+              Container(
+                height: 170,
+
+                child: ListView.builder(
+                  // physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: doctorList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Get.find<LoaderController>().doctorsList[index].status ==1? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 130,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 2,
+                                  blurRadius: 5
+                              )]
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 10.0, left: 10, right: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(DoctorInfo(
+                                    docId: doctorList[index].id,
+                                  ));
+                                  // Navigator.pushNamed(
+                                  //     context, PageRoutes.appointmentDetail);
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      width: 70,
+                                      child: FadedScaleAnimation(
+                                        doctorList[index].image == 'user'
+                                            ? Image.asset(
+                                          'assets/Doctors/doc2.png',
+                                          // scale: 2.5,
+                                          width: 70,
+                                        )
+                                            : Image.network(
+                                          "${imageBaseUrl}assets/doctor/images/profile/${doctorList[index].image}",
+                                          // scale: 2.5,
+                                          // height: 50,
+                                          // width: 100,
+                                        ),
+                                        durationInMilliseconds: 400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    RichText(
+                                        text: TextSpan(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: doctorList[index].name+ '\n',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle1!.copyWith(fontSize: 12)),
+                                              TextSpan(
+                                                text: doctorList[index].hospital,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption!
+                                                    .copyWith(
+                                                    color: kButtonTextColor,
+                                                    fontSize: 12),
+                                              ),
+                                            ])),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ) :
+                    SizedBox(
+                    );
+                  },
+                ),
+              ),
+
+
 
               /// categories
               TitleRow(locale.shopByCategory, () {
@@ -565,6 +864,8 @@ class _FindMedicineState extends State<FindMedicine> {
                     }),
               ),
               SizedBox(height: 20,),
+
+
 
               /// articles button
               ///

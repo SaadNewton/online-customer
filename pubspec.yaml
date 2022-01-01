@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.3+9
+version: 1.0.7
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -45,6 +45,7 @@ dependencies:
   #location
   geolocator:
   location_permissions: ^4.0.0
+  new_version: ^0.2.3
 
   geocoding:
   #permission
@@ -54,6 +55,11 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_auth: ^3.1.1
   firebase_messaging:
+  #update app
+  upgrader: ^3.11.1
+
+  #audioplayer
+#  audioplayers: ^0.20.1
 
 
 
@@ -96,5 +102,6 @@ flutter:
     - assets/ProfilePics/
     - assets/PaymentIcons/
     - assets/Doctors/
+    - assets/ringtone/
 
 

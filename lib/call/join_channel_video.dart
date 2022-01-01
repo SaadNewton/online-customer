@@ -30,11 +30,13 @@ class _State extends State<JoinChannelVideo> {
   List<int> remoteUid = [];
 
 
+
   @override
   void initState() {
     super.initState();
 
     this._initEngine();
+    print("someone calling u");
 
   }
 
@@ -52,6 +54,7 @@ class _State extends State<JoinChannelVideo> {
     await _engine.startPreview();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
+    // await _engine.enableSoundPositionIndication(true);
   }
 
   _addListeners() {

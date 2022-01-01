@@ -25,7 +25,8 @@ class LocalNotificationService{
             "this is our channel",
             importance:Importance.max,
             priority: Priority.high,
-
+          enableVibration: true,
+          playSound: true,
         )
     );
    final id=DateTime.now().millisecondsSinceEpoch ~/1000;

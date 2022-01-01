@@ -102,6 +102,7 @@ class _EntryFieldState extends State<EntryField> {
                     },
                   ),
                   labelText: widget.hint,
+                  labelStyle: TextStyle(color: Colors.grey),
                   filled: true,
                   fillColor: widget.color ?? Theme.of(context).backgroundColor,
                   border: OutlineInputBorder(

@@ -62,7 +62,7 @@ class _VerificationUIState extends State<VerificationUI> {
         inAsyncCall: loaderController.formLoader,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(locale.phoneVerification),
+            title: Text(locale.phoneVerification,style: TextStyle(color: Colors.black)),
             centerTitle: true,
           ),
           body: FadedSlideAnimation(

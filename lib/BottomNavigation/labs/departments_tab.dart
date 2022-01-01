@@ -112,27 +112,61 @@ class _DepartmentsState extends State<Departments> {
                                                               child:
                                                                   GestureDetector(
                                                                 onTap: () {
-                                                                 if(getCartItemsModel.data == null){
-                                                                   Get.find<LoaderController>().updateFormController(true);
-                                                                   addToCartMethod(getAllTestsByCategory.data![index].id,
-                                                                       getAllTestsByCategory.data![index].price);
-                                                                 }else if(getCartItemsModel.data![0].labId==widget.labId){
-                                                                    Get.find<LoaderController>().updateFormController(true);
-                                                                    addToCartMethod(getAllTestsByCategory.data![index].id,
-                                                                        getAllTestsByCategory.data![index].price);
-                                                                  }else{
+                                                                  if (getCartItemsModel
+                                                                          .data ==
+                                                                      null) {
+                                                                    Get.find<
+                                                                            LoaderController>()
+                                                                        .updateFormController(
+                                                                            true);
+                                                                    addToCartMethod(
+                                                                        getAllTestsByCategory
+                                                                            .data![
+                                                                                index]
+                                                                            .id,
+                                                                        getAllTestsByCategory
+                                                                            .data![index]
+                                                                            .price);
+                                                                  } else if (getCartItemsModel
+                                                                          .data![
+                                                                              0]
+                                                                          .labId ==
+                                                                      widget
+                                                                          .labId) {
+                                                                    Get.find<
+                                                                            LoaderController>()
+                                                                        .updateFormController(
+                                                                            true);
+                                                                    addToCartMethod(
+                                                                        getAllTestsByCategory
+                                                                            .data![
+                                                                                index]
+                                                                            .id,
+                                                                        getAllTestsByCategory
+                                                                            .data![index]
+                                                                            .price);
+                                                                  } else {
                                                                     showDialog(
-                                                                        context: context,
-                                                                        builder: (BuildContext context) {
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
                                                                           return CustomDialogBox(
-                                                                            title: 'INFO!',
-                                                                            titleColor: customDialogInfoColor,
-                                                                            descriptions: 'You can\'t be add multi labs tests.',
-                                                                            text: 'Ok',
-                                                                            functionCall: () {
+                                                                            title:
+                                                                                'INFO!',
+                                                                            titleColor:
+                                                                                customDialogInfoColor,
+                                                                            descriptions:
+                                                                                'You can\'t be add multi labs tests.',
+                                                                            text:
+                                                                                'Ok',
+                                                                            functionCall:
+                                                                                () {
                                                                               Navigator.pop(context);
                                                                             },
-                                                                            img: 'assets/dialog_Info.svg',
+                                                                            img:
+                                                                                'assets/dialog_Info.svg',
                                                                           );
                                                                         });
                                                                   }
@@ -149,22 +183,22 @@ class _DepartmentsState extends State<Departments> {
                                                                               ClipRRect(
                                                                             borderRadius:
                                                                                 BorderRadius.circular(10),
-                                                                            child: Image
-                                                                                .network(
+                                                                            child:
+                                                                                Image.network(
                                                                               "$imageBaseUrl${getAllTestsByCategory.data![index].imagePath}",
-                                                                              fit: BoxFit
-                                                                                  .fill,
-                                                                              height:
-                                                                                  80,
+                                                                              fit: BoxFit.fill,
+                                                                              height: 80,
                                                                             ),
                                                                           ),
                                                                         ),
 
                                                                         SizedBox(
-                                                                          width: 15,
+                                                                          width:
+                                                                              15,
                                                                         ),
                                                                         Expanded(
-                                                                          flex: 3,
+                                                                          flex:
+                                                                              3,
                                                                           child:
                                                                               Column(
                                                                             crossAxisAlignment:
@@ -173,9 +207,7 @@ class _DepartmentsState extends State<Departments> {
                                                                               ///test name
                                                                               RichText(
                                                                                   text: TextSpan(style: Theme.of(context).textTheme.subtitle2, children: <TextSpan>[
-                                                                                TextSpan(
-                                                                                    text: getAllTestsByCategory.data![index]!.name! + '\n',
-                                                                                    style: Theme.of(context).textTheme.subtitle1),
+                                                                                TextSpan(text: getAllTestsByCategory.data![index].name! + '\n', style: Theme.of(context).textTheme.subtitle1),
                                                                                 TextSpan(
                                                                                   text: 'Rs: ',
                                                                                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).disabledColor, fontSize: 12, height: 1.5),
@@ -188,18 +220,17 @@ class _DepartmentsState extends State<Departments> {
 
                                                                               /// by home sample
                                                                               getAllTestsByCategory.data![index].isAvailableForHome == 1
-                                                                                  ?Row(
-                                                                                mainAxisAlignment:
-                                                                                    MainAxisAlignment.spaceBetween,
-                                                                                children: [
-                                                                                  Text('By Home'),
-                                                                                  Icon(
+                                                                                  ? Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        Text('By Home'),
+                                                                                        Icon(
                                                                                           Icons.check_circle_outline_outlined,
                                                                                           color: Theme.of(context).primaryColor,
                                                                                         )
-
-                                                                                ],
-                                                                              ): SizedBox(),
+                                                                                      ],
+                                                                                    )
+                                                                                  : SizedBox(),
                                                                             ],
                                                                           ),
                                                                         ),
@@ -207,8 +238,11 @@ class _DepartmentsState extends State<Departments> {
                                                                     ),
                                                                     Divider(
                                                                       height: 6,
-                                                                      thickness: 6,
-                                                                      color: Theme.of(context).backgroundColor,
+                                                                      thickness:
+                                                                          6,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .backgroundColor,
                                                                     ),
                                                                   ],
                                                                 ),
@@ -236,12 +270,19 @@ class _DepartmentsState extends State<Departments> {
               )),
     );
   }
-  addToCartMethod(productId,productPrice){
 
-    postMethod(context, addToCartService, {'product_id':productId,
-      'customer_id':storageBox!.read('customerId'),
-      'qty':1,
-      'type':'test',
-      'product_price':productPrice}, true, addToCartRepo);
+  addToCartMethod(productId, productPrice) {
+    postMethod(
+        context,
+        addToCartService,
+        {
+          'product_id': productId,
+          'customer_id': storageBox!.read('customerId'),
+          'qty': 1,
+          'type': 'test',
+          'product_price': productPrice
+        },
+        true,
+        addToCartRepo);
   }
 }

@@ -15,7 +15,9 @@ import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:new_version/new_version.dart';
 
 import 'medicine_find_page.dart';
 
@@ -35,7 +37,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     AppointmentPage(),
     MoreOptions(),
   ];
-String? fcmToken;
+  String? fcmToken;
   updateToken() async {
 
       await FirebaseMessaging.instance.getToken().then((value) {
@@ -54,6 +56,7 @@ String? fcmToken;
     forCustomer=true;
     // TODO: implement initState
     updateToken();
+
     super.initState();
   }
 

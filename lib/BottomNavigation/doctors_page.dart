@@ -292,223 +292,234 @@ class _DoctorsBodyState extends State<DoctorsBody> {
               itemCount: doctorList.length,
               itemBuilder: (context, index) {
                 return Get.find<LoaderController>().doctorsList[index].status==1?
-                Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 10.0, left: 10, right: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(DoctorInfo(
-                                docId: doctorList[index].id,
-                              ));
-                              // Navigator.pushNamed(
-                              //     context, PageRoutes.appointmentDetail);
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: 70,
-                                  child: FadedScaleAnimation(
-                                    doctorList[index].image == 'user'
-                                        ? Image.asset(
+                Container(
+                  height: 100,
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5
+                        )]
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 10.0, left: 10, right: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(DoctorInfo(
+                              docId: doctorList[index].id,
+                            ));
+                            // Navigator.pushNamed(
+                            //     context, PageRoutes.appointmentDetail);
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                // height: 110,
+                                width: 70,
+
+                                child: FadedScaleAnimation(
+                                  doctorList[index].image == 'user'
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                        child: Image.asset(
                                             'assets/Doctors/doc2.png',
                                             // scale: 2.5,
-                                      width: 70,
-                                          )
-                                        : Image.network(
+                                    width: 70,
+                                          ),
+                                      )
+                                      : ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                        child: Image.network(
                                             "${imageBaseUrl}assets/doctor/images/profile/${doctorList[index].image}",
                                             // scale: 2.5,
                                             // height: 50,
-                                      // width: 100,
+                                    // width: 100,
                                           ),
-                                    durationInMilliseconds: 400,
+                                      ),
+                                  durationInMilliseconds: 400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 12,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    RichText(
-                                        text: TextSpan(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2,
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                  text: doctorList[index].name+ '\n',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .subtitle1),
-                                              TextSpan(
-                                                text: doctorList[index].hospital,
+                                  RichText(
+                                      text: TextSpan(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: doctorList[index].name+ '\n',
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .caption!
-                                                    .copyWith(
-                                                    color: kButtonTextColor,
-                                                    fontSize: 12),
-                                              ),
-                                            ])),
-                // Text(doctorList[index].speciality,style: TextStyle(color: Colors.black),),
-                //                     SizedBox(
-                //                       height: 12,
-                //                     ),
-                //                     Row(
-                //                       children: [
-                //                         Text(
-                // doctorList[index].date.toString()+ ' | ',
-                //                           style: Theme.of(context)
-                //                               .textTheme
-                //                               .subtitle1!
-                //                               .copyWith(fontSize: 13),
-                //                         ),
-                //                         Text(
-                // doctorList[index].time.toString(),
-                //                           style: Theme.of(context)
-                //                               .textTheme
-                //                               .subtitle1!
-                //                               .copyWith(fontSize: 13),
-                //                         ),
-                //                       ],
-                //                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RichText(
-                                        text: TextSpan(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                  text: 'Fees ',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .subtitle2),
-                                              TextSpan(
-                                                text: doctorList[index].fees
-                                                    .toString(),
+                                                    .subtitle1),
+                                            TextSpan(
+                                              text: doctorList[index].hospital,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                  color: kButtonTextColor,
+                                                  fontSize: 12),
+                                            ),
+                                          ])),
+                  // Text(doctorList[index].speciality,style: TextStyle(color: Colors.black),),
+                  //                     SizedBox(
+                  //                       height: 12,
+                  //                     ),
+                  //                     Row(
+                  //                       children: [
+                  //                         Text(
+                  // doctorList[index].date.toString()+ ' | ',
+                  //                           style: Theme.of(context)
+                  //                               .textTheme
+                  //                               .subtitle1!
+                  //                               .copyWith(fontSize: 13),
+                  //                         ),
+                  //                         Text(
+                  // doctorList[index].time.toString(),
+                  //                           style: Theme.of(context)
+                  //                               .textTheme
+                  //                               .subtitle1!
+                  //                               .copyWith(fontSize: 13),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RichText(
+                                      text: TextSpan(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Fees ',
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyText1!
-                                                    .copyWith(
-                                                    color: Theme.of(context)
-                                                        .disabledColor,
-                                                    fontSize: 12),
-                                              ),
-                                              TextSpan(
-                                                text: ' Rs',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .caption!
-                                                    .copyWith(
-                                                    color: kButtonTextColor,
-                                                    fontSize: 10),
-                                              ),
-                                            ])),
-                                  ],
-                                ),
-                                // Column(
-                                //   crossAxisAlignment: CrossAxisAlignment.start,
-                                //   children: [
-                                //     SizedBox(
-                                //       height: 20,
-                                //     ),
-                                //     Text(
-                                //       doctorList[index].name,
-                                //       style: Theme.of(context)
-                                //           .textTheme
-                                //           .subtitle1!
-                                //           .copyWith(height: 1.5, fontSize: 16),
-                                //     ),
-                                //     RichText(
-                                //         text: TextSpan(
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .subtitle2,
-                                //             children: <TextSpan>[
-                                //           TextSpan(
-                                //             text: doctorList[index]
-                                //                 .speciality
-                                //                 .toString(),
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyText2!
-                                //                 .copyWith(
-                                //                     color: Theme.of(context)
-                                //                         .disabledColor,
-                                //                     fontSize: 12,
-                                //                     height: 1.5),
-                                //           ),
-                                //           TextSpan(
-                                //             text: locale.at,
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .caption!
-                                //                 .copyWith(
-                                //                     color: kButtonTextColor,
-                                //                     fontSize: 10,
-                                //                     height: 1.5),
-                                //           ),
-                                //           TextSpan(
-                                //             text: doctorList[index].hospital,
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyText2!
-                                //                 .copyWith(
-                                //                     color: Theme.of(context)
-                                //                         .disabledColor,
-                                //                     fontSize: 12,
-                                //                     height: 1.5),
-                                //           ),
-                                //         ])),
-                                //     SizedBox(
-                                //       height: 18,
-                                //     ),
-                                //     Row(
-                                //       children: [
-                                //         Text(
-                                //           doctorList[index].date + ' | ',
-                                //           style: Theme.of(context)
-                                //               .textTheme
-                                //               .subtitle1!
-                                //               .copyWith(fontSize: 13),
-                                //         ),
-                                //         Text(
-                                //           doctorList[index].time,
-                                //           style: Theme.of(context)
-                                //               .textTheme
-                                //               .subtitle1!
-                                //               .copyWith(fontSize: 13),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ],
-                                // ),
-                              ],
-                            ),
+                                                    .subtitle2),
+                                            TextSpan(
+                                              text: doctorList[index].fees
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .copyWith(
+                                                  color: Theme.of(context)
+                                                      .disabledColor,
+                                                  fontSize: 12),
+                                            ),
+                                            TextSpan(
+                                              text: ' Rs',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                  color: kButtonTextColor,
+                                                  fontSize: 10),
+                                            ),
+                                          ])),
+                                ],
+                              ),
+                              // Column(
+                              //   crossAxisAlignment: CrossAxisAlignment.start,
+                              //   children: [
+                              //     SizedBox(
+                              //       height: 20,
+                              //     ),
+                              //     Text(
+                              //       doctorList[index].name,
+                              //       style: Theme.of(context)
+                              //           .textTheme
+                              //           .subtitle1!
+                              //           .copyWith(height: 1.5, fontSize: 16),
+                              //     ),
+                              //     RichText(
+                              //         text: TextSpan(
+                              //             style: Theme.of(context)
+                              //                 .textTheme
+                              //                 .subtitle2,
+                              //             children: <TextSpan>[
+                              //           TextSpan(
+                              //             text: doctorList[index]
+                              //                 .speciality
+                              //                 .toString(),
+                              //             style: Theme.of(context)
+                              //                 .textTheme
+                              //                 .bodyText2!
+                              //                 .copyWith(
+                              //                     color: Theme.of(context)
+                              //                         .disabledColor,
+                              //                     fontSize: 12,
+                              //                     height: 1.5),
+                              //           ),
+                              //           TextSpan(
+                              //             text: locale.at,
+                              //             style: Theme.of(context)
+                              //                 .textTheme
+                              //                 .caption!
+                              //                 .copyWith(
+                              //                     color: kButtonTextColor,
+                              //                     fontSize: 10,
+                              //                     height: 1.5),
+                              //           ),
+                              //           TextSpan(
+                              //             text: doctorList[index].hospital,
+                              //             style: Theme.of(context)
+                              //                 .textTheme
+                              //                 .bodyText2!
+                              //                 .copyWith(
+                              //                     color: Theme.of(context)
+                              //                         .disabledColor,
+                              //                     fontSize: 12,
+                              //                     height: 1.5),
+                              //           ),
+                              //         ])),
+                              //     SizedBox(
+                              //       height: 18,
+                              //     ),
+                              //     Row(
+                              //       children: [
+                              //         Text(
+                              //           doctorList[index].date + ' | ',
+                              //           style: Theme.of(context)
+                              //               .textTheme
+                              //               .subtitle1!
+                              //               .copyWith(fontSize: 13),
+                              //         ),
+                              //         Text(
+                              //           doctorList[index].time,
+                              //           style: Theme.of(context)
+                              //               .textTheme
+                              //               .subtitle1!
+                              //               .copyWith(fontSize: 13),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
                           ),
                         ),
+                      ),
 
 
-                      ],
-                    ),
-
-                    Divider(
-                      height: 6,
-                      thickness: 6,
-                      color: Theme.of(context).backgroundColor,
-                    ),
-                  ],
+                    ],
+                  ),
                 ):SizedBox();
               },
             ),

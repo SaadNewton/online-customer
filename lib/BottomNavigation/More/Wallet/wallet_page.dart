@@ -54,7 +54,7 @@ class _WalletPageState extends State<WalletPage> {
               Navigator.pop(context);
             }),
         centerTitle: true,
-        title: Text(locale.wallet!),
+        title: Text(locale.wallet!,style: TextStyle(color: Colors.black),),
         textTheme: Theme.of(context).textTheme,
       ),
       body: GetBuilder<LoaderController>(
@@ -119,7 +119,7 @@ class _WalletPageState extends State<WalletPage> {
                 Positioned.directional(
                   textDirection: Directionality.of(context),
                   end: 15,
-                  top: 90,
+                  top: 10,
                   child: CustomButton(
                     radius: 0,
                     onTap: () {
@@ -220,7 +220,7 @@ class _WalletPageState extends State<WalletPage> {
                 Positioned.directional(
                   textDirection: Directionality.of(context),
                   end: 15,
-                  top: 90,
+                  top: 30,
                   child: CustomButton(
                     radius: 0,
                     onTap: () {

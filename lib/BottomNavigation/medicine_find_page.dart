@@ -105,7 +105,8 @@ class _FindMedicineState extends State<FindMedicine> {
     //   checkVersion();
     checkUpdate();
     isCartPage=false;
-    getMethod(context, getAllDoctorsService, {'page':0}, true, getAllDoctorsRepo);
+
+    getMethod(context, getAllDoctorsService, {'page':1}, true, getAllDoctorsRepo);
     Get.find<LoaderController>().getCurrentLocation(context);
     getMethod(context, getCartProductsService,
         {'customer_id':storageBox!.read('customerId')}, true, getAllCartItemsRepo);
@@ -136,17 +137,7 @@ class _FindMedicineState extends State<FindMedicine> {
     super.initState();
   }
 
-  List<DoctorDetail> doctorList = List.generate(
-      Get.find<LoaderController>().doctorsList.reversed.length,
-          (index) => DoctorDetail(
-          Get.find<LoaderController>().doctorsList[index].id!,
-          Get.find<LoaderController>().doctorsList[index].image ?? 'user',
-          Get.find<LoaderController>().doctorsList[index].name ?? 'Doctor',
-          Get.find<LoaderController>().doctorsList[index].fees ?? 0,
-          Get.find<LoaderController>().doctorsList[index].qualification ?? 'Testing',
-          Get.find<LoaderController>().doctorsList[index].startTime ?? '0.00',
-          Get.find<LoaderController>().doctorsList[index].endTime ?? '0.00',
-          'speciality'));
+
 
   @override
   Widget build(BuildContext context) {
@@ -703,7 +694,7 @@ class _FindMedicineState extends State<FindMedicine> {
                   itemCount: doctorList.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return Get.find<LoaderController>().doctorsList[index].status ==1? Padding(
+                    return _.doctorsList[index].status ==1? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         width: 130,

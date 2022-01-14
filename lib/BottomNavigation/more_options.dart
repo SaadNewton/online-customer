@@ -55,10 +55,10 @@ class _MoreOptionsState extends State<MoreOptions> {
       }),
 
       /// temp close
-      MenuTile('Calendar', 'Prescription',
-          Icons.access_alarms_outlined, () {
-        Get.to(Calendar());
-      }),
+      // MenuTile('Calendar', 'Prescription',
+      //     Icons.access_alarms_outlined, () {
+      //   Get.to(Calendar());
+      // }),
       // MenuTile(locale.myAddress, locale.saveAddress, Icons.location_pin, () {
       //   Navigator.pushNamed(context, PageRoutes.addressesPage);
       // }),

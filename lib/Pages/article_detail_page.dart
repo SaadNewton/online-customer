@@ -19,7 +19,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Article Detail'),
+        title: Text('Article Detail',style: TextStyle(color: Colors.black),),
         textTheme: Theme.of(context).textTheme,
         centerTitle: true,
         elevation: 8,

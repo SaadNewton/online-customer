@@ -137,6 +137,7 @@ class _EditProfileState extends State<EditProfile> {
                                   },
                                 ),
                                 hintText: 'Location',
+                                hintStyle: TextStyle(color: Colors.grey),
                                 filled: true,
                                 fillColor: Colors.grey.withOpacity(0.2),
                                 border: OutlineInputBorder(
@@ -253,7 +254,7 @@ class _EditProfileState extends State<EditProfile> {
       Placemark place = p[0];
       setState(() {
         currentAddress =
-        '${place.name}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+        '${place.name}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
         // var signUpAddressController;
         // if (signUpAddressController.text.isEmpty) {
         //   signUpAddressController.text = currentAddress;
@@ -264,7 +265,7 @@ class _EditProfileState extends State<EditProfile> {
         print(place.thoroughfare.toString());
         print(place.toJson().toString());
         // FocusScope.of(context).unfocus();
-        editLocationController.text = place.name.toString();
+        editLocationController.text = currentAddress.toString();
         Get.find<LoaderController>().updateFormController(false);
       });
     } catch (e) {

@@ -86,7 +86,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
 
     return WillPopScope(
       onWillPop: ()async{
-        return false;
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -763,7 +763,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
       Placemark place = p[0];
       setState(() {
         currentAddress =
-        '${place.name}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+        '${place.name},${place.subLocality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
         // var signUpAddressController;
         // if (signUpAddressController.text.isEmpty) {
         //   signUpAddressController.text = currentAddress;
@@ -777,7 +777,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
         print(place.thoroughfare.toString());
         print(place.toJson().toString());
         // FocusScope.of(context).unfocus();
-        locationController.text = place.name.toString();
+        locationController.text = currentAddress.toString();
         locationGet=true;
         Get.find<LoaderController>().updateFormController(false);
       });

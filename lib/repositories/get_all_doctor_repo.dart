@@ -30,7 +30,7 @@ getAllDoctorsRepo(
               Get.find<LoaderController>().doctorsList[index].qualification ?? 'Testing',
               Get.find<LoaderController>().doctorsList[index].startTime ?? '0.00',
               Get.find<LoaderController>().doctorsList[index].endTime ?? '0.00',
-              'speciality'));
+                Get.find<LoaderController>().doctorsList[index].speciality,));
       Get.find<LoaderController>().updateDataController(false);
       print('get-all_Doctors-data ------>> ${allDoctorsModel.data}');
     } else {

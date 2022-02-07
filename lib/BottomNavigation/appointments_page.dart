@@ -47,7 +47,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
     });
     getMethod(context, getAllAppointmentsService,
-        {'customer_id':storageBox!.read('customerId'),'filter':'all'}, true, getAllAppointmentsRepo);
+        {'customer_id':storageBox!.read('customerId'),'filter' : 'all'}, true, getAllAppointmentsRepo);
     super.initState();
   }
   GlobalKey<FormState> _ratingKey = GlobalKey();
@@ -81,9 +81,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
               centerTitle: true,
             ),
             body: Container(
-              child: getAllAppointmentsModel.status==false
+              child:
+              getAllAppointmentsModel.status==false
                   ?Center(child: Text(getAllAppointmentsModel.message!),)
-                  :getAllAppointmentsModel.status ==true? ListView(
+                  :
+              getAllAppointmentsModel.status ==true? ListView(
                 //padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,

@@ -9,7 +9,8 @@ class LocalNotificationService{
     final InitializationSettings initializationSettings=InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher')
     );
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification:
+    _flutterLocalNotificationsPlugin.initialize(
+        initializationSettings,onSelectNotification:
     (String? route)async{
       // Navigator.of(context).PushNamed(route);
     });
@@ -18,15 +19,18 @@ class LocalNotificationService{
   static void display(
       RemoteMessage message
       ){
+    final _sound = 'callingbell.wav';
    final  NotificationDetails _details=NotificationDetails(
         android: AndroidNotificationDetails(
-            "easyApproach",
+            "easyApproach 1",
             "easyApproach channel",
             "this is our channel",
-            importance:Importance.max,
-            priority: Priority.high,
-          enableVibration: true,
-          playSound: true,
+            // importance:Importance.max,
+            // priority: Priority.high,
+          // enableVibration: true,
+          // playSound: true,
+          sound: RawResourceAndroidNotificationSound(_sound.split('.').first),
+
         )
     );
    final id=DateTime.now().millisecondsSinceEpoch ~/1000;

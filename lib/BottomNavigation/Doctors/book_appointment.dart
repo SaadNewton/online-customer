@@ -41,8 +41,8 @@ class _BookAppointmentState extends State<BookAppointment> {
   GlobalKey<FormState> confirmAppointment = GlobalKey();
 TextEditingController _namController=TextEditingController();
   TextEditingController _phoneController=TextEditingController();
-  TextEditingController _emailController=TextEditingController();
-  TextEditingController _detailController=TextEditingController();
+  // TextEditingController _emailController=TextEditingController();
+  // TextEditingController _detailController=TextEditingController();
   TextEditingController _ageController=TextEditingController();
   @override
   void initState() {
@@ -62,6 +62,7 @@ TextEditingController _namController=TextEditingController();
         inAsyncCall: _.formLoader,
         child: Scaffold(
           appBar: AppBar(
+            title: Text("Fill Details",style: TextStyle(color: Colors.black),),
 
             centerTitle: true,
             leading: IconButton(
@@ -244,13 +245,13 @@ TextEditingController _namController=TextEditingController();
                           prefixIcon: Icons.person,
                           color: Theme.of(context).backgroundColor,
                           hint: 'Age',
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Field is Required';
-                            } else {
-                              return null;
-                            }
-                          },
+                          // validator: (value) {
+                          //   if (value.isEmpty) {
+                          //     return 'Field is Required';
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                         ),
                         SizedBox(
                           height: 15,
@@ -258,25 +259,25 @@ TextEditingController _namController=TextEditingController();
 
                         /// email
                         ///
-                        EntryField(
-                          textInputType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          prefixIcon: Icons.person,
-                          color: Theme.of(context).backgroundColor,
-                          hint: 'Email',
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Field is Required';
-                            } else if (!GetUtils.isEmail(_emailController.text)) {
-                              return 'Please Enter Valid Email';
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        // EntryField(
+                        //   textInputType: TextInputType.emailAddress,
+                        //   controller: _emailController,
+                        //   prefixIcon: Icons.person,
+                        //   color: Theme.of(context).backgroundColor,
+                        //   hint: 'Email',
+                        //   validator: (value) {
+                        //     if (value.isEmpty) {
+                        //       return 'Field is Required';
+                        //     } else if (!GetUtils.isEmail(_emailController.text)) {
+                        //       return 'Please Enter Valid Email';
+                        //     } else {
+                        //       return null;
+                        //     }
+                        //   },
+                        // ),
+                        // SizedBox(
+                        //   height: 15,
+                        // ),
 
                         /// phone
                         ///
@@ -297,26 +298,26 @@ TextEditingController _namController=TextEditingController();
                             }
                           },
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        // SizedBox(
+                        //   height: 15,
+                        // ),
 
                         /// details
                         ///
-                        EntryField(
-                          textInputType: TextInputType.text,
-                          controller: _detailController,
-                          prefixIcon: Icons.person,
-                          color: Theme.of(context).backgroundColor,
-                          hint: 'Detail',
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Field is Required';
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
+                        // EntryField(
+                        //   textInputType: TextInputType.text,
+                        //   controller: _detailController,
+                        //   prefixIcon: Icons.person,
+                        //   color: Theme.of(context).backgroundColor,
+                        //   hint: 'Detail',
+                        //   validator: (value) {
+                        //     if (value.isEmpty) {
+                        //       return 'Field is Required';
+                        //     } else {
+                        //       return null;
+                        //     }
+                        //   },
+                        // ),
                         SizedBox(
                           height: 100,
                         ),
@@ -334,10 +335,10 @@ TextEditingController _namController=TextEditingController();
                             'booking_date':widget.selectedDate,
                             'time_serial':widget.selectedTime,
                             'name':_namController.text,
-                            'email':_emailController.text,
+                            'email':'cybex@gmail.com',
                             'mobile':_phoneController.text,
-                            'age':_ageController.text,
-                            'disease':_detailController.text,
+                            'age':'25',
+                            'disease':'Dummy',
                             'clinic_id':widget.clinicId,
                             'type':widget.type,
                             'payment_system': 2,

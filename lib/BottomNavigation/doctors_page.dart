@@ -27,7 +27,7 @@ class DoctorDetail {
   String date;
   String time;
   String? reviews;
-  String speciality;
+  List<String>? speciality;
   DoctorDetail(this.id,this.image, this.name, this.fees, this.hospital, this.date,
       this.time, this.speciality);
 }
@@ -110,7 +110,7 @@ class _DoctorsBodyState extends State<DoctorsBody> {
           Get.find<LoaderController>().doctorsList[index].qualification ?? 'Testing',
           Get.find<LoaderController>().doctorsList[index].startTime ?? '0.00',
           Get.find<LoaderController>().doctorsList[index].endTime ?? '0.00',
-          'speciality'));
+          Get.find<LoaderController>().doctorsList[index].speciality));
   @override
   Widget build(BuildContext context) {
     var locale = AppLocalizations.of(context)!;
@@ -292,32 +292,30 @@ class _DoctorsBodyState extends State<DoctorsBody> {
               itemCount: doctorList.length,
               itemBuilder: (context, index) {
                 return Get.find<LoaderController>().doctorsList[index].status==1?
-                Container(
-                  height: 100,
-                  margin: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5
-                        )]
-                  ),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10.0, left: 10, right: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(DoctorInfo(
-                              docId: doctorList[index].id,
-                            ));
-                            // Navigator.pushNamed(
-                            //     context, PageRoutes.appointmentDetail);
-                          },
+                GestureDetector(
+                  onTap: (){
+                    Get.to(DoctorInfo(
+                      docId: doctorList[index].id,
+                    ));
+                  },
+                  child: Container(
+                    height: 100,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5
+                          )]
+                    ),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 10.0, left: 10, right: 10),
                           child: Row(
                             children: [
                               Container(
@@ -376,28 +374,28 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                                                   fontSize: 12),
                                             ),
                                           ])),
-                  // Text(doctorList[index].speciality,style: TextStyle(color: Colors.black),),
-                  //                     SizedBox(
-                  //                       height: 12,
-                  //                     ),
-                  //                     Row(
-                  //                       children: [
-                  //                         Text(
-                  // doctorList[index].date.toString()+ ' | ',
-                  //                           style: Theme.of(context)
-                  //                               .textTheme
-                  //                               .subtitle1!
-                  //                               .copyWith(fontSize: 13),
-                  //                         ),
-                  //                         Text(
-                  // doctorList[index].time.toString(),
-                  //                           style: Theme.of(context)
-                  //                               .textTheme
-                  //                               .subtitle1!
-                  //                               .copyWith(fontSize: 13),
-                  //                         ),
-                  //                       ],
-                  //                     ),
+                    Text(doctorList[index].speciality![0],style: TextStyle(color: Colors.black),),
+                    //                     SizedBox(
+                    //                       height: 12,
+                    //                     ),
+                    //                     Row(
+                    //                       children: [
+                    //                         Text(
+                    // doctorList[index].date.toString()+ ' | ',
+                    //                           style: Theme.of(context)
+                    //                               .textTheme
+                    //                               .subtitle1!
+                    //                               .copyWith(fontSize: 13),
+                    //                         ),
+                    //                         Text(
+                    // doctorList[index].time.toString(),
+                    //                           style: Theme.of(context)
+                    //                               .textTheme
+                    //                               .subtitle1!
+                    //                               .copyWith(fontSize: 13),
+                    //                         ),
+                    //                       ],
+                    //                     ),
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -515,10 +513,10 @@ class _DoctorsBodyState extends State<DoctorsBody> {
                             ],
                           ),
                         ),
-                      ),
 
 
-                    ],
+                      ],
+                    ),
                   ),
                 ):SizedBox();
               },

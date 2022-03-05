@@ -17,7 +17,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 class MedicinesPage extends StatefulWidget {
   final String? categoryName;
   final categoryId;
@@ -46,70 +45,67 @@ class _MedicinesPageState extends State<MedicinesPage> {
   Widget build(BuildContext context) {
     return GetBuilder<LoaderController>(
       init: LoaderController(),
-      builder:(_)=> ModalProgressHUD(
-        inAsyncCall: _.formLoader,
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(widget.categoryName!),
-              textTheme: Theme.of(context).textTheme,
-              centerTitle: true,
-              actions: [
-                Stack(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.shopping_cart),
-                      onPressed: () {
-                        WidgetsBinding.instance!.addPostFrameCallback((_) {
-                          Get.find<LoaderController>().updateCartDataController(true);
+      builder:(_)=> Scaffold(
+          appBar: AppBar(
+            title: Text(widget.categoryName!),
+            textTheme: Theme.of(context).textTheme,
+            centerTitle: true,
+            actions: [
+              Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        Get.find<LoaderController>().updateCartDataController(true);
 
-                        });
-                        Get.to(CartPage());
-                      },
+                      });
+                      Get.to(CartPage());
+                    },
+                  ),
+                  Positioned.directional(
+                    textDirection: Directionality.of(context),
+                    top: 8,
+                    end: 12,
+                    child: _.cartLoader?
+                    CircularProgressIndicator():
+                    getCartItemsModel.status==false?SizedBox():CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 5.5,
+                      child: Center(
+                          child: Text(
+
+                            "${getCartItemsModel.data!.length}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(
+                                color: Theme.of(context)
+                                    .scaffoldBackgroundColor,
+                                fontSize: 9),
+                          )),
                     ),
-                    Positioned.directional(
-                      textDirection: Directionality.of(context),
-                      top: 8,
-                      end: 12,
-                      child: _.cartLoader?
-                      CircularProgressIndicator():
-                      getCartItemsModel.status==false?SizedBox():CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 5.5,
-                        child: Center(
-                            child: Text(
-
-                              "${getCartItemsModel.data!.length}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(
-                                  color: Theme.of(context)
-                                      .scaffoldBackgroundColor,
-                                  fontSize: 9),
-                            )),
-                      ),
-                    )
-                  ],
-                ),
-              ],
+                  )
+                ],
+              ),
+            ],
+          ),
+          body: GetBuilder<LoaderController>(
+            init: LoaderController(),
+            builder: (_) => _.dataLoader
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : getProductsByCategoryModel.status==false
+                ?Center(child: Text(
+                getProductsByCategoryModel.message!),)
+                :FadedSlideAnimation(
+              Medicines(categoryId: widget.categoryId,),
+              beginOffset: Offset(0, 0.3),
+              endOffset: Offset(0, 0),
+              slideCurve: Curves.linearToEaseOut,
             ),
-            body: GetBuilder<LoaderController>(
-              init: LoaderController(),
-              builder: (_) => _.dataLoader
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : getProductsByCategoryModel.status==false
-                  ?Center(child: Text(
-                  getProductsByCategoryModel.message!),)
-                  :FadedSlideAnimation(
-                      Medicines(categoryId: widget.categoryId,),
-                      beginOffset: Offset(0, 0.3),
-                      endOffset: Offset(0, 0),
-                      slideCurve: Curves.linearToEaseOut,
-                    ),
-            )),
-      ),
+          )),
     );
   }
 }

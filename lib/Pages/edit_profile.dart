@@ -19,7 +19,7 @@ import 'package:geocoding/geocoding.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 
 class EditProfile extends StatefulWidget {
@@ -52,12 +52,12 @@ class _EditProfileState extends State<EditProfile> {
           child: Scaffold(
             appBar: AppBar(
               title: Text('Edit Profile',
-               style: TextStyle(color: Colors.black, fontSize: 22),
+                style: TextStyle(color: Colors.black, fontSize: 22),
               ),
               centerTitle: true,
               iconTheme: IconThemeData(color: Colors.black),
             ),
-          //  backgroundColor: Color(0xffC4EBF2),
+            //  backgroundColor: Color(0xffC4EBF2),
             resizeToAvoidBottomInset: false,
             body: SafeArea(
               child: FadedSlideAnimation(

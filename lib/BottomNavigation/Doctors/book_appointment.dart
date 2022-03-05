@@ -20,7 +20,7 @@ import 'package:flutter/rendering.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Routes/routes.dart';
 import 'package:doctoworld_user/Locale/locale.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class BookAppointment extends StatefulWidget {
   final docId;
@@ -117,19 +117,19 @@ TextEditingController _namController=TextEditingController();
                                               .textTheme
                                               .subtitle2!
                                               .copyWith(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 1.4)),
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w500,
+                                              height: 1.4)),
                                       TextSpan(
                                           text: '${widget.qualification} \n',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle2!
                                               .copyWith(
-                                                  color:
-                                                      Theme.of(context).disabledColor,
-                                                  fontSize: 18,
-                                                  height: 1.6))
+                                              color:
+                                              Theme.of(context).disabledColor,
+                                              fontSize: 18,
+                                              height: 1.6))
                                     ],
                                   ),
                                 ),

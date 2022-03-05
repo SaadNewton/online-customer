@@ -20,7 +20,7 @@ import 'dart:async';
 import 'package:dio/dio.dart' as dio_instance;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class PrescriptionOrder extends StatefulWidget {
 
@@ -80,7 +80,7 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
         child: Scaffold(
           appBar: AppBar(
             title: Text('Prescription Order',
-            style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black),
             ),
             iconTheme: IconThemeData(color: Colors.black),
             centerTitle: true,
@@ -103,128 +103,128 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                           child: Column(
                             children: [
                               ///............. image.............///
-                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    ///...........Front file............///
-                                 Column(
-                                   children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  ///...........Front file............///
+                                  Column(
+                                    children: [
 
-                                     image1 == null
-                                         ? InkWell(
-                                       onTap: () {
-                                         setState(() {
-                                           getImage(true);
-                                         });
+                                      image1 == null
+                                          ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            getImage(true);
+                                          });
 
 
 
-                                       },
-                                       child: Container(
-                                         height: 100,
-                                         width: 120,
-                                         decoration: BoxDecoration(
-                                           color: Colors.grey.withOpacity(0.2),
-                                           borderRadius: BorderRadius.circular(5),),
-                                         child: Padding(
-                                           padding: const EdgeInsets.all(4.0),
-                                           child: Column(
-                                             mainAxisAlignment:
-                                             MainAxisAlignment.spaceEvenly,
-                                             crossAxisAlignment:
-                                             CrossAxisAlignment.center,
-                                             children: [
-                                               Icon(
-                                                 Icons.photo,
-                                                 size: 18,
-                                               ),
-                                               Text(
-                                                 'Front File',
-                                                 textAlign: TextAlign.center,
-                                                 style: TextStyle(
-                                                     fontSize: 12,
-                                                     color: Colors.black),
-                                               )
-                                             ],
-                                           ),
-                                         ),
-                                       ),
-                                     )
-                                         :    Container(
-                                       decoration: BoxDecoration(
-                                         color: Colors.grey.withOpacity(0.2),),
-                                       height: 100,
-                                       width: 120,
-                                       child: Image.file(
-                                         image1,
-                                       ),
-                                     ),
-                                     SizedBox(height: 10,),
-                                     _imageChecker1 ? Text('Image Required',
-                                       style: TextStyle(color: Colors.red),
-                                     ) : SizedBox(),
+                                        },
+                                        child: Container(
+                                          height: 100,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(5),),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.photo,
+                                                  size: 18,
+                                                ),
+                                                Text(
+                                                  'Front File',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          :    Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.2),),
+                                        height: 100,
+                                        width: 120,
+                                        child: Image.file(
+                                          image1,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      _imageChecker1 ? Text('Image Required',
+                                        style: TextStyle(color: Colors.red),
+                                      ) : SizedBox(),
 
-                                   ],
-                                 ),
+                                    ],
+                                  ),
 
-                                    ///...........Back file............///
-                                 Column(
-                                   children: [
-                                     image2 == null
-                                         ?  InkWell(
-                                       onTap: () {
-                                         setState(() {
-                                           getImage(false);
-                                         });
-                                       },
-                                       child: Container(
-                                         height: 100,
-                                         width: 120,
-                                         decoration: BoxDecoration(
-                                           color: Colors.grey.withOpacity(0.2),
-                                           borderRadius: BorderRadius.circular(5),
-                                         ),
-                                         child: Padding(
-                                           padding: const EdgeInsets.all(4.0),
-                                           child: Column(
-                                             mainAxisAlignment:
-                                             MainAxisAlignment.spaceEvenly,
-                                             crossAxisAlignment:
-                                             CrossAxisAlignment.center,
-                                             children: [
-                                               Icon(
-                                                 Icons.photo,
-                                                 size: 18,
-                                               ),
-                                               Text(
-                                                 'Back File',
-                                                 textAlign: TextAlign.center,
-                                                 style: TextStyle(
-                                                     fontSize: 12,
-                                                     color: Colors.black),
-                                               )
-                                             ],
-                                           ),
-                                         ),
-                                       ),
-                                     )
-                                         : Container(
-                                       decoration: BoxDecoration(
-                                           color: Colors.grey.withOpacity(0.2)),
-                                       height: 100,
-                                       width: 120,
-                                       child: Image.file(
-                                         image2,
-                                       ),
-                                     ),
-                                     SizedBox(height: 10,),
-                                     _imageChecker2 ? Text('Image Required',
-                                     style: TextStyle(color: Colors.red),
-                                     ) : SizedBox(),
-                                   ],
-                                 ),
-                                  ],
-                                ),
+                                  ///...........Back file............///
+                                  Column(
+                                    children: [
+                                      image2 == null
+                                          ?  InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            getImage(false);
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 100,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.photo,
+                                                  size: 18,
+                                                ),
+                                                Text(
+                                                  'Back File',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          : Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2)),
+                                        height: 100,
+                                        width: 120,
+                                        child: Image.file(
+                                          image2,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      _imageChecker2 ? Text('Image Required',
+                                        style: TextStyle(color: Colors.red),
+                                      ) : SizedBox(),
+                                    ],
+                                  ),
+                                ],
+                              ),
 
                               //     : InkWell(
                               //   onTap: () {},
@@ -286,7 +286,7 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                               TextFormField(
                                 onTap: () {
                                   if(currentCity == null)
-                                  getCurrentLocation(context);
+                                    getCurrentLocation(context);
                                 },
                                 controller: _addressController,
                                 decoration: InputDecoration(
@@ -319,35 +319,35 @@ class _PrescriptionOrderState extends State<PrescriptionOrder> {
                               CustomButton(
                                 label: 'Submit',
 
-                               onTap: (){
-                                 setState(() {
-                                   _imageChecker1 = false;
-                                   _imageChecker2 = false;
-                                 });
-                                 if(_prescriptionKey.currentState.validate() && image1 != null && image2 != null) {
+                                onTap: (){
+                                  setState(() {
+                                    _imageChecker1 = false;
+                                    _imageChecker2 = false;
+                                  });
+                                  if(_prescriptionKey.currentState.validate() && image1 != null && image2 != null) {
 
                                     setState(() {
                                       _imageChecker1 = false;
                                       _imageChecker2 = false;
                                     });
-                                   Get.find<LoaderController>()
-                                       .updateFormController(true);
-                                   uploadImage(image1, image2);
-                                 }else{
-                                   if( image1 == null){
-                                     setState(() {
-                                       _imageChecker1 = true;
+                                    Get.find<LoaderController>()
+                                        .updateFormController(true);
+                                    uploadImage(image1, image2);
+                                  }else{
+                                    if( image1 == null){
+                                      setState(() {
+                                        _imageChecker1 = true;
 
-                                     });
-                                   }
-                                   if( image2 == null){
-                                     setState(() {
+                                      });
+                                    }
+                                    if( image2 == null){
+                                      setState(() {
 
-                                       _imageChecker2 = true;
-                                     });
-                                   }
-                                 }
-                               },
+                                        _imageChecker2 = true;
+                                      });
+                                    }
+                                  }
+                                },
                               ),
                               SizedBox(height: 20.0),
                             ],

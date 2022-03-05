@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Models/get_product_by_category_model.dart';
 import 'package:doctoworld_user/Theme/colors.dart';
@@ -16,7 +14,7 @@ getProductsByCategoryRepo(
 
     if (getProductsByCategoryModel.status == true) {
       Get.find<LoaderController>().medicineList = [];
-      getProductsByCategoryModel.data.data.forEach((element) {
+      getProductsByCategoryModel.data!.data?.forEach((element) {
         Get.find<LoaderController>().medicineList.add(element);
       });
       Get.find<LoaderController>().updateDataController(false);
@@ -51,7 +49,7 @@ getProductsByCategoryRepoMore(
     getProductsByCategoryModel = GetProductByCategoryModel.fromJson(response);
 
     if (getProductsByCategoryModel.status == true) {
-      getProductsByCategoryModel.data.data.forEach((element) {
+      getProductsByCategoryModel.data!.data!.forEach((element) {
         Get.find<LoaderController>().medicineList.add(element);
       });
       Get.find<LoaderController>().updateDataController(false);

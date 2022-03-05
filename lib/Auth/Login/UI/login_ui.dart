@@ -14,7 +14,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginUI extends StatefulWidget {
   @override
@@ -79,11 +79,11 @@ class _LoginUIState extends State<LoginUI> {
                             children: [
                               SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.45),
+                                  MediaQuery.of(context).size.height * 0.45),
 
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                const EdgeInsets.symmetric(horizontal: 5),
                                 child: EntryField(
                                   validator: (value) {
                                     if (GetUtils.isEmail(_emailController.text)) {
@@ -96,14 +96,14 @@ class _LoginUIState extends State<LoginUI> {
                                   prefixIcon: Icons.email,
                                   textInputType: TextInputType.emailAddress,
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  Theme.of(context).scaffoldBackgroundColor,
                                   controller: _emailController,
                                 ),
                               ),
                               SizedBox(height: 20.0),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                const EdgeInsets.symmetric(horizontal: 5),
                                 child: EntryField(
                                   prefixIcon: Icons.lock,
                                   validator: (value) {
@@ -117,7 +117,7 @@ class _LoginUIState extends State<LoginUI> {
                                   suffixIcon: Icons.remove_red_eye_outlined,
                                   hint: 'Password',
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  Theme.of(context).scaffoldBackgroundColor,
                                   controller: _passController,
                                 ),
                               ),
@@ -129,10 +129,10 @@ class _LoginUIState extends State<LoginUI> {
                                   children: [
                                     InkWell(
                                       child: Text('Forgot Password',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontSize: 16,
-                                      ),
+                                        style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                       onTap: (){
                                         Get.to(PasswordEmail());
@@ -167,7 +167,7 @@ class _LoginUIState extends State<LoginUI> {
                                     TextSpan(
                                       text: 'Don\'t Have an Account?',
                                       style:
-                                          Theme.of(context).textTheme.subtitle1,
+                                      Theme.of(context).textTheme.subtitle1,
                                     ),
                                     TextSpan(
                                       text: 'Create new one',
@@ -175,8 +175,8 @@ class _LoginUIState extends State<LoginUI> {
                                           .textTheme
                                           .subtitle1!
                                           .copyWith(
-                                              decoration:
-                                                  TextDecoration.underline),
+                                          decoration:
+                                          TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           Navigator.push(

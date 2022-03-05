@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:doctoworld_user/Components/custom_button.dart';
 import 'package:doctoworld_user/Components/entry_field.dart';
@@ -9,7 +8,7 @@ import 'package:doctoworld_user/services/post_method_call.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ForgotPasswordEmailVerify extends StatefulWidget {
 
@@ -93,7 +92,7 @@ class _ForgotPasswordEmailVerifyState extends State<ForgotPasswordEmailVerify> {
                                   if (!currentFocus.hasPrimaryFocus) {
                                     currentFocus.unfocus();
                                   }
-                                  if (_passwordEmailVerifyKey.currentState.validate()){
+                                  if (_passwordEmailVerifyKey.currentState!.validate()){
 
                                     Get.find<LoaderController>().updateFormController(true);
                                     postMethod(

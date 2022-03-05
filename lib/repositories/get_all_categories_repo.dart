@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Models/all_categories_model.dart';
 import 'package:doctoworld_user/Theme/colors.dart';

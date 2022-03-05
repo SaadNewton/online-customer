@@ -17,7 +17,7 @@ import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class medicine {
   medicine(this.img, this.name, this.category, this.price);
@@ -64,12 +64,12 @@ class _CartPageState extends State<CartPage> {
             centerTitle: true,
           ),
           body: GetBuilder<LoaderController>(
-init:LoaderController(),
+            init:LoaderController(),
             builder:(_)=>_.cartLoader?Center(
               child: CircularProgressIndicator(),
             ):
             FadedSlideAnimation(
-                !getCartItemsModel.status!?Center(child: Text('Empty Cart'),): ListView(
+              !getCartItemsModel.status!?Center(child: Text('Empty Cart'),): ListView(
 
                 children: [
                   ListView.builder(
@@ -137,11 +137,11 @@ init:LoaderController(),
                                                 GestureDetector(
                                                   onTap: () {
                                                     Get.find<LoaderController>().updateFormController(true);
-                                                     updateCartMethod(
+                                                    updateCartMethod(
                                                         getCartItemsModel.data![index].id,
-                                                         (int.parse(
-                                                             getCartItemsModel.data![index].
-                                                             qty!)-1));
+                                                        (int.parse(
+                                                            getCartItemsModel.data![index].
+                                                            qty!)-1));
                                                   },
                                                   child: Icon(
                                                     Icons.remove,
@@ -159,18 +159,18 @@ init:LoaderController(),
                                                 SizedBox(
                                                   width: 15,
                                                 ),
-                        GestureDetector(
-                        onTap: () {
-                          Get.find<LoaderController>().updateFormController(true);
-                          updateCartMethod( getCartItemsModel.data![index].id,
-                              (int.parse(getCartItemsModel.data![index].qty!)+1));
-                        },
-                        child: Icon(
-                        Icons.add,
-                        color: Theme.of(context).primaryColor,
-                        size: 16,
-                        ),
-                        ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.find<LoaderController>().updateFormController(true);
+                                                    updateCartMethod( getCartItemsModel.data![index].id,
+                                                        (int.parse(getCartItemsModel.data![index].qty!)+1));
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Theme.of(context).primaryColor,
+                                                    size: 16,
+                                                  ),
+                                                ),
                                                 SizedBox(
                                                   width: 40,
 
@@ -216,7 +216,7 @@ init:LoaderController(),
                                     flex: 8,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Text(
@@ -339,8 +339,8 @@ init:LoaderController(),
                                 buildAmountRow(
                                     context, locale.subTotal!, "Rs ${cartController.cartTotalPrice}"),
 
-                                 buildAmountRow(
-                                      context, locale.amountPayable!, "Rs ${cartController.cartTotalPrice}"),
+                                buildAmountRow(
+                                    context, locale.amountPayable!, "Rs ${cartController.cartTotalPrice}"),
 
                               ],
                             ),

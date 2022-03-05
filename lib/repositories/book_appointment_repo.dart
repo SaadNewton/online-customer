@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:developer';
 
 import 'package:doctoworld_user/BottomNavigation/Doctors/appointment_booked.dart';

@@ -15,7 +15,7 @@ import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LabsTestsSearchScreen extends StatefulWidget {
   const LabsTestsSearchScreen({Key key}) : super(key: key);
@@ -164,32 +164,32 @@ class _LabsTestsSearchScreenState extends State<LabsTestsSearchScreen> {
                                 ///
 
 
-                                  if(getCartItemsModel.data == null){
-                                    loaderController.updateFormController(true);
-                                    addToCartMethod(loaderController.labsTestsSearchModel.data[index].id,
-                                        loaderController.labsTestsSearchModel.data[index].price);
-                                  }else if(getCartItemsModel.data[0].labId==loaderController.labsTestsSearchModel.data[index].labId){
-                                    Get.find<LoaderController>().updateFormController(true);
-                                    addToCartMethod(loaderController.labsTestsSearchModel.data[index].id,
-                                        loaderController.labsTestsSearchModel.data[index].price);
-                                  }else{
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return CustomDialogBox(
-                                            title: 'INFO!',
-                                            titleColor: customDialogInfoColor,
-                                            descriptions: 'You can\'t be add multi labs tests.',
-                                            text: 'Ok',
-                                            functionCall: () {
-                                              Navigator.pop(context);
-                                            },
-                                            img: 'assets/dialog_Info.svg',
-                                          );
-                                        });
-                                  }
+                                if(getCartItemsModel.data == null){
+                                  loaderController.updateFormController(true);
+                                  addToCartMethod(loaderController.labsTestsSearchModel.data[index].id,
+                                      loaderController.labsTestsSearchModel.data[index].price);
+                                }else if(getCartItemsModel.data[0].labId==loaderController.labsTestsSearchModel.data[index].labId){
+                                  Get.find<LoaderController>().updateFormController(true);
+                                  addToCartMethod(loaderController.labsTestsSearchModel.data[index].id,
+                                      loaderController.labsTestsSearchModel.data[index].price);
+                                }else{
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CustomDialogBox(
+                                          title: 'INFO!',
+                                          titleColor: customDialogInfoColor,
+                                          descriptions: 'You can\'t be add multi labs tests.',
+                                          text: 'Ok',
+                                          functionCall: () {
+                                            Navigator.pop(context);
+                                          },
+                                          img: 'assets/dialog_Info.svg',
+                                        );
+                                      });
+                                }
 
-                                  //Navigator.pushNamed(context, PageRoutes.doctorInfo);
+                                //Navigator.pushNamed(context, PageRoutes.doctorInfo);
 
 
                                 ///

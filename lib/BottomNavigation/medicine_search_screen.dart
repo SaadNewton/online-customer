@@ -122,7 +122,7 @@ class _MedicineSearchScreenState extends State<MedicineSearchScreen> {
                                     true,
                                     getMedicineFromSearchRepo);
                               },
-                              validator: (String value) {
+                              validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Field Required';
                                 } else {
@@ -190,7 +190,8 @@ class _MedicineSearchScreenState extends State<MedicineSearchScreen> {
                                               )
                                                   : AssetImage(
                                                 'assets/Medicines/11.png',
-                                              ))),
+                                              ))
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 8,

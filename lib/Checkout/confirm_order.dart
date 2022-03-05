@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 int currentTabIndex=0;
 class ConfirmOrder extends StatefulWidget {
   final paymentMethodId;
@@ -98,7 +98,7 @@ GlobalKey<FormState> _orderSummeryKey=GlobalKey();
         ),
         body: GetBuilder<LoaderController>(
           builder:(_)=> ModalProgressHUD(
-            inAsyncCall:_.formLoader ,
+            inAsyncCall: _.formLoader,
             child: FadedSlideAnimation(
 
               Column(

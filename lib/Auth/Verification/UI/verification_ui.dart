@@ -1,4 +1,3 @@
-//@dart=2.9
 import 'dart:async';
 
 import 'package:animation_wrappers/animation_wrappers.dart';
@@ -10,13 +9,13 @@ import 'package:doctoworld_user/services/otp_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 
 class VerificationUI extends StatefulWidget {
   final postData;
   final number;
-  final bool fromSignUpForm;
+  final bool? fromSignUpForm;
   VerificationUI({this.number,this.fromSignUpForm,this.postData});
 
   @override
@@ -27,13 +26,13 @@ class VerificationUI extends StatefulWidget {
 class _VerificationUIState extends State<VerificationUI> {
   final TextEditingController _OtpController = TextEditingController();
   int _counter = 55;
-  Timer _timer;
+  Timer? _timer;
 
   _startTimer() {
     _counter = 55; //time counter
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _counter > 0 ? _counter-- : _timer.cancel();
+        _counter > 0 ? _counter-- : _timer!.cancel();
       });
     });
   }
@@ -41,7 +40,7 @@ class _VerificationUIState extends State<VerificationUI> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _startTimer();
     });
 
@@ -50,7 +49,7 @@ class _VerificationUIState extends State<VerificationUI> {
   @override
   void dispose() {
     _OtpController.dispose();
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
@@ -59,10 +58,10 @@ class _VerificationUIState extends State<VerificationUI> {
     var locale = AppLocalizations.of(context);
     return GetBuilder<LoaderController>(
       builder: (loaderController)=>ModalProgressHUD(
-        inAsyncCall: loaderController.formLoader,
+        inAsyncCall:loaderController.formLoader,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(locale.phoneVerification,style: TextStyle(color: Colors.black)),
+            title: Text(locale!.phoneVerification!,style: TextStyle(color: Colors.black)),
             centerTitle: true,
           ),
           body: FadedSlideAnimation(
@@ -74,7 +73,7 @@ class _VerificationUIState extends State<VerificationUI> {
                   children: [
                     Spacer(),
                     Text(
-                      locale.weveSentAnOTP,
+                      locale.weveSentAnOTP!,
                       style: Theme.of(context).textTheme.bodyText1,
                       textAlign: TextAlign.center,
                     ),
@@ -92,8 +91,8 @@ class _VerificationUIState extends State<VerificationUI> {
                         verifyOTP(
                             context,
                             _OtpController.text,
-                          widget.fromSignUpForm,
-                        widget.postData);
+                            widget.fromSignUpForm,
+                            widget.postData);
                       },
                       label: locale.submit,
                     ),
@@ -101,7 +100,7 @@ class _VerificationUIState extends State<VerificationUI> {
                     Row(
                       children: <Widget>[
                         Text(
-                          '$_counter' + locale.secLeft,
+                          '$_counter' + locale!.secLeft!,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Spacer(

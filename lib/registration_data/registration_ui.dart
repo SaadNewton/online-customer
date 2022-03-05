@@ -17,7 +17,7 @@ import 'package:geocoding/geocoding.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 
 class RegistrationUIOld extends StatefulWidget {
@@ -70,9 +70,9 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                           children: [
                             Center(
                                 child: Image.asset(
-                              'assets/splash-logo.png',
-                              width: 100,
-                            )),
+                                  'assets/splash-logo.png',
+                                  width: 100,
+                                )),
 
                             SizedBox(height: 20),
 
@@ -226,7 +226,7 @@ class _RegistrationUIOldState extends State<RegistrationUIOld> {
                             CustomButton(
                               onTap: () {
                                 FocusScopeNode currentFocus =
-                                    FocusScope.of(context);
+                                FocusScope.of(context);
                                 if (!currentFocus.hasPrimaryFocus) {
                                   currentFocus.unfocus();
                                 }

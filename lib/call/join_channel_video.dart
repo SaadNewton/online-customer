@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ringtone_player/ringtone_player.dart';
 
 
 /// MultiChannel Example
@@ -34,6 +35,7 @@ class _State extends State<JoinChannelVideo> {
   @override
   void initState() {
     super.initState();
+    RingtonePlayer.ringtone();
 
     this._initEngine();
     print("someone calling u");
@@ -222,6 +224,7 @@ class _State extends State<JoinChannelVideo> {
             remoteUid.length == 0
                 ?Container(color: Colors.grey,)
                 :RtcRemoteView.SurfaceView(
+              channelId: "OnlineDoctor",
               uid: remoteUid[0],
             ),
             Container(

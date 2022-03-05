@@ -20,7 +20,7 @@ import 'package:geocoding/geocoding.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 
 class AddMoney extends StatefulWidget {
@@ -117,7 +117,7 @@ class _AddMoneyState extends State<AddMoney> {
                                       context,
                                       addMoneyService,
                                       {
-                                      'user_id': storageBox!.read('customerId'),
+                                        'user_id': storageBox!.read('customerId'),
                                         'role': 'customer',
                                         'amount': addMoneyController.text
                                       },

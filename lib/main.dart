@@ -1,4 +1,3 @@
-// @dart=2.10
 import 'dart:async';
 import 'dart:developer';
 
@@ -81,7 +80,7 @@ class _DoctoState extends State<Docto> {
     FirebaseMessaging.instance.getInitialMessage().then((message) {
 
       String route,channelName,channelToken;
-      if(message.data['channel']!=null){
+      if(message!.data['channel']!=null){
         Get.find<LoaderController>().updateCallerType(1);
         channelName=message.data['channel'];
         channelToken=message.data['channel_token'];
@@ -92,7 +91,7 @@ class _DoctoState extends State<Docto> {
         log('---------------->>${Get.find<LoaderController>().agoraModelDefault.channelName}');
         Get.find<LoaderController>().updateAgoraModelDefault(Get.find<LoaderController>().agoraModelDefault);
       }
-      if(message.data['routeApp']!=null){
+      if(message!.data['routeApp']!=null){
         route=message.data['routeApp'];
         Get.toNamed(route);
 
@@ -118,8 +117,8 @@ class _DoctoState extends State<Docto> {
       print(message.notification.toString());
 
       if (message.notification != null) {
-        print(message.notification.body.toString());
-        print(message.notification.title);
+        print(message.notification!.body.toString());
+        print(message.notification!.title);
       }
       String route,channelName,channelToken;
       if(message.data['channel']!=null){
@@ -205,7 +204,7 @@ class _DoctoState extends State<Docto> {
 }
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key key}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

@@ -1,5 +1,3 @@
-//@dart=2.9
-
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:doctoworld_user/Models/get_all_articles_model.dart';
 import 'package:doctoworld_user/services/service_urls.dart';
@@ -7,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
-  final GetAllDoctorsArticlesData getAllDoctorsArticlesData;
+  final GetAllDoctorsArticlesData? getAllDoctorsArticlesData;
   ArticleDetailScreen({this.getAllDoctorsArticlesData});
   @override
   _ArticleDetailScreenState createState() => _ArticleDetailScreenState();
@@ -47,7 +45,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      widget.getAllDoctorsArticlesData.image == null
+                      widget.getAllDoctorsArticlesData!.image == null
                           ? SizedBox()
                           : Column(
                         children: [
@@ -59,7 +57,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
-                                    .copyWith(
+                                    !.copyWith(
                                     color: Theme.of(context).disabledColor,
                                     fontSize: 18),
                               ),
@@ -72,7 +70,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                             width: MediaQuery.of(context).size.width*.4,
                             height: MediaQuery.of(context).size.height*.2,
                             child: Image.network(
-                              '$imageBaseUrl${widget.getAllDoctorsArticlesData.image}',
+                              '$imageBaseUrl${widget.getAllDoctorsArticlesData!.image}',
                               width: MediaQuery.of(context).size.width*.3,
                               fit: BoxFit.cover,
                             ),
@@ -90,7 +88,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                .copyWith(
+                                !.copyWith(
                                 color: Theme.of(context).disabledColor,
                                 fontSize: 18),
                           ),
@@ -102,11 +100,11 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       Row(
                         children: [
                           Text(
-                            '${widget.getAllDoctorsArticlesData.title}',
+                            '${widget.getAllDoctorsArticlesData!.title}',
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                .copyWith(fontSize: 20),
+                                !.copyWith(fontSize: 20),
                           ),
                         ],
                       ),
@@ -121,7 +119,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                .copyWith(
+                                !.copyWith(
                                 color: Theme.of(context).disabledColor,
                                 fontSize: 18),
                           ),
@@ -134,11 +132,11 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              '${widget.getAllDoctorsArticlesData.description}',
+                              '${widget.getAllDoctorsArticlesData!.description}',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
-                                  .copyWith(fontSize: 20),
+                                  !.copyWith(fontSize: 20),
                             ),
                           ),
                         ],

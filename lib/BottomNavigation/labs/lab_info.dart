@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LabInfo extends StatefulWidget {
   final SingleLabData? labDetail;
@@ -55,118 +55,118 @@ class _LabInfoState extends State<LabInfo> with SingleTickerProviderStateMixin {
         child: Scaffold(
           body: _.dataLoader
               ? Center(
-                  child: CircularProgressIndicator(),
-                )
+            child: CircularProgressIndicator(),
+          )
               : SafeArea(
-                  child: NestedScrollView(
-                    // physics: BouncingScrollPhysics(),
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        SliverList(
-                            delegate: SliverChildListDelegate([
-                          FadedScaleAnimation(
+            child: NestedScrollView(
+              // physics: BouncingScrollPhysics(),
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverList(
+                      delegate: SliverChildListDelegate([
+                        FadedScaleAnimation(
                           widget.labDetail!.imagePath==null?
                           Image.asset(
-                          'assets/upload prescription.png',
+                            'assets/upload prescription.png',
                             height: MediaQuery.of(context).size.height*0.3,
-                          fit: BoxFit.fill,
+                            fit: BoxFit.fill,
                           ):Image.network(
-                              '$imageBaseUrl${widget.labDetail!.imagePath!}',
-                              fit: BoxFit.fill,
+                            '$imageBaseUrl${widget.labDetail!.imagePath!}',
+                            fit: BoxFit.fill,
                             height: MediaQuery.of(context).size.height*0.3,
-                            ),
-                            durationInMilliseconds: 400,
                           ),
-                          Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.only(left: 20, top: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.labDetail!.name!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(fontSize: 24, height: 2),
-                                ),
-                                Text(
-                                  widget.labDetail!.city!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1!
-                                      .copyWith(
-                                          fontSize: 16,
-                                          color: Theme.of(context).disabledColor,
-                                          height: 2),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ])),
-                      ];
-                    },
-                    body: Wrap(
-                      // crossAxisAlignment: WrapCrossAlignment.start,
-                      // direction: Axis.vertical,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: TabBar(
-                            onTap: (index) {
-                              setState(() {
-                                selectedTab = index;
-                              });
-                            },
-                            controller: tabController,
-                            indicatorColor: Colors.transparent,
-                            unselectedLabelColor: Theme.of(context).disabledColor,
-                            labelColor: Theme.of(context).primaryColor,
-                            labelStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 18),
-                            unselectedLabelStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 18),
-                            isScrollable: true,
-                            labelPadding:
-                                EdgeInsetsDirectional.only(end: 20, top: 10),
-                            tabs: [
-                              Tab(text: locale!.about),
-                              Tab(text: 'Categories'),
+                          durationInMilliseconds: 400,
+                        ),
+                        Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.only(left: 20, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.labDetail!.name!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(fontSize: 24, height: 2),
+                              ),
+                              Text(
+                                widget.labDetail!.city!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .copyWith(
+                                    fontSize: 16,
+                                    color: Theme.of(context).disabledColor,
+                                    height: 2),
+                              ),
                             ],
                           ),
                         ),
-                        Builder(builder: (BuildContext? customBuilder) {
-                          if (selectedTab == 0) {
-                            return FadedSlideAnimation(
-                              About(
-                                labDetail:widget.labDetail,
-                              ),
-                              beginOffset: Offset(0, 0.3),
-                              endOffset: Offset(0, 0),
-                              slideCurve: Curves.linearToEaseOut,
-                            );
-                          } else if (selectedTab == 1) {
-                            return FadedSlideAnimation(
-                              Departments(
-                                  labId: widget.labDetail!.id!),
-                              beginOffset: Offset(0, 0.3),
-                              endOffset: Offset(0, 0),
-                              slideCurve: Curves.linearToEaseOut,
-                            );
-                          }
-                          return Container();
-                        }),
-
-
+                      ])),
+                ];
+              },
+              body: Wrap(
+                // crossAxisAlignment: WrapCrossAlignment.start,
+                // direction: Axis.vertical,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: TabBar(
+                      onTap: (index) {
+                        setState(() {
+                          selectedTab = index;
+                        });
+                      },
+                      controller: tabController,
+                      indicatorColor: Colors.transparent,
+                      unselectedLabelColor: Theme.of(context).disabledColor,
+                      labelColor: Theme.of(context).primaryColor,
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 18),
+                      unselectedLabelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 18),
+                      isScrollable: true,
+                      labelPadding:
+                      EdgeInsetsDirectional.only(end: 20, top: 10),
+                      tabs: [
+                        Tab(text: locale!.about),
+                        Tab(text: 'Categories'),
                       ],
                     ),
                   ),
-                ),
+                  Builder(builder: (BuildContext? customBuilder) {
+                    if (selectedTab == 0) {
+                      return FadedSlideAnimation(
+                        About(
+                          labDetail:widget.labDetail,
+                        ),
+                        beginOffset: Offset(0, 0.3),
+                        endOffset: Offset(0, 0),
+                        slideCurve: Curves.linearToEaseOut,
+                      );
+                    } else if (selectedTab == 1) {
+                      return FadedSlideAnimation(
+                        Departments(
+                            labId: widget.labDetail!.id!),
+                        beginOffset: Offset(0, 0.3),
+                        endOffset: Offset(0, 0),
+                        slideCurve: Curves.linearToEaseOut,
+                      );
+                    }
+                    return Container();
+                  }),
+
+
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

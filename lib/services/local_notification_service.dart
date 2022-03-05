@@ -2,40 +2,35 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class LocalNotificationService{
-  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin=
-  FlutterLocalNotificationsPlugin();
-  static void initialize(BuildContext context){
-    final InitializationSettings initializationSettings=InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher')
-    );
-    _flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,onSelectNotification:
-    (String? route)async{
+class LocalNotificationService {
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static void initialize(BuildContext context) {
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? route) async {
       // Navigator.of(context).PushNamed(route);
     });
   }
 
-  static void display(
-      RemoteMessage message
-      ){
+  static void display(RemoteMessage message) {
     final _sound = 'callingbell.wav';
-   final  NotificationDetails _details=NotificationDetails(
+    final NotificationDetails _details = NotificationDetails(
         android: AndroidNotificationDetails(
-            "easyApproach 1",
-            "easyApproach channel",
-            "this is our channel",
-            // importance:Importance.max,
-            // priority: Priority.high,
-          // enableVibration: true,
-          // playSound: true,
-          sound: RawResourceAndroidNotificationSound(_sound.split('.').first),
-
-        )
-    );
-   final id=DateTime.now().millisecondsSinceEpoch ~/1000;
-    _flutterLocalNotificationsPlugin.show(id, message.notification!.title,
-        message.notification!.body, _details,
-    payload: message.data['route']);
+      "easyApproach_1",
+      "easyApproach channel",
+      "this is our channel",
+      importance: Importance.max,
+      priority: Priority.high,
+      enableVibration: true,
+      // playSound: true,
+      sound: RawResourceAndroidNotificationSound(_sound.split('.').first),
+    ));
+    final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    _flutterLocalNotificationsPlugin.show(
+        id, message.notification!.title, message.notification!.body, _details,
+        payload: message.data['route']);
   }
 }

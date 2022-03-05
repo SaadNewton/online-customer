@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '22'
+    flutterVersionCode = '23'
 }
  
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.16'
+    flutterVersionName = '1.0.17'
 }
 
 apply plugin: 'com.android.application'
@@ -34,21 +34,17 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-        checkReleaseBuilds false
-    }
 
     defaultConfig {
         applicationId "com.CreCode.OnlineDoctor"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -69,6 +65,11 @@ android {
               signingConfig signingConfigs.debug
         }
     }
+    lint {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+    }
+    namespace 'com.CreCode.OnlineDoctor'
 }
 
 flutter {

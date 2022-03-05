@@ -16,7 +16,7 @@ import 'package:doctoworld_user/storage/local_Storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ProductInfo extends StatefulWidget {
   final ProductDetailData? medicineDetail;
@@ -99,21 +99,21 @@ class _ProductInfoState extends State<ProductInfo> {
                   children: [
                     FadedScaleAnimation(
                       widget.medicineDetail!.imagePath ==
-                              null
+                          null
                           ? Image.asset(
-                              'assets/Medicines/11.png',
+                        'assets/Medicines/11.png',
 
-                              width: MediaQuery.of(context).size.width,
-                              fit: BoxFit.fill,
-                              height: 200,
-                            )
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.fill,
+                        height: 200,
+                      )
                           : Image.network(
-                              '$imageBaseUrl'
-                                  '${widget.medicineDetail!.imagePath}',
-                              width: MediaQuery.of(context).size.width,
-                              fit: BoxFit.fill,
-                              height: 200,
-                            ),
+                        '$imageBaseUrl'
+                            '${widget.medicineDetail!.imagePath}',
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.fill,
+                        height: 200,
+                      ),
                       durationInMilliseconds: 400,
                     ),
                     // Positioned.directional(
@@ -210,7 +210,7 @@ class _ProductInfoState extends State<ProductInfo> {
                         .textTheme
                         .bodyText1!
                         .copyWith(fontWeight: FontWeight.w400,
-                    color: Colors.grey),
+                        color: Colors.grey),
                   ),
                 ),
                 SizedBox(

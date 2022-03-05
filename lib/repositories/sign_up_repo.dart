@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:doctoworld_user/BottomNavigation/bottom_navigation.dart';
 import 'package:doctoworld_user/Models/user_detail_model.dart';
 import 'package:doctoworld_user/controllers/auth_controller.dart';
@@ -16,7 +14,7 @@ getSignUpUserData(
     userDetailModel = UserDetailModel.fromJson(response);
     print('getSignUpUserData ------>> ${userDetailModel.data.phone}');
     Get.offAll(BottomNavigation());
-    storageBox.write('session', 'true');
+    storageBox!.write('session', 'true');
   } else if (!responseCheck && response == null) {
     print('Exception........................');
     // Get.find<AppController>().changeServerErrorCheck(true);

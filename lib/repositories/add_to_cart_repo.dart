@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:doctoworld_user/BottomNavigation/Medicine/my_cart.dart';
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 import 'package:doctoworld_user/Models/user_detail_model.dart';
@@ -33,13 +31,13 @@ addToCartRepo(
             descriptions: response['message'].toString(),
             text: 'Ok',
             functionCall: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
                 Get.find<LoaderController>().updateDataController(true);
 
               });
               Get.back();
               getMethod(context, getCartProductsService,
-                  {'customer_id':storageBox.read('customerId')}, true, getAllCartItemsRepo);
+                  {'customer_id':storageBox!.read('customerId')}, true, getAllCartItemsRepo);
               Get.to(CartPage());
 
             },

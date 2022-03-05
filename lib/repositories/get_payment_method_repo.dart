@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:doctoworld_user/Components/custom_dialog.dart';
 
 import 'package:doctoworld_user/Models/get_cart_items_model.dart';
